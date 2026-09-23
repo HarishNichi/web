@@ -31,6 +31,24 @@ function isPlantMatch(plantString = '', locationString = '') {
   return true;
 }
 
+// Mobile Sidebar Drawer Toggle
+function toggleMobileSidebar(force) {
+  const sidebar = document.querySelector('.wms-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (!sidebar) return;
+  
+  const isOpen = sidebar.classList.contains('open');
+  const shouldOpen = typeof force === 'boolean' ? force : !isOpen;
+  
+  if (shouldOpen) {
+    sidebar.classList.add('open');
+    if (backdrop) backdrop.classList.add('active');
+  } else {
+    sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
+  }
+}
+
 // Active View Routing
 function showWmsView(viewId) {
   document.querySelectorAll('.wms-view').forEach(el => el.classList.remove('active'));
@@ -41,6 +59,11 @@ function showWmsView(viewId) {
 
   if (targetView) targetView.classList.add('active');
   if (activeNav) activeNav.classList.add('active');
+
+  // Auto-close mobile drawer when user picks a view
+  if (window.innerWidth <= 1024) {
+    toggleMobileSidebar(false);
+  }
 
   const titleMap = {
     dashboard: 'Dashboard',

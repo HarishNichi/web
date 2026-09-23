@@ -108,11 +108,17 @@
     </div>
   </aside>
 
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
+
   <!-- Main Workspace Area -->
   <main class="wms-main-content">
     <!-- Topbar (Clean Breadcrumb & Plant Filter Header) -->
     <header class="wms-topbar">
       <div class="topbar-left">
+        <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Navigation Menu">
+          <span>☰</span>
+        </button>
         <div class="global-filters">
           <span class="filter-badge">Plant:</span>
           <select class="top-select" id="filter-plant-select" onchange="onPlantFilterChange(this.value)">
@@ -123,12 +129,6 @@
           <span class="filter-badge">Date:</span>
           <span style="font-size:12px; font-weight:700; color:#0f172a;">23 Sep 2026</span>
         </div>
-      </div>
-
-      <div class="topbar-right">
-        <button class="btn-demo-suite" onclick="runDemoScenario1()">
-          <span>🚀</span> Guided Demo Flow (PO-HND-2026-00421)
-        </button>
       </div>
     </header>
 
