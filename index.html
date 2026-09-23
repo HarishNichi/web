@@ -90,7 +90,7 @@
         <span>👥</span> Users & Security Roles
       </a>
       <a class="nav-link" data-view="po" onclick="showWmsView('po')">
-        <span>📑</span> Honda Purchase Orders
+        <span>📑</span> Purchase Orders
       </a>
       <a class="nav-link" data-view="audit" onclick="showWmsView('audit')">
         <span>🛡️</span> WMS Audit Trail
@@ -122,7 +122,7 @@
         <div class="global-filters">
           <span class="filter-badge">Plant:</span>
           <select class="top-select" id="filter-plant-select" onchange="onPlantFilterChange(this.value)">
-            <option value="All">All Honda Narsapur Plants</option>
+            <option value="All">All Narsapur Plants</option>
             <option value="P1">HMSI Narsapur Plant 1 (Scooter Division)</option>
             <option value="P2">HMSI Narsapur Plant 2 (Motorcycle Division)</option>
           </select>
@@ -245,12 +245,12 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda Supplier Vehicle Gate Inward Tracking</h3>
+              <h3>Supplier Vehicle Gate Inward Tracking</h3>
               <p>Security Gate Registration • HMSI Narsapur Plant 1 & 2</p>
             </div>
             <div class="card-actions-group">
               <input type="text" id="search-gate-entry" placeholder="🔍 Search vehicle, supplier, PO..." class="wms-search-input" oninput="renderGateEntryTable()">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.gateEntries, 'Honda_Gate_Entries.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.gateEntries, 'Gate_Entries.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -280,7 +280,7 @@
         <div class="wms-card" style="padding:20px;">
           <div class="card-header-bar" style="margin-bottom:16px;">
             <div class="card-title-group">
-              <h3>Honda Receiving Dock Management & Scheduling Board</h3>
+              <h3>Receiving Dock Management & Scheduling Board</h3>
               <p>Docks 01 to 06 • Turnaround Time & Inbound Slot Status</p>
             </div>
           </div>
@@ -299,7 +299,7 @@
             <div class="card-actions-group">
               <input type="text" id="search-bin-master" placeholder="🔍 Search Bin Code, Zone, Area..." class="wms-search-input" oninput="renderAreaBinMaster()">
               <button class="btn-wms btn-wms-primary" onclick="openAddBinModal()">➕ Add Storage Bin</button>
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.binMaster, 'Honda_Bin_Master.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.binMaster, 'Bin_Master.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -421,7 +421,7 @@
             <div class="card-actions-group">
               <input type="text" id="search-user-master" placeholder="🔍 Search User, Role, Shift..." class="wms-search-input" oninput="renderUserSecurityMaster()">
               <button class="btn-wms btn-wms-primary" onclick="openAddUserModal()">➕ Add New User</button>
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.userMaster, 'Honda_Users_Master.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.userMaster, 'Users_Master.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -450,12 +450,12 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda Handling Units (HU / LPN) Inventory Master</h3>
+              <h3>Handling Units (HU / LPN) Inventory Master</h3>
               <p>OEM License Plate Number Tracking with Strict FIFO Priority</p>
             </div>
             <div class="card-actions-group">
-              <input type="text" id="search-hu" placeholder="🔍 Search HU, Honda part, bin..." class="wms-search-input" oninput="renderHUTable()">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits, 'Honda_Handling_Units.csv')">📤 Export CSV</button>
+              <input type="text" id="search-hu" placeholder="🔍 Search HU, part, bin..." class="wms-search-input" oninput="renderHUTable()">
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits, 'Handling_Units.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -486,10 +486,10 @@
           <div class="card-header-bar">
             <div class="card-title-group">
               <h3>Putaway Task Queue & Storage Bay Strategy</h3>
-              <p>System-Recommended Honda Storage Locations by Dimension & Velocity</p>
+              <p>System-Recommended Storage Locations by Dimension & Velocity</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.putawayTasks, 'Honda_Putaway_Tasks.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.putawayTasks, 'Putaway_Tasks.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -522,7 +522,7 @@
             </div>
             <div class="card-actions-group">
               <input type="text" id="search-discrepancies" placeholder="🔍 Search Truck, PO, Supplier..." class="wms-search-input" oninput="renderDiscrepanciesTable()">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.discrepancies, 'Honda_Inbound_Discrepancies.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.discrepancies, 'Inbound_Discrepancies.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -597,11 +597,11 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda Strict FIFO Allocation Engine & Pick Rules</h3>
+              <h3>Strict FIFO Allocation Engine & Pick Rules</h3>
               <p>Keihin PGM-FI Throttle Body (HND-THROT-KEIHIN) FIFO Stack Sequence</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits.filter(h => h.materialCode === 'HND-THROT-KEIHIN'), 'Honda_FIFO_Queue.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits.filter(h => h.materialCode === 'HND-THROT-KEIHIN'), 'FIFO_Queue.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -628,11 +628,11 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda Parts Stock Aging Analysis</h3>
+              <h3>Parts Stock Aging Analysis</h3>
               <p>0–7, 8–15, 16–30, 31–60, 60+ Days • Freshness & Expiry Monitoring</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits, 'Honda_Stock_Aging.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits, 'Stock_Aging.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -660,12 +660,12 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda Assembly Line Material Requisitions</h3>
+              <h3>Assembly Line Material Requisitions</h3>
               <p>Live Demand Stream from Activa 6G Line 1, Shine Line 2, and Engine Line 3 (Raised via Mobile e-Kanban / MES)</p>
             </div>
             <div class="card-actions-group">
               <input type="text" id="search-mr" placeholder="🔍 Search MR, line, part..." class="wms-search-input" oninput="renderRequisitions()">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.materialRequisitions, 'Honda_Material_Requisitions.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.materialRequisitions, 'Material_Requisitions.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -697,7 +697,7 @@
               <p>FIFO-Sequenced Picking with Delivery to Line Staging Bay</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.pickLists, 'Honda_Pick_Lists.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.pickLists, 'Pick_Lists.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -728,7 +728,7 @@
               <p>Pre-Staged OEM Parts Ready for Immediate Line Feed</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits.filter(h => h.location.startsWith('STG-') || h.status === 'ALLOCATED'), 'Honda_Staged_Materials.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits.filter(h => h.location.startsWith('STG-') || h.status === 'ALLOCATED'), 'Staged_Materials.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -755,11 +755,11 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda Assembly Line Supply Delivery Dispatch</h3>
+              <h3>Assembly Line Supply Delivery Dispatch</h3>
               <p>Dispatch Confirmation & Line Receipt Handshake</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.lineSupplyRequests, 'Honda_Line_Supply.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.lineSupplyRequests, 'Line_Supply.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -790,7 +790,7 @@
               <p>Transfer Orders with In-Transit GPS Truck Tracking (STO-HND-2026-00129)</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.stockTransfers, 'Honda_Stock_Transfers.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.stockTransfers, 'Stock_Transfers.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -817,11 +817,11 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda Replenishment Engine & Stock Shortage Alerts</h3>
+              <h3>Replenishment Engine & Stock Shortage Alerts</h3>
               <p>Automated Reorder Trigger for Critical OEM Electronics</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.materials.filter(m => m.availableStock < m.minStock), 'Honda_Replenishment_Alerts.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.materials.filter(m => m.availableStock < m.minStock), 'Replenishment_Alerts.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -849,13 +849,13 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda Purchase Orders (PO Master)</h3>
+              <h3>Purchase Orders</h3>
               <p>OEM Supplier Inbound Schedules (Keihin, Mitsuba, Showa, MRF, Nissin)</p>
             </div>
             <div class="card-actions-group">
               <input type="text" id="search-po" placeholder="🔍 Search PO, supplier, part..." class="wms-search-input" oninput="renderPOTable()">
               <button class="btn-wms btn-wms-primary" onclick="openAddPOModal()">➕ Create PO</button>
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.purchaseOrders, 'Honda_Purchase_Orders.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.purchaseOrders, 'Purchase_Orders.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -889,7 +889,7 @@
               <p>Official Material Acceptance Documents Synced with SAP ERP</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.goodsReceiptNotes, 'Honda_GRN_Ledger.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.goodsReceiptNotes, 'GRN_Ledger.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -917,11 +917,11 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Honda High-Precision Cycle Count & Audits</h3>
+              <h3>High-Precision Cycle Count & Audits</h3>
               <p>Physical Counting vs System Inventory Reconciliation</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.cycleCounts, 'Honda_Cycle_Counts.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.cycleCounts, 'Cycle_Counts.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -953,7 +953,7 @@
               <p>Immutable Transaction Log with Entity Values & Zebra Scanner Device ID</p>
             </div>
             <div class="card-actions-group">
-              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.auditTrail, 'Honda_Audit_Trail.csv')">📤 Export CSV</button>
+              <button class="btn-wms btn-wms-secondary" onclick="exportTableToCSV(window.wms.auditTrail, 'Audit_Trail.csv')">📤 Export CSV</button>
             </div>
           </div>
           <div class="wms-table-wrapper">
@@ -995,7 +995,7 @@
         <input type="text" id="ge-form-vehicle" class="top-select" style="width:100%; padding:8px;" placeholder="e.g. KA-01-AB-4821">
       </div>
       <div class="form-group" style="margin-bottom:12px;">
-        <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Honda OEM Supplier</label>
+        <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">OEM Supplier</label>
         <select id="ge-form-supplier" class="top-select" style="width:100%; padding:8px;">
           <option>Keihin India Electronics Pvt Ltd</option>
           <option>Mitsuba Sical India Pvt Ltd</option>
@@ -1039,12 +1039,12 @@
 <div id="modal-add-hu" class="wms-modal-overlay">
   <div class="wms-modal-box">
     <div class="wms-modal-header">
-      <h3 style="font-size:16px; font-weight:700;">🏷️ Create / Register Honda Handling Unit (HU / LPN)</h3>
+      <h3 style="font-size:16px; font-weight:700;">🏷️ Create / Register Handling Unit (HU / LPN)</h3>
       <button style="background:none; border:none; font-size:20px; cursor:pointer;" onclick="closeAddHUModal()">&times;</button>
     </div>
     <div class="wms-modal-body">
       <div class="form-group" style="margin-bottom:12px;">
-        <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Honda OEM Part Code</label>
+        <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">OEM Part Code</label>
         <select id="hu-form-mat" class="top-select" style="width:100%; padding:8px;">
           <option value="HND-THROT-KEIHIN">HND-THROT-KEIHIN - Keihin PGM-FI Throttle Body (Activa 6G)</option>
           <option value="HND-ECU-KEIHIN-01">HND-ECU-KEIHIN-01 - Keihin Master Engine Control Unit (ECU)</option>
@@ -1082,7 +1082,7 @@
 <div id="modal-add-mr" class="wms-modal-overlay">
   <div class="wms-modal-box">
     <div class="wms-modal-header">
-      <h3 style="font-size:16px; font-weight:700;">📝 Create Honda Line Material Requisition</h3>
+      <h3 style="font-size:16px; font-weight:700;">📝 Create Line Material Requisition</h3>
       <button style="background:none; border:none; font-size:20px; cursor:pointer;" onclick="closeAddMRModal()">&times;</button>
     </div>
     <div class="wms-modal-body">
@@ -1140,7 +1140,7 @@
 <div id="modal-add-po" class="wms-modal-overlay">
   <div class="wms-modal-box">
     <div class="wms-modal-header">
-      <h3 style="font-size:16px; font-weight:700;">📑 Create Honda OEM Purchase Order (PO)</h3>
+      <h3 style="font-size:16px; font-weight:700;">📑 Create OEM Purchase Order (PO)</h3>
       <button style="background:none; border:none; font-size:20px; cursor:pointer;" onclick="closeAddPOModal()">&times;</button>
     </div>
     <div class="wms-modal-body">
@@ -1187,7 +1187,7 @@
 <div id="modal-label-preview" class="wms-modal-overlay">
   <div class="wms-modal-box">
     <div class="wms-modal-header">
-      <h3 style="font-size:16px; font-weight:700;">🏷️ Honda Handling Unit / LPN Thermal Label Preview</h3>
+      <h3 style="font-size:16px; font-weight:700;">🏷️ Handling Unit / LPN Thermal Label Preview</h3>
       <button style="background:none; border:none; font-size:20px; cursor:pointer;" onclick="closeLabelPreview()">&times;</button>
     </div>
     <div class="wms-modal-body" id="hu-label-content"></div>

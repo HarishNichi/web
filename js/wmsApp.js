@@ -543,7 +543,7 @@ function submitNewHU() {
   saveWMSState(window.wms);
   closeAddHUModal();
   renderAllWMSViews();
-  alert(`✅ Created Honda Handling Unit ${newHU.huNumber} (${qty} EA)!`);
+  alert(`✅ Created Handling Unit ${newHU.huNumber} (${qty} EA)!`);
 }
 
 function deleteHandlingUnit(huNo) {
@@ -736,7 +736,7 @@ function submitNewPurchaseOrder() {
   saveWMSState(window.wms);
   closeAddPOModal();
   renderAllWMSViews();
-  alert(`✅ Created Honda Purchase Order ${newPO.poNumber} with ${supplier}!`);
+  alert(`✅ Created Purchase Order ${newPO.poNumber} with ${supplier}!`);
 }
 
 function deletePurchaseOrder(poNo) {
