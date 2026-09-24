@@ -875,6 +875,25 @@ table.wms-table td {
   background: #1d4ed8;
 }
 
+.btn-wms-primary span,
+.btn-wms-primary .btn-icon,
+.btn-wms-primary i {
+  color: #ffffff !important;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-plus {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  color: #ffffff !important;
+  margin-right: 2px;
+}
+
 .btn-wms-secondary {
   background: #ffffff;
   color: #334155;
