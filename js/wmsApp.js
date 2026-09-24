@@ -1443,23 +1443,72 @@ function renderReportsView() {
   if (!container) return;
 
   if (activeReportSubtab === 'overstock') {
-    container.innerHTML = `
-      <div class="table-responsive">
-        <table class="wms-table">
-          <thead>
-            <tr><th>Material Code</th><th>Description</th><th>Current Stock</th><th>Max Storage Limit</th><th>Excess Qty</th><th>Occupied Bins</th><th>Status</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>HND-TYR-MRF-90</b></td><td>MRF Tubeless Tyres 90/90-12</td><td>950 EA</td><td>2,000 EA</td><td>0 EA</td><td>RM-D01-R01-S01-B01</td><td><span class="wms-badge badge-available">Normal Range</span></td>
-            </tr>
-            <tr>
-              <td><b>HND-BRK-PAD-01</b></td><td>Nissin Front Disc Brake Pad Set</td><td>488 EA</td><td>1,500 EA</td><td>0 EA</td><td>A-01-05</td><td><span class="wms-badge badge-available">Normal Range</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `;
+    const materials = window.wms.materials || [];
+    const stockLevels = window.wms.stockLevelMaster || [];
+    const handlingUnits = window.wms.handlingUnits || [];
+
+    // Calculate actual stock per material across handling units
+    const overstockRows = materials.map(m => {
+      const hus = handlingUnits.filter(h => h.materialCode === m.code);
+      const currentStock = hus.reduce((sum, h) => sum + (h.quantity || 0), 0);
+      const stockCfg = stockLevels.find(s => s.materialCode === m.code) || { maxStock: 1000 };
+      const maxLimit = stockCfg.maxStock;
+      const excessQty = currentStock > maxLimit ? (currentStock - maxLimit) : 0;
+      const bins = [...new Set(hus.map(h => h.location))].join(', ') || '—';
+      const isOverstock = excessQty > 0;
+
+      return {
+        materialCode: m.code,
+        description: m.description,
+        currentStock,
+        maxLimit,
+        excessQty,
+        bins,
+        isOverstock
+      };
+    });
+
+    // Filter to ONLY show items that exceed max storage limit (Overstock items)
+    const overstockOnly = overstockRows.filter(r => r.isOverstock);
+
+    if (!overstockOnly.length) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:32px 16px; color:#059669; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px;">
+          <div style="font-size:24px; margin-bottom:8px;">✅</div>
+          <div style="font-size:14px; font-weight:700;">No Overstock Items Detected</div>
+          <div style="font-size:12px; color:#64748b; margin-top:4px;">All warehouse materials are within their designated maximum storage capacity limits.</div>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="table-responsive">
+          <table class="wms-table">
+            <thead>
+              <tr><th>Material Code</th><th>Description</th><th>Current Stock</th><th>Max Storage Limit</th><th>Excess Qty</th><th>Occupied Bins</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              ${overstockOnly.map(r => `
+                <tr style="background:#fff7ed;">
+                  <td><b style="color:#ea580c;">${r.materialCode}</b></td>
+                  <td>${r.description}</td>
+                  <td><b style="font-size:13px; color:#ea580c;">${r.currentStock.toLocaleString()} EA</b></td>
+                  <td>${r.maxLimit.toLocaleString()} EA</td>
+                  <td>
+                    <b style="color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">+${r.excessQty.toLocaleString()} EA (Excess)</b>
+                  </td>
+                  <td><span style="font-family:var(--font-mono); font-size:12px;">${r.bins}</span></td>
+                  <td>
+                    <span class="wms-badge badge-danger">
+                      ⚠️ Overstock
+                    </span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
   } else if (activeReportSubtab === 'variation') {
     container.innerHTML = `
       <div class="table-responsive">

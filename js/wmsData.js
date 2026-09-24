@@ -2,7 +2,7 @@
 // Enterprise Data Model, Master State & Demo Flow Engine
 // Aligned to HMSIL WMS Screen & Functional Specification
 
-const WMS_STORAGE_KEY = 'HONDA_HMSI_WMS_STATE_V6_4LINES';
+const WMS_STORAGE_KEY = 'HONDA_HMSI_WMS_STATE_V7_OVERSTOCK';
 
 const WMS_DEFAULT_STATE = {
   activePlant: 'All',
@@ -719,6 +719,44 @@ const WMS_DEFAULT_STATE = {
       poNumber: 'PO-HND-2026-00388',
       agingDays: 30,
       agingBucket: '16–30 Days'
+    },
+    {
+      huNumber: 'HU-HND-2026-009809',
+      lpn: 'LPN-HND-009809',
+      materialCode: 'HND-TYR-MRF-90',
+      description: 'MRF Nylogrip Zapper 90/90-12 Tubeless Tyre',
+      quantity: 2200,
+      uom: 'EA',
+      plant: 'HMSI Narsapur Plant 1',
+      location: 'RM-D01-R01-S01-B01',
+      batch: 'BAT-MRF-2026-09-20-01',
+      receiptDate: '20-Sep-2026',
+      fifoDate: '20-Sep-2026',
+      fifoPriority: 1,
+      stockStatus: 'AVAILABLE',
+      supplier: 'MRF Tyres India Ltd',
+      poNumber: 'PO-HND-2026-00410',
+      agingDays: 4,
+      agingBucket: '0–7 Days'
+    },
+    {
+      huNumber: 'HU-HND-2026-009812',
+      lpn: 'LPN-HND-009812',
+      materialCode: 'HND-STR-MITSUBA',
+      description: 'Mitsuba ACG Silent Starter & Generator 12V',
+      quantity: 750,
+      uom: 'EA',
+      plant: 'HMSI Narsapur Plant 1',
+      location: 'RM-A02-R02-S01-B02',
+      batch: 'BAT-MIT-2026-09-15-01',
+      receiptDate: '15-Sep-2026',
+      fifoDate: '15-Sep-2026',
+      fifoPriority: 1,
+      stockStatus: 'AVAILABLE',
+      supplier: 'Mitsuba Sical India Pvt Ltd',
+      poNumber: 'PO-HND-2026-00422',
+      agingDays: 9,
+      agingBucket: '8–15 Days'
     }
   ],
 
