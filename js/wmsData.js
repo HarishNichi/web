@@ -2,7 +2,7 @@
 // Enterprise Data Model, Master State & Demo Flow Engine
 // Aligned to HMSIL WMS Screen & Functional Specification
 
-const WMS_STORAGE_KEY = 'HONDA_HMSI_WMS_STATE_V5_PLANTS';
+const WMS_STORAGE_KEY = 'HONDA_HMSI_WMS_STATE_V6_4LINES';
 
 const WMS_DEFAULT_STATE = {
   activePlant: 'All',
@@ -222,8 +222,7 @@ const WMS_DEFAULT_STATE = {
     { lineCode: 'L1', name: 'Line 1 (Activa 6G Final Assembly)', plant: 'HMSI Narsapur Plant 1', stagingBin: 'STG-P1-L1', shiftPattern: '3 Shifts (A/B/C)', dailyTarget: 1200, status: 'ACTIVE' },
     { lineCode: 'L2', name: 'Line 2 (Shine 125 & SP125 Assembly)', plant: 'HMSI Narsapur Plant 1', stagingBin: 'STG-P1-L2', shiftPattern: '3 Shifts (A/B/C)', dailyTarget: 950, status: 'ACTIVE' },
     { lineCode: 'L3', name: 'Line 3 (110cc/125cc PGM-FI Engine Sub-Assembly)', plant: 'HMSI Narsapur Plant 1', stagingBin: 'STG-P1-L3', shiftPattern: '3 Shifts (A/B/C)', dailyTarget: 2200, status: 'ACTIVE' },
-    { lineCode: 'L4', name: 'Line 4 (CB350 / H\'ness Premium Assembly)', plant: 'HMSI Narsapur Plant 2', stagingBin: 'STG-P2-L4', shiftPattern: '2 Shifts (A/B)', dailyTarget: 400, status: 'ACTIVE' },
-    { lineCode: 'L5', name: 'Line 5 (Hornet 2.0 & Unicorn 160 Assembly)', plant: 'HMSI Narsapur Plant 2', stagingBin: 'STG-P2-L5', shiftPattern: '2 Shifts (A/B)', dailyTarget: 600, status: 'ACTIVE' }
+    { lineCode: 'L4', name: 'Line 4 (CB350 / H\'ness Premium Assembly)', plant: 'HMSI Narsapur Plant 2', stagingBin: 'STG-P2-L4', shiftPattern: '2 Shifts (A/B)', dailyTarget: 400, status: 'ACTIVE' }
   ],
 
   stockLevelMaster: [

@@ -43,28 +43,25 @@
         </div>
         <div class="nav-group-items">
           <a class="nav-link" data-view="po" onclick="showWmsView('po')">
-            <span class="nav-icon">📑</span> Purchase Orders (SAP)
+            <span class="nav-icon">📑</span> Purchase Orders
           </a>
           <a class="nav-link" data-view="asn" onclick="showWmsView('asn')">
             <span class="nav-icon">📦</span> ASN (Shipping Notice)
           </a>
           <a class="nav-link" data-view="gateEntry" onclick="showWmsView('gateEntry')">
-            <span class="nav-icon">🚚</span> Gate Entry / Arrival
+            <span class="nav-icon">🚚</span> Gate Entry
           </a>
           <a class="nav-link" data-view="docks" onclick="showWmsView('docks')">
             <span class="nav-icon">🏗️</span> Dock Management
           </a>
           <a class="nav-link" data-view="receivingMonitor" onclick="showWmsView('receivingMonitor')">
-            <span class="nav-icon">📥</span> Receiving Monitor
+            <span class="nav-icon">📥</span> Receiving
           </a>
           <a class="nav-link" data-view="mrn" onclick="showWmsView('mrn')">
             <span class="nav-icon">📝</span> Material Receipt (MRN)
           </a>
           <a class="nav-link" data-view="grn" onclick="showWmsView('grn')">
             <span class="nav-icon">📄</span> Goods Receipt (GRN)
-          </a>
-          <a class="nav-link" data-view="discrepancies" onclick="showWmsView('discrepancies')">
-            <span class="nav-icon">⚠️</span> Inbound Discrepancies
           </a>
         </div>
       </div>
@@ -216,12 +213,11 @@
           </select>
           <span class="filter-badge" style="margin-left: 6px;">Line:</span>
           <select class="top-select" id="filter-line-select" onchange="onLineFilterChange(this.value)">
-            <option value="All">All Lines</option>
-            <option value="L1">Line 1 (Activa 6G)</option>
-            <option value="L2">Line 2 (Shine 125)</option>
-            <option value="L3">Line 3 (PGM-FI Engine)</option>
-            <option value="L4">Line 4 (CB350 Premium)</option>
-            <option value="L5">Line 5 (Hornet 2.0)</option>
+            <option value="All">All Lines (4 Lines)</option>
+            <option value="L1">Line 1 (Activa 6G - Plant 1)</option>
+            <option value="L2">Line 2 (Shine 125 - Plant 1)</option>
+            <option value="L3">Line 3 (PGM-FI Engine - Plant 1)</option>
+            <option value="L4">Line 4 (CB350 Premium - Plant 2)</option>
           </select>
         </div>
       </div>
@@ -229,12 +225,6 @@
       <div class="topbar-right">
         <span class="header-date-badge">📅 24-Sep-2026</span>
         <span class="sap-status-indicator online" title="S/4HANA Active"><span class="dot"></span> SAP Synced</span>
-        <button class="btn-top-action" onclick="resetWMSData()" title="Reset to Brake Pad Spec Demo Data">
-          <span>🔄</span> Reset Demo
-        </button>
-        <button class="btn-top-action" id="btn-auto-refresh" onclick="toggleAutoRefresh()" title="Auto Refresh every 60s">
-          <span id="auto-refresh-spinner">⏱️</span> <b id="auto-refresh-countdown">60s</b>
-        </button>
       </div>
     </header>
 
@@ -248,7 +238,6 @@
         <!-- 3 Categorized KPI Grids -->
         <div class="dashboard-module-header">
           <h4>🚚 Inbound Operations</h4>
-          <span class="header-sub">Trucks, Docks & Verification</span>
         </div>
         <div class="kpi-grid">
           <div class="kpi-card clickable" onclick="showWmsView('gateEntry')">
@@ -267,27 +256,10 @@
               <div class="kpi-subtext" id="kpi-subtext-receiving">Dock Inward Inspection</div>
             </div>
           </div>
-          <div class="kpi-card warning-border clickable" onclick="showWmsView('mrn')">
-            <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">📝</div>
-            <div class="kpi-content">
-              <div class="kpi-title">MRNs Waiting Approval</div>
-              <div class="kpi-value" id="kpi-mrn-pending" style="color:#d97706;">0</div>
-              <div class="kpi-subtext" id="kpi-subtext-mrn">Supervisor Sign-off Queue</div>
-            </div>
-          </div>
-          <div class="kpi-card clickable" onclick="showWmsView('grn')">
-            <div class="kpi-icon" style="background:#dcfce7; color:#15803d;">📄</div>
-            <div class="kpi-content">
-              <div class="kpi-title">GRNs Pending SAP Posting</div>
-              <div class="kpi-value" id="kpi-grn-pending" style="color:#15803d;">0</div>
-              <div class="kpi-subtext" id="kpi-subtext-grn">Movement 101 Posted</div>
-            </div>
-          </div>
         </div>
 
         <div class="dashboard-module-header">
           <h4>📦 Inventory & Warehouse Quality</h4>
-          <span class="header-sub">Storage, Accuracy, FIFO & Stock Levels</span>
         </div>
         <div class="kpi-grid">
           <div class="kpi-card clickable" onclick="showWmsView('putaway')">
@@ -334,7 +306,6 @@
 
         <div class="dashboard-module-header">
           <h4>🏭 Outbound Line Delivery & SAP Integration</h4>
-          <span class="header-sub">Assembly Line Feeder & Interface Status</span>
         </div>
         <div class="kpi-grid">
           <div class="kpi-card clickable" onclick="showWmsView('issueList')">
@@ -351,14 +322,6 @@
               <div class="kpi-title">Pending Material Reqs</div>
               <div class="kpi-value" id="kpi-pending-reqs">1 Pending</div>
               <div class="kpi-subtext" id="kpi-subtext-reqs">Shift Requisitions Queue</div>
-            </div>
-          </div>
-          <div class="kpi-card clickable" onclick="showWmsView('sapSync')">
-            <div class="kpi-icon" style="background:#dcfce7; color:#15803d;">🔄</div>
-            <div class="kpi-content">
-              <div class="kpi-title">SAP S/4HANA Sync Status</div>
-              <div class="kpi-value" id="kpi-sap-status" style="color:#15803d;">Active (4/5 Ok)</div>
-              <div class="kpi-subtext" id="kpi-subtext-sapsync">RFC Interface Online</div>
             </div>
           </div>
         </div>
@@ -387,41 +350,16 @@
             <div class="activity-feed-container" id="dashboard-recent-activity"></div>
           </div>
         </div>
-
-        <!-- Plant Overview -->
-        <div class="plants-grid">
-          <div class="plant-card">
-            <div class="plant-header">
-              <div class="plant-title">
-                <h4>🏭 HMSI Narsapur Plant 1 (Scooter Division)</h4>
-                <p>Activa 6G • Shine 125 • PGM-FI Engine Sub-Assembly</p>
-              </div>
-              <span class="wms-badge badge-available">Operational</span>
-            </div>
-            <div id="plant-1-lines-container"></div>
-          </div>
-
-          <div class="plant-card">
-            <div class="plant-header">
-              <div class="plant-title">
-                <h4>🏭 HMSI Narsapur Plant 2 (Motorcycle Division)</h4>
-                <p>CB350 H'ness • Robotic Frame Welding & ED Paint Shop</p>
-              </div>
-              <span class="wms-badge badge-allocated">Operational</span>
-            </div>
-            <div id="plant-2-lines-container"></div>
-          </div>
-        </div>
       </section>
 
       <!-- ========================================================= -->
-      <!-- PURCHASE ORDERS (SAP READ-ONLY) -->
+      <!-- PURCHASE ORDERS -->
       <!-- ========================================================= -->
       <section id="wms-view-po" class="wms-view">
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Purchase Orders (SAP)</h3>
+              <h3>Purchase Orders</h3>
               <p>Direct S/4HANA PO Schedule Lines • Read-Only Synchronization</p>
             </div>
             <div class="card-action-group">
@@ -648,6 +586,42 @@
             </table>
           </div>
         </div>
+
+        <!-- Inbound Discrepancies & Shortages (Merged inside Receiving) -->
+        <div class="wms-card" style="margin-top: 16px;">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h3>Inbound Discrepancies & Shortages</h3>
+              <p>Damaged Goods • Supplier Shortages • Quarantine Bin Management</p>
+            </div>
+            <div class="card-action-group">
+              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.discrepancies, 'HMSIL_Discrepancies.csv')">
+                <span>📊</span> Export CSV
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="wms-table">
+              <thead>
+                <tr>
+                  <th>Discrepancy No</th>
+                  <th>PO / ASN</th>
+                  <th>Supplier</th>
+                  <th>Material</th>
+                  <th>Expected / Rec</th>
+                  <th>Short / Damaged</th>
+                  <th>Reason & Details</th>
+                  <th>Quarantine Bin</th>
+                  <th>Commercial Action</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="discrepancy-table-body"></tbody>
+            </table>
+          </div>
+        </div>
       </section>
 
       <!-- ========================================================= -->
@@ -724,46 +698,6 @@
                 </tr>
               </thead>
               <tbody id="grn-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- INBOUND DISCREPANCIES -->
-      <!-- ========================================================= -->
-      <section id="wms-view-discrepancies" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Inbound Discrepancies & Shortages</h3>
-              <p>Damaged Goods • Supplier Shortages • Quarantine Bin Management</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.discrepancies, 'HMSIL_Discrepancies.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Discrepancy No</th>
-                  <th>PO / ASN</th>
-                  <th>Supplier</th>
-                  <th>Material</th>
-                  <th>Expected / Rec</th>
-                  <th>Short / Damaged</th>
-                  <th>Reason & Details</th>
-                  <th>Quarantine Bin</th>
-                  <th>Commercial Action</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="discrepancy-table-body"></tbody>
             </table>
           </div>
         </div>

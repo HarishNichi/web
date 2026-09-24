@@ -101,7 +101,7 @@ function updateLineDropdownOptions() {
   if (!lSelect) return;
   const plant = window.wms.activePlant || 'All';
   
-  let options = '<option value="All">All Lines</option>';
+  let options = '<option value="All">All Lines (4 Lines)</option>';
   if (plant === 'All' || plant === 'P1') {
     options += `
       <option value="L1" ${window.wms.activeLine === 'L1' ? 'selected' : ''}>Line 1 (Activa 6G - Plant 1)</option>
@@ -112,7 +112,6 @@ function updateLineDropdownOptions() {
   if (plant === 'All' || plant === 'P2') {
     options += `
       <option value="L4" ${window.wms.activeLine === 'L4' ? 'selected' : ''}>Line 4 (CB350 Premium - Plant 2)</option>
-      <option value="L5" ${window.wms.activeLine === 'L5' ? 'selected' : ''}>Line 5 (Hornet 2.0 - Plant 2)</option>
     `;
   }
   lSelect.innerHTML = options;
@@ -726,33 +725,34 @@ function toggleDockMaintenance(dockCode) {
 
 function renderReceivingMonitor() {
   const tbody = document.getElementById('receiving-monitor-body');
-  if (!tbody) return;
-
-  const plant = window.wms.activePlant || 'All';
-  const batches = filterByPlant(window.wms.receivingBatches || [], plant);
-  tbody.innerHTML = batches.map(b => `
-    <tr>
-      <td><b style="font-family:var(--font-mono); color:#2563eb;">${b.receivingId}</b></td>
-      <td><b>${b.asnNumber}</b><br><span style="font-family:var(--font-mono); font-size:11px; color:#64748b;">${b.vehicleNo}</span></td>
-      <td><b>${b.materialCode}</b></td>
-      <td><b>${b.expectedQty}</b></td>
-      <td><span style="color:#059669; font-weight:700;">${b.scannedGoodQty}</span></td>
-      <td><span style="color:#dc2626; font-weight:700;">${b.damagedQty}</span></td>
-      <td><span style="color:#ea580c; font-weight:700;">${b.shortQty}</span></td>
-      <td><span style="color:#2563eb; font-weight:700;">${b.excessQty}</span></td>
-      <td>
-        <div style="width:120px; background:#e2e8f0; border-radius:4px; height:8px; overflow:hidden; margin-bottom:4px;">
-          <div style="background:#059669; width:${b.progressPct}%; height:100%;"></div>
-        </div>
-        <span style="font-size:10px; font-weight:700;">${b.progressPct}% Complete</span>
-      </td>
-      <td><b>${b.operator}</b><br><span style="font-size:11px; color:#64748b;">${b.handheldId}</span></td>
-      <td><span class="wms-badge ${getStatusBadgeClass(b.status)}">${b.status}</span></td>
-      <td>
-        <button class="btn-wms-secondary small" onclick="openPrintPreview('HU', '${b.asnNumber}')">Reprint Labels</button>
-      </td>
-    </tr>
-  `).join('');
+  if (tbody) {
+    const plant = window.wms.activePlant || 'All';
+    const batches = filterByPlant(window.wms.receivingBatches || [], plant);
+    tbody.innerHTML = batches.map(b => `
+      <tr>
+        <td><b style="font-family:var(--font-mono); color:#2563eb;">${b.receivingId}</b></td>
+        <td><b>${b.asnNumber}</b><br><span style="font-family:var(--font-mono); font-size:11px; color:#64748b;">${b.vehicleNo}</span></td>
+        <td><b>${b.materialCode}</b></td>
+        <td><b>${b.expectedQty}</b></td>
+        <td><span style="color:#059669; font-weight:700;">${b.scannedGoodQty}</span></td>
+        <td><span style="color:#dc2626; font-weight:700;">${b.damagedQty}</span></td>
+        <td><span style="color:#ea580c; font-weight:700;">${b.shortQty}</span></td>
+        <td><span style="color:#2563eb; font-weight:700;">${b.excessQty}</span></td>
+        <td>
+          <div style="width:120px; background:#e2e8f0; border-radius:4px; height:8px; overflow:hidden; margin-bottom:4px;">
+            <div style="background:#059669; width:${b.progressPct}%; height:100%;"></div>
+          </div>
+          <span style="font-size:10px; font-weight:700;">${b.progressPct}% Complete</span>
+        </td>
+        <td><b>${b.operator}</b><br><span style="font-size:11px; color:#64748b;">${b.handheldId}</span></td>
+        <td><span class="wms-badge ${getStatusBadgeClass(b.status)}">${b.status}</span></td>
+        <td>
+          <button class="btn-wms-secondary small" onclick="openPrintPreview('HU', '${b.asnNumber}')">Reprint Labels</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+  renderDiscrepanciesTable();
 }
 
 function renderMRNTable() {
