@@ -1,1744 +1,1779 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HMSIL WMS — Honda Motorcycle & Scooter India Control Tower</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/wmsStyle.css">
 </head>
+
 <body>
 
-<div class="wms-layout">
-  <!-- Left Navigation Sidebar (Clean categories without 'Module' suffix) -->
-  <aside class="wms-sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon">H</div>
-      <div class="brand-info">
-        <h1>HMSIL <span>WMS</span></h1>
-      </div>
-    </div>
-
-    <div class="sidebar-nav-container">
-      <!-- 1. DASHBOARD -->
-      <div class="nav-group">
-        <div class="nav-category" onclick="toggleNavGroup(this)">
-          <span>📊 Dashboard</span>
-          <span class="cat-arrow">▼</span>
-        </div>
-        <div class="nav-group-items">
-          <a class="nav-link active" data-view="dashboard" onclick="showWmsView('dashboard')">
-            <span class="nav-icon">📊</span> Overview
-          </a>
+  <div class="wms-layout">
+    <!-- Left Navigation Sidebar (Clean categories without 'Module' suffix) -->
+    <aside class="wms-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">H</div>
+        <div class="brand-info">
+          <h1>HMSIL <span>WMS</span></h1>
         </div>
       </div>
 
-      <!-- 2. INBOUND -->
-      <div class="nav-group collapsed">
-        <div class="nav-category" onclick="toggleNavGroup(this)">
-          <span>🚚 Inbound</span>
-          <span class="cat-arrow">▼</span>
+      <div class="sidebar-nav-container">
+        <!-- 1. DASHBOARD -->
+        <div class="nav-group">
+          <div class="nav-category" onclick="toggleNavGroup(this)">
+            <span>📊 Dashboard</span>
+            <span class="cat-arrow">▼</span>
+          </div>
+          <div class="nav-group-items">
+            <a class="nav-link active" data-view="dashboard" onclick="showWmsView('dashboard')">
+              <span class="nav-icon">📊</span> Overview
+            </a>
+          </div>
         </div>
-        <div class="nav-group-items">
-          <a class="nav-link" data-view="po" onclick="showWmsView('po')">
-            <span class="nav-icon">📑</span> Purchase Orders
-          </a>
-          <a class="nav-link" data-view="asn" onclick="showWmsView('asn')">
-            <span class="nav-icon">📦</span> ASN (Shipping Notice)
-          </a>
-          <a class="nav-link" data-view="gateEntry" onclick="showWmsView('gateEntry')">
-            <span class="nav-icon">🚚</span> Gate Entry
-          </a>
-          <a class="nav-link" data-view="docks" onclick="showWmsView('docks')">
-            <span class="nav-icon">🏗️</span> Dock Management
-          </a>
-          <a class="nav-link" data-view="receivingMonitor" onclick="showWmsView('receivingMonitor')">
-            <span class="nav-icon">📥</span> Receiving
-          </a>
-          <a class="nav-link" data-view="mrn" onclick="showWmsView('mrn')">
-            <span class="nav-icon">📝</span> Material Receipt (MRN)
-          </a>
-          <a class="nav-link" data-view="grn" onclick="showWmsView('grn')">
-            <span class="nav-icon">📄</span> Goods Receipt (GRN)
-          </a>
+
+        <!-- 2. INBOUND -->
+        <div class="nav-group collapsed">
+          <div class="nav-category" onclick="toggleNavGroup(this)">
+            <span>🚚 Inbound</span>
+            <span class="cat-arrow">▼</span>
+          </div>
+          <div class="nav-group-items">
+            <a class="nav-link" data-view="po" onclick="showWmsView('po')">
+              <span class="nav-icon">📑</span> Purchase Orders
+            </a>
+            <a class="nav-link" data-view="asn" onclick="showWmsView('asn')">
+              <span class="nav-icon">📦</span> ASN (Shipping Notice)
+            </a>
+            <a class="nav-link" data-view="gateEntry" onclick="showWmsView('gateEntry')">
+              <span class="nav-icon">🚚</span> Gate Entry
+            </a>
+            <a class="nav-link" data-view="docks" onclick="showWmsView('docks')">
+              <span class="nav-icon">🏗️</span> Dock Management
+            </a>
+            <a class="nav-link" data-view="receivingMonitor" onclick="showWmsView('receivingMonitor')">
+              <span class="nav-icon">📥</span> Receiving
+            </a>
+            <a class="nav-link" data-view="mrn" onclick="showWmsView('mrn')">
+              <span class="nav-icon">📝</span> Material Receipt (MRN)
+            </a>
+            <a class="nav-link" data-view="grn" onclick="showWmsView('grn')">
+              <span class="nav-icon">📄</span> Goods Receipt (GRN)
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. INVENTORY -->
+        <div class="nav-group collapsed">
+          <div class="nav-category" onclick="toggleNavGroup(this)">
+            <span>📦 Inventory</span>
+            <span class="cat-arrow">▼</span>
+          </div>
+          <div class="nav-group-items">
+            <a class="nav-link" data-view="putaway" onclick="showWmsView('putaway')">
+              <span class="nav-icon">📥</span> PutAway
+            </a>
+            <a class="nav-link" data-view="inventory" onclick="showWmsView('inventory')">
+              <span class="nav-icon">🏢</span> Bin Inventory
+            </a>
+            <a class="nav-link" data-view="cyclecount" onclick="showWmsView('cyclecount')">
+              <span class="nav-icon">📋</span> Cycle Count & Adjustment
+            </a>
+            <a class="nav-link" data-view="fifoAging" onclick="showWmsView('fifoAging')">
+              <span class="nav-icon">⏳</span> FIFO & Stock Aging
+            </a>
+            <a class="nav-link" data-view="reportsAlerts" onclick="showWmsView('reportsAlerts')">
+              <span class="nav-icon">📈</span> Reports & Alerts
+            </a>
+          </div>
+        </div>
+
+        <!-- 4. OUTBOUND -->
+        <div class="nav-group collapsed">
+          <div class="nav-category" onclick="toggleNavGroup(this)">
+            <span>🏭 Outbound</span>
+            <span class="cat-arrow">▼</span>
+          </div>
+          <div class="nav-group-items">
+            <a class="nav-link" data-view="requisition" onclick="showWmsView('requisition')">
+              <span class="nav-icon">📋</span> Material Requirements
+            </a>
+            <a class="nav-link" data-view="issueList" onclick="showWmsView('issueList')">
+              <span class="nav-icon">📑</span> Issue List (Shift N1)
+            </a>
+            <a class="nav-link" data-view="pickingMonitor" onclick="showWmsView('pickingMonitor')">
+              <span class="nav-icon">🛒</span> Picking
+            </a>
+            <a class="nav-link" data-view="issueToLine" onclick="showWmsView('issueToLine')">
+              <span class="nav-icon">🏭</span> Issue to Line
+            </a>
+            <a class="nav-link" data-view="returnsFromLine" onclick="showWmsView('returnsFromLine')">
+              <span class="nav-icon">🔄</span> Returns from Line
+            </a>
+          </div>
+        </div>
+
+        <!-- 5. MASTERS -->
+        <div class="nav-group collapsed">
+          <div class="nav-category" onclick="toggleNavGroup(this)">
+            <span>⚙️ Masters</span>
+            <span class="cat-arrow">▼</span>
+          </div>
+          <div class="nav-group-items">
+            <a class="nav-link" data-view="masterMaterial" onclick="showWmsView('masterMaterial')">
+              <span class="nav-icon">🏷️</span> Material Master
+            </a>
+            <a class="nav-link" data-view="masterSupplier" onclick="showWmsView('masterSupplier')">
+              <span class="nav-icon">🤝</span> Supplier Master
+            </a>
+            <a class="nav-link" data-view="masterPlant" onclick="showWmsView('masterPlant')">
+              <span class="nav-icon">🏭</span> Plant Master
+            </a>
+            <a class="nav-link" data-view="masterZoneBin" onclick="showWmsView('masterZoneBin')">
+              <span class="nav-icon">🗺️</span> Zone / Bin Master
+            </a>
+            <a class="nav-link" data-view="masterDock" onclick="showWmsView('masterDock')">
+              <span class="nav-icon">🚪</span> Dock Master
+            </a>
+            <a class="nav-link" data-view="masterLine" onclick="showWmsView('masterLine')">
+              <span class="nav-icon">⚙️</span> Production Line Master
+            </a>
+            <a class="nav-link" data-view="masterStockLevel" onclick="showWmsView('masterStockLevel')">
+              <span class="nav-icon">📊</span> Stock Level Master
+            </a>
+            <a class="nav-link" data-view="masterReasonCode" onclick="showWmsView('masterReasonCode')">
+              <span class="nav-icon">❓</span> Reason Code Master
+            </a>
+            <a class="nav-link" data-view="userMaster" onclick="showWmsView('userMaster')">
+              <span class="nav-icon">👥</span> User & Role Master
+            </a>
+            <a class="nav-link" data-view="masterDevice" onclick="showWmsView('masterDevice')">
+              <span class="nav-icon">📱</span> Device Master
+            </a>
+          </div>
+        </div>
+
+        <!-- 6. SYSTEM ADMINISTRATION -->
+        <div class="nav-group collapsed">
+          <div class="nav-category" onclick="toggleNavGroup(this)">
+            <span>🛡️ System Administration</span>
+            <span class="cat-arrow">▼</span>
+          </div>
+          <div class="nav-group-items">
+            <a class="nav-link" data-view="sapSync" onclick="showWmsView('sapSync')">
+              <span class="nav-icon">🔄</span> SAP Sync
+            </a>
+            <a class="nav-link" data-view="audit" onclick="showWmsView('audit')">
+              <span class="nav-icon">🛡️</span> Audit Trail
+            </a>
+            <a class="nav-link" data-view="adminLabelPrint" onclick="showWmsView('adminLabelPrint')">
+              <span class="nav-icon">🖨️</span> Label & Print Settings
+            </a>
+            <a class="nav-link" data-view="adminNotifications" onclick="showWmsView('adminNotifications')">
+              <span class="nav-icon">🔔</span> Notification Settings
+            </a>
+          </div>
         </div>
       </div>
 
-      <!-- 3. INVENTORY -->
-      <div class="nav-group collapsed">
-        <div class="nav-category" onclick="toggleNavGroup(this)">
-          <span>📦 Inventory</span>
-          <span class="cat-arrow">▼</span>
+      <div class="sidebar-user">
+        <div class="user-details">
+          <div class="user-avatar" id="sidebar-user-avatar">RS</div>
+          <div class="user-text">
+            <div class="u-name" id="sidebar-user-name">Rajesh Sharma</div>
+            <div class="u-role" id="sidebar-user-role">WMS Manager</div>
+          </div>
         </div>
-        <div class="nav-group-items">
-          <a class="nav-link" data-view="putaway" onclick="showWmsView('putaway')">
-            <span class="nav-icon">📥</span> PutAway
-          </a>
-          <a class="nav-link" data-view="inventory" onclick="showWmsView('inventory')">
-            <span class="nav-icon">🏢</span> Bin Inventory
-          </a>
-          <a class="nav-link" data-view="cyclecount" onclick="showWmsView('cyclecount')">
-            <span class="nav-icon">📋</span> Cycle Count & Adjustment
-          </a>
-          <a class="nav-link" data-view="fifoAging" onclick="showWmsView('fifoAging')">
-            <span class="nav-icon">⏳</span> FIFO & Stock Aging
-          </a>
-          <a class="nav-link" data-view="reportsAlerts" onclick="showWmsView('reportsAlerts')">
-            <span class="nav-icon">📈</span> Reports & Alerts
-          </a>
-        </div>
-      </div>
-
-      <!-- 4. OUTBOUND -->
-      <div class="nav-group collapsed">
-        <div class="nav-category" onclick="toggleNavGroup(this)">
-          <span>🏭 Outbound</span>
-          <span class="cat-arrow">▼</span>
-        </div>
-        <div class="nav-group-items">
-          <a class="nav-link" data-view="requisition" onclick="showWmsView('requisition')">
-            <span class="nav-icon">📋</span> Material Requirements
-          </a>
-          <a class="nav-link" data-view="issueList" onclick="showWmsView('issueList')">
-            <span class="nav-icon">📑</span> Issue List (Shift N1)
-          </a>
-          <a class="nav-link" data-view="pickingMonitor" onclick="showWmsView('pickingMonitor')">
-            <span class="nav-icon">🛒</span> Picking
-          </a>
-          <a class="nav-link" data-view="issueToLine" onclick="showWmsView('issueToLine')">
-            <span class="nav-icon">🏭</span> Issue to Line
-          </a>
-          <a class="nav-link" data-view="returnsFromLine" onclick="showWmsView('returnsFromLine')">
-            <span class="nav-icon">🔄</span> Returns from Line
-          </a>
-        </div>
-      </div>
-
-      <!-- 5. MASTERS -->
-      <div class="nav-group collapsed">
-        <div class="nav-category" onclick="toggleNavGroup(this)">
-          <span>⚙️ Masters</span>
-          <span class="cat-arrow">▼</span>
-        </div>
-        <div class="nav-group-items">
-          <a class="nav-link" data-view="masterMaterial" onclick="showWmsView('masterMaterial')">
-            <span class="nav-icon">🏷️</span> Material Master
-          </a>
-          <a class="nav-link" data-view="masterSupplier" onclick="showWmsView('masterSupplier')">
-            <span class="nav-icon">🤝</span> Supplier Master
-          </a>
-          <a class="nav-link" data-view="masterPlant" onclick="showWmsView('masterPlant')">
-            <span class="nav-icon">🏭</span> Plant Master
-          </a>
-          <a class="nav-link" data-view="masterZoneBin" onclick="showWmsView('masterZoneBin')">
-            <span class="nav-icon">🗺️</span> Zone / Bin Master
-          </a>
-          <a class="nav-link" data-view="masterDock" onclick="showWmsView('masterDock')">
-            <span class="nav-icon">🚪</span> Dock Master
-          </a>
-          <a class="nav-link" data-view="masterLine" onclick="showWmsView('masterLine')">
-            <span class="nav-icon">⚙️</span> Production Line Master
-          </a>
-          <a class="nav-link" data-view="masterStockLevel" onclick="showWmsView('masterStockLevel')">
-            <span class="nav-icon">📊</span> Stock Level Master
-          </a>
-          <a class="nav-link" data-view="masterReasonCode" onclick="showWmsView('masterReasonCode')">
-            <span class="nav-icon">❓</span> Reason Code Master
-          </a>
-          <a class="nav-link" data-view="userMaster" onclick="showWmsView('userMaster')">
-            <span class="nav-icon">👥</span> User & Role Master
-          </a>
-          <a class="nav-link" data-view="masterDevice" onclick="showWmsView('masterDevice')">
-            <span class="nav-icon">📱</span> Device Master
-          </a>
-        </div>
-      </div>
-
-      <!-- 6. SYSTEM ADMINISTRATION -->
-      <div class="nav-group collapsed">
-        <div class="nav-category" onclick="toggleNavGroup(this)">
-          <span>🛡️ System Administration</span>
-          <span class="cat-arrow">▼</span>
-        </div>
-        <div class="nav-group-items">
-          <a class="nav-link" data-view="sapSync" onclick="showWmsView('sapSync')">
-            <span class="nav-icon">🔄</span> SAP Sync
-          </a>
-          <a class="nav-link" data-view="audit" onclick="showWmsView('audit')">
-            <span class="nav-icon">🛡️</span> Audit Trail
-          </a>
-          <a class="nav-link" data-view="adminLabelPrint" onclick="showWmsView('adminLabelPrint')">
-            <span class="nav-icon">🖨️</span> Label & Print Settings
-          </a>
-          <a class="nav-link" data-view="adminNotifications" onclick="showWmsView('adminNotifications')">
-            <span class="nav-icon">🔔</span> Notification Settings
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar-user">
-      <div class="user-details">
-        <div class="user-avatar" id="sidebar-user-avatar">RS</div>
-        <div class="user-text">
-          <div class="u-name" id="sidebar-user-name">Rajesh Sharma</div>
-          <div class="u-role" id="sidebar-user-role">WMS Manager • Limit ₹1,00,000</div>
-        </div>
-      </div>
-      <button class="btn-logout" onclick="window.location.href='login.html'" title="Sign Out / Logout" style="background:transparent; border:none; cursor:pointer; font-size:16px; padding:6px; border-radius:6px; color:#64748b; transition:all 0.15s ease;">
-        🚪
-      </button>
-    </div>
-  </aside>
-
-  <!-- Mobile Sidebar Backdrop Overlay -->
-  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
-
-  <!-- Main Workspace Area -->
-  <main class="wms-main-content">
-    <!-- Topbar (Clean layout without redundant page title text) -->
-    <header class="wms-topbar">
-      <div class="topbar-left">
-        <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Navigation Menu">
-          <span>☰</span>
+        <button class="btn-logout" onclick="window.location.href='login.html'" title="Sign Out / Logout"
+          style="background:transparent; border:none; cursor:pointer; font-size:16px; padding:6px; border-radius:6px; color:#64748b; transition:all 0.15s ease;">
+          🚪
         </button>
-        <div class="global-filters">
-          <span class="filter-badge">Plant:</span>
-          <select class="top-select" id="filter-plant-select" onchange="onPlantFilterChange(this.value)">
-            <option value="All">All Plants (P1 & P2)</option>
-            <option value="P1">Plant 1 (Scooter Division)</option>
-            <option value="P2">Plant 2 (Motorcycle Division)</option>
-          </select>
-          <span class="filter-badge" style="margin-left: 6px;">Line:</span>
-          <select class="top-select" id="filter-line-select" onchange="onLineFilterChange(this.value)">
-            <option value="All">All Lines (4 Lines)</option>
-            <option value="L1">Line 1 (Activa 6G - Plant 1)</option>
-            <option value="L2">Line 2 (Shine 125 - Plant 1)</option>
-            <option value="L3">Line 3 (PGM-FI Engine - Plant 1)</option>
-            <option value="L4">Line 4 (CB350 Premium - Plant 2)</option>
-          </select>
-        </div>
       </div>
+    </aside>
 
-      <div class="topbar-right">
-        <span class="header-date-badge">📅 24-Sep-2026</span>
-        <span class="sap-status-indicator online" title="S/4HANA Active"><span class="dot"></span> SAP Synced</span>
-      </div>
-    </header>
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
 
-    <!-- Content Views Container -->
-    <div class="wms-view-container">
-
-      <!-- ========================================================= -->
-      <!-- 1. DASHBOARD -->
-      <!-- ========================================================= -->
-      <section id="wms-view-dashboard" class="wms-view active">
-        <!-- 3 Categorized KPI Grids -->
-        <div class="dashboard-module-header">
-          <h4>🚚 Inbound Operations</h4>
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-card clickable" onclick="showWmsView('gateEntry')">
-            <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">🚚</div>
-            <div class="kpi-content">
-              <div class="kpi-title">Trucks Expected / Arrived</div>
-              <div class="kpi-value" id="kpi-inbound-trucks">2 / 2</div>
-              <div class="kpi-subtext" id="kpi-subtext-trucks">1 At Dock • 1 Unloaded</div>
-            </div>
-          </div>
-          <div class="kpi-card clickable" onclick="showWmsView('receivingMonitor')">
-            <div class="kpi-icon" style="background:#ffedd5; color:#ea580c;">📥</div>
-            <div class="kpi-content">
-              <div class="kpi-title">Receiving in Progress</div>
-              <div class="kpi-value" id="kpi-receiving-progress">1 Active</div>
-              <div class="kpi-subtext" id="kpi-subtext-receiving">Dock Inward Inspection</div>
-            </div>
+    <!-- Main Workspace Area -->
+    <main class="wms-main-content">
+      <!-- Topbar (Clean layout without redundant page title text) -->
+      <header class="wms-topbar">
+        <div class="topbar-left">
+          <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" onclick="toggleMobileSidebar()"
+            aria-label="Toggle Navigation Menu">
+            <span>☰</span>
+          </button>
+          <div class="global-filters">
+            <span class="filter-badge">Plant:</span>
+            <select class="top-select" id="filter-plant-select" onchange="onPlantFilterChange(this.value)">
+              <option value="All">All Plants (P1 & P2)</option>
+              <option value="P1">Plant 1 (Scooter Division)</option>
+              <option value="P2">Plant 2 (Motorcycle Division)</option>
+            </select>
+            <span class="filter-badge" style="margin-left: 6px;">Line:</span>
+            <select class="top-select" id="filter-line-select" onchange="onLineFilterChange(this.value)">
+              <option value="All">All Lines (4 Lines)</option>
+              <option value="L1">Line 1 (Activa 6G - Plant 1)</option>
+              <option value="L2">Line 2 (Shine 125 - Plant 1)</option>
+              <option value="L3">Line 3 (PGM-FI Engine - Plant 1)</option>
+              <option value="L4">Line 4 (CB350 Premium - Plant 2)</option>
+            </select>
           </div>
         </div>
 
-        <div class="dashboard-module-header">
-          <h4>📦 Inventory & Warehouse Quality</h4>
+        <div class="topbar-right">
+          <span class="header-date-badge">📅 24-Sep-2026</span>
+          <span class="sap-status-indicator online" title="S/4HANA Active"><span class="dot"></span> SAP Synced</span>
         </div>
-        <div class="kpi-grid">
-          <div class="kpi-card clickable" onclick="showWmsView('putaway')">
-            <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">📥</div>
-            <div class="kpi-content">
-              <div class="kpi-title">Putaway Pending</div>
-              <div class="kpi-value" id="kpi-putaway-pending">1 Task</div>
-              <div class="kpi-subtext" id="kpi-subtext-putaway">Dock Staging Tasks</div>
-            </div>
-          </div>
-          <div class="kpi-card success-border clickable" onclick="showWmsView('cyclecount')">
-            <div class="kpi-icon" style="background:#dcfce7; color:#15803d;">🎯</div>
-            <div class="kpi-content">
-              <div class="kpi-title">Stock Accuracy %</div>
-              <div class="kpi-value" id="kpi-stock-accuracy" style="color:#15803d;">99.66%</div>
-              <div class="kpi-subtext" id="kpi-subtext-accuracy">From recent Cycle Counts</div>
-            </div>
-          </div>
-          <div class="kpi-card warning-border clickable" onclick="showWmsView('fifoAging')">
-            <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">⏳</div>
-            <div class="kpi-content">
-              <div class="kpi-title">FIFO Exceptions</div>
-              <div class="kpi-value" id="kpi-fifo-exceptions" style="color:#d97706;">1</div>
-              <div class="kpi-subtext" id="kpi-subtext-fifo">Logged Non-Oldest Picks</div>
-            </div>
-          </div>
-          <div class="kpi-card alert-border clickable" onclick="showWmsView('reportsAlerts')">
-            <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">⚠️</div>
-            <div class="kpi-content">
-              <div class="kpi-title">Low Stock Parts</div>
-              <div class="kpi-value" id="kpi-low-stock" style="color:#dc2626;">1</div>
-              <div class="kpi-subtext" id="kpi-subtext-lowstock">Parts below Min / ROP</div>
-            </div>
-          </div>
-          <div class="kpi-card clickable" onclick="showWmsView('reportsAlerts')">
-            <div class="kpi-icon" style="background:#f3e8ff; color:#7e22ce;">📊</div>
-            <div class="kpi-content">
-              <div class="kpi-title">Overstock Parts</div>
-              <div class="kpi-value" id="kpi-overstock" style="color:#7e22ce;">0</div>
-              <div class="kpi-subtext" id="kpi-subtext-overstock">Within Max Storage Limit</div>
-            </div>
-          </div>
-        </div>
+      </header>
 
-        <div class="dashboard-module-header">
-          <h4>🏭 Outbound Line Delivery & SAP Integration</h4>
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-card clickable" onclick="showWmsView('issueList')">
-            <div class="kpi-icon" style="background:#eff6ff; color:#2563eb;">📑</div>
-            <div class="kpi-content">
-              <div class="kpi-title">Issue Lists (Released / Issued)</div>
-              <div class="kpi-value" id="kpi-issue-lists">1 Issued</div>
-              <div class="kpi-subtext" id="kpi-subtext-issuelist">Assembly Line Dispatch</div>
-            </div>
-          </div>
-          <div class="kpi-card clickable" onclick="showWmsView('requisition')">
-            <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">📝</div>
-            <div class="kpi-content">
-              <div class="kpi-title">Pending Material Reqs</div>
-              <div class="kpi-value" id="kpi-pending-reqs">1 Pending</div>
-              <div class="kpi-subtext" id="kpi-subtext-reqs">Shift Requisitions Queue</div>
-            </div>
-          </div>
-        </div>
+      <!-- Content Views Container -->
+      <div class="wms-view-container">
 
-        <!-- Alerts Panel & Recent Activity Grid -->
-        <div class="dashboard-split-grid">
+        <!-- ========================================================= -->
+        <!-- 1. DASHBOARD -->
+        <!-- ========================================================= -->
+        <section id="wms-view-dashboard" class="wms-view active">
+          <!-- 3 Categorized KPI Grids -->
+          <div class="dashboard-module-header">
+            <h4>🚚 Inbound Operations</h4>
+          </div>
+          <div class="kpi-grid">
+            <div class="kpi-card clickable" onclick="showWmsView('gateEntry')">
+              <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">🚚</div>
+              <div class="kpi-content">
+                <div class="kpi-title">Trucks Expected / Arrived</div>
+                <div class="kpi-value" id="kpi-inbound-trucks">2 / 2</div>
+                <div class="kpi-subtext" id="kpi-subtext-trucks">1 At Dock • 1 Unloaded</div>
+              </div>
+            </div>
+            <div class="kpi-card clickable" onclick="showWmsView('receivingMonitor')">
+              <div class="kpi-icon" style="background:#ffedd5; color:#ea580c;">📥</div>
+              <div class="kpi-content">
+                <div class="kpi-title">Receiving in Progress</div>
+                <div class="kpi-value" id="kpi-receiving-progress">1 Active</div>
+                <div class="kpi-subtext" id="kpi-subtext-receiving">Dock Inward Inspection</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-module-header">
+            <h4>📦 Inventory & Warehouse Quality</h4>
+          </div>
+          <div class="kpi-grid">
+            <div class="kpi-card clickable" onclick="showWmsView('putaway')">
+              <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">📥</div>
+              <div class="kpi-content">
+                <div class="kpi-title">Putaway Pending</div>
+                <div class="kpi-value" id="kpi-putaway-pending">1 Task</div>
+                <div class="kpi-subtext" id="kpi-subtext-putaway">Dock Staging Tasks</div>
+              </div>
+            </div>
+            <div class="kpi-card success-border clickable" onclick="showWmsView('cyclecount')">
+              <div class="kpi-icon" style="background:#dcfce7; color:#15803d;">🎯</div>
+              <div class="kpi-content">
+                <div class="kpi-title">Stock Accuracy %</div>
+                <div class="kpi-value" id="kpi-stock-accuracy" style="color:#15803d;">99.66%</div>
+                <div class="kpi-subtext" id="kpi-subtext-accuracy">From recent Cycle Counts</div>
+              </div>
+            </div>
+            <div class="kpi-card warning-border clickable" onclick="showWmsView('fifoAging')">
+              <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">⏳</div>
+              <div class="kpi-content">
+                <div class="kpi-title">FIFO Exceptions</div>
+                <div class="kpi-value" id="kpi-fifo-exceptions" style="color:#d97706;">1</div>
+                <div class="kpi-subtext" id="kpi-subtext-fifo">Logged Non-Oldest Picks</div>
+              </div>
+            </div>
+            <div class="kpi-card alert-border clickable" onclick="showWmsView('reportsAlerts')">
+              <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">⚠️</div>
+              <div class="kpi-content">
+                <div class="kpi-title">Low Stock Parts</div>
+                <div class="kpi-value" id="kpi-low-stock" style="color:#dc2626;">1</div>
+                <div class="kpi-subtext" id="kpi-subtext-lowstock">Parts below Min / ROP</div>
+              </div>
+            </div>
+            <div class="kpi-card clickable" onclick="showWmsView('reportsAlerts')">
+              <div class="kpi-icon" style="background:#f3e8ff; color:#7e22ce;">📊</div>
+              <div class="kpi-content">
+                <div class="kpi-title">Overstock Parts</div>
+                <div class="kpi-value" id="kpi-overstock" style="color:#7e22ce;">0</div>
+                <div class="kpi-subtext" id="kpi-subtext-overstock">Within Max Storage Limit</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-module-header">
+            <h4>🏭 Outbound Line Delivery & SAP Integration</h4>
+          </div>
+          <div class="kpi-grid">
+            <div class="kpi-card clickable" onclick="showWmsView('issueList')">
+              <div class="kpi-icon" style="background:#eff6ff; color:#2563eb;">📑</div>
+              <div class="kpi-content">
+                <div class="kpi-title">Issue Lists (Released / Issued)</div>
+                <div class="kpi-value" id="kpi-issue-lists">1 Issued</div>
+                <div class="kpi-subtext" id="kpi-subtext-issuelist">Assembly Line Dispatch</div>
+              </div>
+            </div>
+            <div class="kpi-card clickable" onclick="showWmsView('requisition')">
+              <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">📝</div>
+              <div class="kpi-content">
+                <div class="kpi-title">Pending Material Reqs</div>
+                <div class="kpi-value" id="kpi-pending-reqs">1 Pending</div>
+                <div class="kpi-subtext" id="kpi-subtext-reqs">Shift Requisitions Queue</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alerts Panel & Recent Activity Grid -->
+          <div class="dashboard-split-grid">
+            <div class="wms-card">
+              <div class="card-header-bar">
+                <div class="card-title-group">
+                  <h3>🔔 Live System Alerts & Quality Warnings</h3>
+                  <p>Real-time notifications with supervisor acknowledge</p>
+                </div>
+                <button class="btn-wms-secondary small" onclick="acknowledgeAllAlerts()">Acknowledge All</button>
+              </div>
+              <div class="alerts-feed-container" id="dashboard-alerts-feed"></div>
+            </div>
+
+            <div class="wms-card">
+              <div class="card-header-bar">
+                <div class="card-title-group">
+                  <h3>📜 Recent WMS & SAP Audit Activity</h3>
+                  <p>Latest chronological transactions across Plants 1 & 2</p>
+                </div>
+                <button class="btn-wms-secondary small" onclick="showWmsView('audit')">View Audit Trail</button>
+              </div>
+              <div class="activity-feed-container" id="dashboard-recent-activity"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- PURCHASE ORDERS -->
+        <!-- ========================================================= -->
+        <section id="wms-view-po" class="wms-view">
           <div class="wms-card">
             <div class="card-header-bar">
               <div class="card-title-group">
-                <h3>🔔 Live System Alerts & Quality Warnings</h3>
-                <p>Real-time notifications with supervisor acknowledge</p>
+                <h3>Purchase Orders</h3>
+                <p>Direct S/4HANA PO Schedule Lines • Read-Only Synchronization</p>
               </div>
-              <button class="btn-wms-secondary small" onclick="acknowledgeAllAlerts()">Acknowledge All</button>
-            </div>
-            <div class="alerts-feed-container" id="dashboard-alerts-feed"></div>
-          </div>
-
-          <div class="wms-card">
-            <div class="card-header-bar">
-              <div class="card-title-group">
-                <h3>📜 Recent WMS & SAP Audit Activity</h3>
-                <p>Latest chronological transactions across Plants 1 & 2</p>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary" onclick="refreshPoFromSap()">
+                  <span>🔄</span> Refresh from SAP
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.purchaseOrders, 'HMSIL_PO_List.csv')">
+                  <span>📊</span> Export Excel / CSV
+                </button>
               </div>
-              <button class="btn-wms-secondary small" onclick="showWmsView('audit')">View Audit Trail</button>
             </div>
-            <div class="activity-feed-container" id="dashboard-recent-activity"></div>
-          </div>
-        </div>
-      </section>
 
-      <!-- ========================================================= -->
-      <!-- PURCHASE ORDERS -->
-      <!-- ========================================================= -->
-      <section id="wms-view-po" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Purchase Orders</h3>
-              <p>Direct S/4HANA PO Schedule Lines • Read-Only Synchronization</p>
+            <div class="table-filter-bar">
+              <input type="text" class="search-input" id="search-po"
+                placeholder="🔍 Search PO No, Supplier, Material..." oninput="renderPOTable()">
+              <div class="filter-group">
+                <select class="select-filter" id="filter-po-status" onchange="renderPOTable()">
+                  <option value="All">All Statuses</option>
+                  <option value="Open">Open</option>
+                  <option value="Partially received">Partially received</option>
+                  <option value="Fully received">Fully received</option>
+                  <option value="Closed">Closed</option>
+                </select>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="refreshPoFromSap()">
-                <span>🔄</span> Refresh from SAP
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.purchaseOrders, 'HMSIL_PO_List.csv')">
-                <span>📊</span> Export Excel / CSV
-              </button>
-            </div>
-          </div>
 
-          <div class="table-filter-bar">
-            <input type="text" class="search-input" id="search-po" placeholder="🔍 Search PO No, Supplier, Material..." oninput="renderPOTable()">
-            <div class="filter-group">
-              <select class="select-filter" id="filter-po-status" onchange="renderPOTable()">
-                <option value="All">All Statuses</option>
-                <option value="Open">Open</option>
-                <option value="Partially received">Partially received</option>
-                <option value="Fully received">Fully received</option>
-                <option value="Closed">Closed</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table" id="po-table">
-              <thead>
-                <tr>
-                  <th>PO Number</th>
-                  <th>Supplier (SAP)</th>
-                  <th>Plant</th>
-                  <th>Material Code & Description</th>
-                  <th>Ordered Qty</th>
-                  <th>ASN Qty</th>
-                  <th>Received Qty</th>
-                  <th>Open Qty</th>
-                  <th>Delivery Date</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="po-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- ASN (ADVANCE SHIPPING NOTICE) -->
-      <!-- ========================================================= -->
-      <section id="wms-view-asn" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Advance Shipping Notice (ASN)</h3>
-              <p>Supplier Inbound Dispatch Notifications & Pallet Manifests</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openCreateAsnModal()">
-                <span class="btn-icon-plus">+</span> Create ASN from PO
-              </button>
-              <button class="btn-wms-secondary" onclick="openImportModal('ASN')">
-                <span>📥</span> Upload ASN (EDI / Excel)
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.asns, 'HMSIL_ASN_List.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-filter-bar">
-            <input type="text" class="search-input" id="search-asn" placeholder="🔍 Search ASN No, PO No, Vehicle, Supplier..." oninput="renderAsnTable()">
-            <div class="filter-group">
-              <select class="select-filter" id="filter-asn-status" onchange="renderAsnTable()">
-                <option value="All">All Statuses</option>
-                <option value="Expected">Expected</option>
-                <option value="Arrived">Arrived</option>
-                <option value="Receiving">Receiving</option>
-                <option value="Received">Received</option>
-                <option value="Closed">Closed</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>ASN Number</th>
-                  <th>PO Number</th>
-                  <th>Supplier</th>
-                  <th>Material Code & Description</th>
-                  <th>Shipped Qty</th>
-                  <th>Pallets / Boxes</th>
-                  <th>Vehicle No</th>
-                  <th>ETA</th>
-                  <th>Receiving Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="asn-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- GATE ENTRY / TRUCK ARRIVAL -->
-      <!-- ========================================================= -->
-      <section id="wms-view-gateEntry" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Gate Entry & Truck Arrival</h3>
-              <p>Security Gate Check-In • Dock Allocation & Turnaround Time (TAT)</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openGateEntryModal()">
-                <span>🚚</span> New Truck Gate Entry
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.gateEntries, 'HMSIL_Gate_Entries.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-filter-bar">
-            <input type="text" class="search-input" id="search-gate" placeholder="🔍 Search Gate Entry No, Vehicle, Supplier..." oninput="renderGateEntryTable()">
-            <div class="filter-group">
-              <select class="select-filter" id="filter-gate-status" onchange="renderGateEntryTable()">
-                <option value="All">All Statuses</option>
-                <option value="Arrived">Arrived</option>
-                <option value="At dock">At dock</option>
-                <option value="Unloaded">Unloaded</option>
-                <option value="Exited">Exited</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Gate Entry No</th>
-                  <th>Vehicle No</th>
-                  <th>Driver Name & Mobile</th>
-                  <th>Supplier</th>
-                  <th>ASN / PO Number</th>
-                  <th>Arrival Time</th>
-                  <th>Dock Assigned</th>
-                  <th>Exit Time</th>
-                  <th>Turnaround (TAT)</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="gate-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- DOCK MANAGEMENT BOARD -->
-      <!-- ========================================================= -->
-      <section id="wms-view-docks" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Receiving Dock Management</h3>
-              <p>Bay Status • Live Truck Occupation • TAT Alerts & Maintenance</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddDockModal()">
-                <span class="btn-icon-plus">+</span> Add Dock
-              </button>
-              <button class="btn-wms-secondary" onclick="showWmsView('masterDock')">
-                <span>⚙️</span> Manage Docks
-              </button>
-            </div>
-          </div>
-
-          <div class="dock-grid" id="dock-grid-container"></div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- RECEIVING MONITOR -->
-      <!-- ========================================================= -->
-      <section id="wms-view-receivingMonitor" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Receiving</h3>
-              <p>Live Inbound Scans • Good / Damaged / Short Breakdown • MRN Trigger</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="renderReceivingMonitor()">
-                <span>🔄</span> Refresh Progress
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Receiving Batch</th>
-                  <th>PO Number</th>
-                  <th>ASN / Truck No</th>
-                  <th>Material</th>
-                  <th>Expected</th>
-                  <th>Scanned Good</th>
-                  <th>Damaged</th>
-                  <th>Short</th>
-                  <th>Excess</th>
-                  <th>Scan Progress</th>
-                  <th>Operator & Handheld</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="receiving-monitor-body"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Inbound Discrepancies & Shortages (Merged inside Receiving) -->
-        <div class="wms-card" style="margin-top: 16px;">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Inbound Discrepancies & Shortages</h3>
-              <p>Damaged Goods • Supplier Shortages • Quarantine Bin Management</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.discrepancies, 'HMSIL_Discrepancies.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Discrepancy No</th>
-                  <th>PO / ASN</th>
-                  <th>Supplier</th>
-                  <th>Material</th>
-                  <th>Expected / Rec</th>
-                  <th>Short / Damaged</th>
-                  <th>Reason & Details</th>
-                  <th>Quarantine Bin</th>
-                  <th>Commercial Action</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="discrepancy-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- MRN (MATERIAL RECEIPT NOTE) -->
-      <!-- ========================================================= -->
-      <section id="wms-view-mrn" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Material Receipt Note (MRN) Approval</h3>
-              <p>Supervisor Quality Sign-off • Discrepancy Verification • GRN Trigger</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.mrns, 'HMSIL_MRN_List.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>MRN Number</th>
-                  <th>PO / ASN</th>
-                  <th>Supplier</th>
-                  <th>Material Code & Description</th>
-                  <th>ASN Qty</th>
-                  <th>Good Qty</th>
-                  <th>Damaged / Short</th>
-                  <th>Reason Codes</th>
-                  <th>Created By</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="mrn-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- GRN / SAP GOODS RECEIPT -->
-      <!-- ========================================================= -->
-      <section id="wms-view-grn" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Goods Receipt (GRN) • SAP Movement 101</h3>
-              <p>Official Goods Inward Records • S/4HANA Material Document Postings</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.goodsReceiptNotes, 'HMSIL_GRN_List.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>GRN Number</th>
-                  <th>Linked MRN</th>
-                  <th>PO Number</th>
-                  <th>Supplier</th>
-                  <th>Accepted Qty</th>
-                  <th>SAP Mat Doc No</th>
-                  <th>Posting Date</th>
-                  <th>SAP Status</th>
-                  <th>Inspector</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="grn-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- PUTAWAY TASKS -->
-      <!-- ========================================================= -->
-      <section id="wms-view-putaway" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>PutAway</h3>
-              <p>System-Recommended Bin Allocation • High-Density Racking Routing</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.putawayTasks, 'HMSIL_Putaway_Tasks.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Task No</th>
-                  <th>Pallet / HU ID</th>
-                  <th>Material Code & Description</th>
-                  <th>Qty</th>
-                  <th>From Dock</th>
-                  <th>Suggested Bin</th>
-                  <th>Actual Bin</th>
-                  <th>Override Reason</th>
-                  <th>Assigned Operator</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="putaway-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- STOCK BY BIN (INVENTORY) -->
-      <!-- ========================================================= -->
-      <section id="wms-view-inventory" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Bin Inventory</h3>
-              <p>Real-time Bin-level Stock • Batch Management • Status Allocation</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits, 'HMSIL_Inventory_Stock.csv')">
-                <span>📊</span> Export Excel / CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-filter-bar">
-            <input type="text" class="search-input" id="search-inv" placeholder="🔍 Search Material, Bin, HU, Batch, Supplier..." oninput="renderInventoryTable()">
-            <div class="filter-group">
-              <select class="select-filter" id="filter-inv-status" onchange="renderInventoryTable()">
-                <option value="All">All Stock Statuses</option>
-                <option value="AVAILABLE">Available</option>
-                <option value="RESERVED">Reserved</option>
-                <option value="BLOCKED">Blocked</option>
-                <option value="QUARANTINE">Quarantine</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Handling Unit (HU)</th>
-                  <th>Material Code & Description</th>
-                  <th>Plant</th>
-                  <th>Location (Bin)</th>
-                  <th>Batch / Lot No</th>
-                  <th>Receipt Date</th>
-                  <th>Qty (UOM)</th>
-                  <th>Age (Days)</th>
-                  <th>Stock Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="inventory-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- CYCLE COUNT & STOCK ADJUSTMENT (SINGLE SCREEN) -->
-      <!-- ========================================================= -->
-      <section id="wms-view-cyclecount" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Cycle Count & Stock Adjustment</h3>
-              <p>Plan Count → Blind Handheld Count → Review Variance → Approve Adjustment → Post to SAP</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openCreateCycleCountModal()">
-                <span class="btn-icon-plus">+</span> Generate Count Plan
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.cycleCountPlans, 'HMSIL_Cycle_Counts.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <!-- Top Summary Tiles for Count Lifecycle -->
-          <div class="count-summary-kpi-bar">
-            <div class="count-kpi-chip">Planned: <b id="count-kpi-planned">0</b></div>
-            <div class="count-kpi-chip">Counting: <b id="count-kpi-counting">1</b></div>
-            <div class="count-kpi-chip warning">Variances to Review: <b id="count-kpi-variance">0</b></div>
-            <div class="count-kpi-chip warning">Adjustments Pending Approval: <b id="count-kpi-pending-adj">0</b></div>
-            <div class="count-kpi-chip success">Posted to SAP (Mvt 711/712): <b id="count-kpi-posted">1</b></div>
-          </div>
-
-          <!-- Count Plans Container -->
-          <div id="cycle-count-plans-container" style="margin-top:16px;"></div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- FIFO & STOCK AGING -->
-      <!-- ========================================================= -->
-      <section id="wms-view-fifoAging" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>FIFO Queue & Stock Aging</h3>
-              <p>Strict First-In-First-Out Priority • Aging Buckets • Supervisor Override Log</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.handlingUnits, 'HMSIL_FIFO_Aging.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <!-- Aging Buckets Cards -->
-          <div class="aging-buckets-grid" id="aging-buckets-grid"></div>
-
-          <div style="margin-top:20px;">
-            <h4 style="font-size:14px; font-weight:700; color:#0f172a; margin-bottom:10px;">📋 Material FIFO Picking Hierarchy</h4>
             <div class="table-responsive">
-              <table class="wms-table">
+              <table class="wms-table" id="po-table">
                 <thead>
                   <tr>
-                    <th>FIFO Rank</th>
+                    <th>PO Number</th>
+                    <th>Supplier (SAP)</th>
+                    <th>Plant</th>
                     <th>Material Code & Description</th>
-                    <th>Handling Unit (HU)</th>
-                    <th>Storage Bin</th>
-                    <th>Batch No</th>
-                    <th>Receipt Date</th>
-                    <th>Quantity</th>
-                    <th>Age Bracket</th>
+                    <th>Ordered Qty</th>
+                    <th>ASN Qty</th>
+                    <th>Received Qty</th>
+                    <th>Open Qty</th>
+                    <th>Delivery Date</th>
                     <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody id="fifo-table-body"></tbody>
+                <tbody id="po-table-body"></tbody>
               </table>
             </div>
           </div>
+        </section>
 
-          <div style="margin-top:24px;">
-            <h4 style="font-size:14px; font-weight:700; color:#dc2626; margin-bottom:10px;">⚠️ FIFO Exception & Override Audit Log</h4>
+        <!-- ========================================================= -->
+        <!-- ASN (ADVANCE SHIPPING NOTICE) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-asn" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Advance Shipping Notice (ASN)</h3>
+                <p>Supplier Inbound Dispatch Notifications & Pallet Manifests</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openCreateAsnModal()">
+                  <span class="btn-icon-plus">+</span> Create ASN from PO
+                </button>
+                <button class="btn-wms-secondary" onclick="openImportModal('ASN')">
+                  <span>📥</span> Upload ASN (EDI / Excel)
+                </button>
+                <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.asns, 'HMSIL_ASN_List.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+
+            <div class="table-filter-bar">
+              <input type="text" class="search-input" id="search-asn"
+                placeholder="🔍 Search ASN No, PO No, Vehicle, Supplier..." oninput="renderAsnTable()">
+              <div class="filter-group">
+                <select class="select-filter" id="filter-asn-status" onchange="renderAsnTable()">
+                  <option value="All">All Statuses</option>
+                  <option value="Expected">Expected</option>
+                  <option value="Arrived">Arrived</option>
+                  <option value="Receiving">Receiving</option>
+                  <option value="Received">Received</option>
+                  <option value="Closed">Closed</option>
+                </select>
+              </div>
+            </div>
+
             <div class="table-responsive">
               <table class="wms-table">
                 <thead>
                   <tr>
-                    <th>Exception ID</th>
-                    <th>Material</th>
-                    <th>Requested Oldest Lot</th>
-                    <th>Picked Lot</th>
-                    <th>Bin</th>
-                    <th>Picker</th>
-                    <th>Override Reason</th>
-                    <th>Authorized By</th>
-                    <th>Timestamp</th>
+                    <th>ASN Number</th>
+                    <th>PO Number</th>
+                    <th>Supplier</th>
+                    <th>Material Code & Description</th>
+                    <th>Shipped Qty</th>
+                    <th>Pallets / Boxes</th>
+                    <th>Vehicle No</th>
+                    <th>ETA</th>
+                    <th>Receiving Status</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody id="fifo-exceptions-body"></tbody>
+                <tbody id="asn-table-body"></tbody>
               </table>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ========================================================= -->
-      <!-- REPORTS & ALERTS -->
-      <!-- ========================================================= -->
-      <section id="wms-view-reportsAlerts" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Warehouse Reports & Alerts</h3>
-              <p>Overstock • Stock Variation (WMS vs SAP) • Shortages • Supplier Quality</p>
+        <!-- ========================================================= -->
+        <!-- GATE ENTRY / TRUCK ARRIVAL -->
+        <!-- ========================================================= -->
+        <section id="wms-view-gateEntry" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Gate Entry & Truck Arrival</h3>
+                <p>Security Gate Check-In • Dock Allocation & Turnaround Time (TAT)</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openGateEntryModal()">
+                  <span>🚚</span> New Truck Gate Entry
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.gateEntries, 'HMSIL_Gate_Entries.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="window.print()">
-                <span>📄</span> Export PDF Report
-              </button>
+
+            <div class="table-filter-bar">
+              <input type="text" class="search-input" id="search-gate"
+                placeholder="🔍 Search Gate Entry No, Vehicle, Supplier..." oninput="renderGateEntryTable()">
+              <div class="filter-group">
+                <select class="select-filter" id="filter-gate-status" onchange="renderGateEntryTable()">
+                  <option value="All">All Statuses</option>
+                  <option value="Arrived">Arrived</option>
+                  <option value="At dock">At dock</option>
+                  <option value="Unloaded">Unloaded</option>
+                  <option value="Exited">Exited</option>
+                </select>
+              </div>
             </div>
-          </div>
 
-          <!-- Reports Sub-tabs -->
-          <div class="subtabs-bar">
-            <button class="subtab-btn active" onclick="switchReportTab('overstock')">Overstock Report</button>
-            <button class="subtab-btn" onclick="switchReportTab('variation')">Stock Variation (WMS vs SAP vs Count)</button>
-            <button class="subtab-btn" onclick="switchReportTab('lowstock')">Low Stock & Reorder Points</button>
-            <button class="subtab-btn" onclick="switchReportTab('supplier')">Supplier Discrepancy & Quality</button>
-          </div>
-
-          <div class="report-tab-content" id="report-tab-content" style="margin-top:16px;"></div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- MATERIAL REQUIREMENTS -->
-      <!-- ========================================================= -->
-      <section id="wms-view-requisition" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Material Requirements</h3>
-              <p>S/4HANA Production Reservations & Shift Schedules</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openCreateRequisitionModal()">
-                <span class="btn-icon-plus">+</span> Create Requirement
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.materialRequirements, 'HMSIL_Material_Requirements.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Req No</th>
-                  <th>SAP Reference</th>
-                  <th>Plant & Line</th>
-                  <th>Shift</th>
-                  <th>Material Code & Description</th>
-                  <th>Required Qty</th>
-                  <th>Required-By Time</th>
-                  <th>Priority</th>
-                  <th>Status</th>
-                  <th>Linked Issue List</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="requisition-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- ISSUE LIST (SHIFT N1 LIST) -->
-      <!-- ========================================================= -->
-      <section id="wms-view-issueList" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Issue List (Shift N1 List)</h3>
-              <p>Automated Shift Requirements Assembly • FIFO Allocation • Picker Dispatch</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="autoBuildNextShiftIssueList()">
-                <span>⚡</span> Auto-Build Next Shift Issue List (N1)
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.issueLists, 'HMSIL_Issue_Lists.csv')">
-                <span>📊</span> Export CSV
-              </button>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Gate Entry No</th>
+                    <th>Vehicle No</th>
+                    <th>Driver Name & Mobile</th>
+                    <th>Supplier</th>
+                    <th>ASN / PO Number</th>
+                    <th>Arrival Time</th>
+                    <th>Dock Assigned</th>
+                    <th>Exit Time</th>
+                    <th>Turnaround (TAT)</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="gate-table-body"></tbody>
+              </table>
             </div>
           </div>
+        </section>
 
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Issue List No</th>
-                  <th>Production Line</th>
-                  <th>Shift</th>
-                  <th>Items & Allocated Bins (FIFO)</th>
-                  <th>Total Qty</th>
-                  <th>Assigned Picker</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="issue-list-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================= -->
-      <!-- PICKING MONITOR -->
-      <!-- ========================================================= -->
-      <section id="wms-view-pickingMonitor" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Picking</h3>
-              <p>Live Forklift & Cart Picking Progress • Short Pick Handling • FIFO Adherence</p>
+        <!-- ========================================================= -->
+        <!-- DOCK MANAGEMENT BOARD -->
+        <!-- ========================================================= -->
+        <section id="wms-view-docks" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Receiving Dock Management</h3>
+                <p>Bay Status • Live Truck Occupation • TAT Alerts & Maintenance</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddDockModal()">
+                  <span class="btn-icon-plus">+</span> Add Dock
+                </button>
+                <button class="btn-wms-secondary" onclick="showWmsView('masterDock')">
+                  <span>⚙️</span> Manage Docks
+                </button>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="renderPickingMonitor()">
-                <span>🔄</span> Refresh Progress
-              </button>
+
+            <div class="dock-grid" id="dock-grid-container"></div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- RECEIVING MONITOR -->
+        <!-- ========================================================= -->
+        <section id="wms-view-receivingMonitor" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Receiving</h3>
+                <p>Live Inbound Scans • Good / Damaged / Short Breakdown • MRN Trigger</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary" onclick="renderReceivingMonitor()">
+                  <span>🔄</span> Refresh Progress
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Receiving Batch</th>
+                    <th>PO Number</th>
+                    <th>ASN / Truck No</th>
+                    <th>Material</th>
+                    <th>Expected</th>
+                    <th>Scanned Good</th>
+                    <th>Damaged</th>
+                    <th>Short</th>
+                    <th>Excess</th>
+                    <th>Scan Progress</th>
+                    <th>Operator & Handheld</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="receiving-monitor-body"></tbody>
+              </table>
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Pick Task</th>
-                  <th>Issue List</th>
-                  <th>Picker & Handheld</th>
-                  <th>Material Code & Description</th>
-                  <th>Required Qty</th>
-                  <th>Picked Qty</th>
-                  <th>Source Bin</th>
-                  <th>FIFO Override</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="picking-monitor-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+          <!-- Inbound Discrepancies & Shortages (Merged inside Receiving) -->
+          <div class="wms-card" style="margin-top: 16px;">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Inbound Discrepancies & Shortages</h3>
+                <p>Damaged Goods • Supplier Shortages • Quarantine Bin Management</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.discrepancies, 'HMSIL_Discrepancies.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
 
-      <!-- ========================================================= -->
-      <!-- ISSUE TO LINE (MVT 261) -->
-      <!-- ========================================================= -->
-      <section id="wms-view-issueToLine" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Issue to Line</h3>
-              <p>Line Delivery Verification • Staging Buffers • SAP Goods Issue Document</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.lineIssues, 'HMSIL_Line_Issues.csv')">
-                <span>📊</span> Export CSV
-              </button>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Discrepancy No</th>
+                    <th>PO / ASN</th>
+                    <th>Supplier</th>
+                    <th>Material</th>
+                    <th>Expected / Rec</th>
+                    <th>Short / Damaged</th>
+                    <th>Reason & Details</th>
+                    <th>Quarantine Bin</th>
+                    <th>Commercial Action</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="discrepancy-table-body"></tbody>
+              </table>
             </div>
           </div>
+        </section>
 
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Issue No</th>
-                  <th>Issue List</th>
-                  <th>Production Line</th>
-                  <th>Material Code & Description</th>
-                  <th>Qty Issued</th>
-                  <th>Delivered By</th>
-                  <th>Received-at-Line Time</th>
-                  <th>Staging Bin</th>
-                  <th>SAP Goods Issue Doc</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="line-issue-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        <!-- ========================================================= -->
+        <!-- MRN (MATERIAL RECEIPT NOTE) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-mrn" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Material Receipt Note (MRN) Approval</h3>
+                <p>Supervisor Quality Sign-off • Discrepancy Verification • GRN Trigger</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.mrns, 'HMSIL_MRN_List.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
 
-      <!-- ========================================================= -->
-      <!-- RETURNS FROM LINE (MVT 262) -->
-      <!-- ========================================================= -->
-      <section id="wms-view-returnsFromLine" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Returns from Line</h3>
-              <p>Defect Returns & Surplus Stock • Quarantine Putaway • SAP Reversal</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openCreateReturnModal()">
-                <span class="btn-icon-plus">+</span> Create Line Return
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.lineReturns, 'HMSIL_Line_Returns.csv')">
-                <span>📊</span> Export CSV
-              </button>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>MRN Number</th>
+                    <th>PO / ASN</th>
+                    <th>Supplier</th>
+                    <th>Material Code & Description</th>
+                    <th>ASN Qty</th>
+                    <th>Good Qty</th>
+                    <th>Damaged / Short</th>
+                    <th>Reason Codes</th>
+                    <th>Created By</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="mrn-table-body"></tbody>
+              </table>
             </div>
           </div>
+        </section>
 
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Return No</th>
-                  <th>Production Line</th>
-                  <th>Material Code & Description</th>
-                  <th>Returned Qty</th>
-                  <th>Return Reason</th>
-                  <th>Target Bin</th>
-                  <th>SAP Reversal Doc No</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="returns-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        <!-- ========================================================= -->
+        <!-- GRN / SAP GOODS RECEIPT -->
+        <!-- ========================================================= -->
+        <section id="wms-view-grn" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Goods Receipt (GRN) • SAP Movement 101</h3>
+                <p>Official Goods Inward Records • S/4HANA Material Document Postings</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.goodsReceiptNotes, 'HMSIL_GRN_List.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
 
-      <!-- ========================================================= -->
-      <!-- MASTERS SCREENS (WITH COMPLETE CRUD) -->
-      <!-- ========================================================= -->
-      <!-- Material Master -->
-      <section id="wms-view-masterMaterial" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Material Master</h3>
-              <p>Part Catalog • Pack Sizes • A/B/C Velocity Class • Barcode Labels</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddMaterialModal()">
-                <span class="btn-icon-plus">+</span> Add Material
-              </button>
-              <button class="btn-wms-secondary" onclick="openImportModal('Materials')">
-                <span>📥</span> Bulk Excel Import
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.materials, 'HMSIL_Material_Master.csv')">
-                <span>📊</span> Export CSV
-              </button>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>GRN Number</th>
+                    <th>Linked MRN</th>
+                    <th>PO Number</th>
+                    <th>Supplier</th>
+                    <th>Accepted Qty</th>
+                    <th>SAP Mat Doc No</th>
+                    <th>Posting Date</th>
+                    <th>SAP Status</th>
+                    <th>Inspector</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="grn-table-body"></tbody>
+              </table>
             </div>
           </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Material Code*</th>
-                  <th>Description*</th>
-                  <th>Unit*</th>
-                  <th>Group</th>
-                  <th>Plant</th>
-                  <th>A/B/C Class*</th>
-                  <th>Pack Qty*</th>
-                  <th>Default Zone</th>
-                  <th>FIFO</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-material-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Supplier Master -->
-      <section id="wms-view-masterSupplier" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Supplier Master</h3>
-              <p>Vendor Master • ASN Capability • Lead Times • Contact Information</p>
+        <!-- ========================================================= -->
+        <!-- PUTAWAY TASKS -->
+        <!-- ========================================================= -->
+        <section id="wms-view-putaway" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>PutAway</h3>
+                <p>System-Recommended Bin Allocation • High-Density Racking Routing</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.putawayTasks, 'HMSIL_Putaway_Tasks.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddSupplierModal()">
-                <span class="btn-icon-plus">+</span> Add Supplier
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.suppliers, 'HMSIL_Suppliers.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Supplier Code*</th>
-                  <th>Supplier Name*</th>
-                  <th>Address</th>
-                  <th>Contact Person</th>
-                  <th>Phone & Email</th>
-                  <th>ASN Capable</th>
-                  <th>Lead Time (Days)</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-supplier-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
 
-      <!-- Plant Master -->
-      <section id="wms-view-masterPlant" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Plant Master & Storage Locations</h3>
-              <p>HMSI Manufacturing Units • S/4HANA Storage Location Mappings</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddPlantModal()">
-                <span class="btn-icon-plus">+</span> Add Plant
-              </button>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Task No</th>
+                    <th>Pallet / HU ID</th>
+                    <th>Material Code & Description</th>
+                    <th>Qty</th>
+                    <th>From Dock</th>
+                    <th>Suggested Bin</th>
+                    <th>Actual Bin</th>
+                    <th>Override Reason</th>
+                    <th>Assigned Operator</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="putaway-table-body"></tbody>
+              </table>
             </div>
           </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Plant Code*</th>
-                  <th>Plant Name*</th>
-                  <th>Physical Address</th>
-                  <th>SAP Plant Code</th>
-                  <th>SAP SLoc Mapping</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-plant-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Zone & Bin Master -->
-      <section id="wms-view-masterZoneBin" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Zone & Storage Bin Master</h3>
-              <p>Warehouse Zones • High-Bay Racks • Bulk Bin Range Generator</p>
+        <!-- ========================================================= -->
+        <!-- STOCK BY BIN (INVENTORY) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-inventory" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Bin Inventory</h3>
+                <p>Real-time Bin-level Stock • Batch Management • Status Allocation</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.handlingUnits, 'HMSIL_Inventory_Stock.csv')">
+                  <span>📊</span> Export Excel / CSV
+                </button>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddBinModal()">
-                <span class="btn-icon-plus">+</span> Add Bin
-              </button>
-              <button class="btn-wms-primary" onclick="openBulkBinModal()">
-                <span>⚡</span> Bulk-Create Bins
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.binMaster, 'HMSIL_Bin_Master.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Bin Code*</th>
-                  <th>Zone Code*</th>
-                  <th>Zone Name</th>
-                  <th>Type</th>
-                  <th>Max Capacity</th>
-                  <th>Max Weight (kg)</th>
-                  <th>Current Qty</th>
-                  <th>Stored Material</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-bin-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
 
-      <!-- Dock Master -->
-      <section id="wms-view-masterDock" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Inbound Dock Master</h3>
-              <p>Receiving Bays • Working Shift Hours • Maintenance Lockouts</p>
+            <div class="table-filter-bar">
+              <input type="text" class="search-input" id="search-inv"
+                placeholder="🔍 Search Material, Bin, HU, Batch, Supplier..." oninput="renderInventoryTable()">
+              <div class="filter-group">
+                <select class="select-filter" id="filter-inv-status" onchange="renderInventoryTable()">
+                  <option value="All">All Stock Statuses</option>
+                  <option value="AVAILABLE">Available</option>
+                  <option value="RESERVED">Reserved</option>
+                  <option value="BLOCKED">Blocked</option>
+                  <option value="QUARANTINE">Quarantine</option>
+                </select>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddDockModal()">
-                <span class="btn-icon-plus">+</span> Add Dock
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Dock Code*</th>
-                  <th>Plant*</th>
-                  <th>Dock Type</th>
-                  <th>Working Hours</th>
-                  <th>Current Status</th>
-                  <th>Current Truck</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-dock-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
 
-      <!-- Production Line Master -->
-      <section id="wms-view-masterLine" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Production Assembly Line Master</h3>
-              <p>Assembly Lines L1–L4 • Line-Side Staging Bins • Shift Cycles</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddLineModal()">
-                <span class="btn-icon-plus">+</span> Add Line
-              </button>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Handling Unit (HU)</th>
+                    <th>Material Code & Description</th>
+                    <th>Plant</th>
+                    <th>Location (Bin)</th>
+                    <th>Batch / Lot No</th>
+                    <th>Receipt Date</th>
+                    <th>Qty (UOM)</th>
+                    <th>Age (Days)</th>
+                    <th>Stock Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="inventory-table-body"></tbody>
+              </table>
             </div>
           </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Line Code*</th>
-                  <th>Line Name*</th>
-                  <th>Plant*</th>
-                  <th>Staging Bin*</th>
-                  <th>Shift Pattern</th>
-                  <th>Daily Target</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-line-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Stock Level Master -->
-      <section id="wms-view-masterStockLevel" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Stock Level & Reorder Master</h3>
-              <p>Min / Max Inventory • Safety Stock • A/B/C Cycle Days • Alert Recipients</p>
+        <!-- ========================================================= -->
+        <!-- CYCLE COUNT & STOCK ADJUSTMENT (SINGLE SCREEN) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-cyclecount" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Cycle Count & Stock Adjustment</h3>
+                <p>Plan Count → Blind Handheld Count → Review Variance → Approve Adjustment → Post to SAP</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openCreateCycleCountModal()">
+                  <span class="btn-icon-plus">+</span> Generate Count Plan
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.cycleCountPlans, 'HMSIL_Cycle_Counts.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddStockLevelModal()">
-                <span class="btn-icon-plus">+</span> Add Threshold
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.stockLevelMaster, 'HMSIL_Stock_Levels.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Material Code*</th>
-                  <th>Plant*</th>
-                  <th>Min Stock</th>
-                  <th>Max Stock</th>
-                  <th>Reorder Point</th>
-                  <th>Safety Stock</th>
-                  <th>A/B/C Cycle Days</th>
-                  <th>Alert Email Recipients</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-stock-level-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
 
-      <!-- Reason Code Master -->
-      <section id="wms-view-masterReasonCode" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Reason Code Master</h3>
-              <p>Discrepancies, Adjustments, FIFO Overrides & Returns Mapping to SAP Movement Types</p>
+            <!-- Top Summary Tiles for Count Lifecycle -->
+            <div class="count-summary-kpi-bar">
+              <div class="count-kpi-chip">Planned: <b id="count-kpi-planned">0</b></div>
+              <div class="count-kpi-chip">Counting: <b id="count-kpi-counting">1</b></div>
+              <div class="count-kpi-chip warning">Variances to Review: <b id="count-kpi-variance">0</b></div>
+              <div class="count-kpi-chip warning">Adjustments Pending Approval: <b id="count-kpi-pending-adj">0</b>
+              </div>
+              <div class="count-kpi-chip success">Posted to SAP (Mvt 711/712): <b id="count-kpi-posted">1</b></div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddReasonCodeModal()">
-                <span class="btn-icon-plus">+</span> Add Reason Code
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Reason Code*</th>
-                  <th>Description*</th>
-                  <th>Category / Type*</th>
-                  <th>Needs Approval</th>
-                  <th>SAP Movement Type</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-reason-code-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
 
-      <!-- User & Role Master -->
-      <section id="wms-view-userMaster" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Users & Security Roles</h3>
-              <p>Screen Permissions • Adjustment Approval Limits • Device Assignments</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddUserModal()">
-                <span class="btn-icon-plus">+</span> Add User
-              </button>
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.userMaster, 'HMSIL_Users.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
+            <!-- Count Plans Container -->
+            <div id="cycle-count-plans-container" style="margin-top:16px;"></div>
           </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>User ID*</th>
-                  <th>Name*</th>
-                  <th>Employee No</th>
-                  <th>Role*</th>
-                  <th>Plant*</th>
-                  <th>Shift</th>
-                  <th>Email & Mobile</th>
-                  <th>Handheld PIN</th>
-                  <th>Approval Limit (₹)</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-user-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Device Master -->
-      <section id="wms-view-masterDevice" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Device Master (Handhelds & Printers)</h3>
-              <p>Zebra TC57 Scanners • ZT411 Industrial Printers • IP Heartbeats</p>
+        <!-- ========================================================= -->
+        <!-- FIFO & STOCK AGING -->
+        <!-- ========================================================= -->
+        <section id="wms-view-fifoAging" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>FIFO Queue & Stock Aging</h3>
+                <p>Strict First-In-First-Out Priority • Aging Buckets • Supervisor Override Log</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.handlingUnits, 'HMSIL_FIFO_Aging.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddDeviceModal()">
-                <span class="btn-icon-plus">+</span> Add Device
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Device ID*</th>
-                  <th>Type*</th>
-                  <th>Model</th>
-                  <th>Serial No</th>
-                  <th>Plant & Zone</th>
-                  <th>IP Address</th>
-                  <th>Assigned User / Location</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="master-device-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
 
-      <!-- ========================================================= -->
-      <!-- SYSTEM ADMINISTRATION SCREENS -->
-      <!-- ========================================================= -->
-      <!-- SAP Sync -->
-      <section id="wms-view-sapSync" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>SAP Sync</h3>
-              <p>RFC / IDoc / BAPI Messages • Retry Queue • Daily Stock Reconciliation</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="retryFailedSapMessages()">
-                <span>🔄</span> Retry Failed Messages
-              </button>
-              <button class="btn-wms-secondary" onclick="runDailyStockReconciliation()">
-                <span>⚖️</span> Run Daily WMS vs SAP Recon
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Sync ID</th>
-                  <th>Interface Type</th>
-                  <th>Direction</th>
-                  <th>WMS Reference</th>
-                  <th>SAP Doc No</th>
-                  <th>Payload Type</th>
-                  <th>Status</th>
-                  <th>Error Description</th>
-                  <th>Timestamp</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="admin-sap-sync-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+            <!-- Aging Buckets Cards -->
+            <div class="aging-buckets-grid" id="aging-buckets-grid"></div>
 
-      <!-- Audit Trail -->
-      <section id="wms-view-audit" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>WMS Audit Trail</h3>
-              <p>Full Traceability • User & Device Stamp • Old → New Value Diffs</p>
+            <div style="margin-top:20px;">
+              <h4 style="font-size:14px; font-weight:700; color:#0f172a; margin-bottom:10px;">📋 Material FIFO Picking
+                Hierarchy</h4>
+              <div class="table-responsive">
+                <table class="wms-table">
+                  <thead>
+                    <tr>
+                      <th>FIFO Rank</th>
+                      <th>Material Code & Description</th>
+                      <th>Handling Unit (HU)</th>
+                      <th>Storage Bin</th>
+                      <th>Batch No</th>
+                      <th>Receipt Date</th>
+                      <th>Quantity</th>
+                      <th>Age Bracket</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fifo-table-body"></tbody>
+                </table>
+              </div>
             </div>
-            <div class="card-action-group">
-              <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.auditTrail, 'HMSIL_Audit_Trail.csv')">
-                <span>📊</span> Export CSV
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Timestamp</th>
-                  <th>User</th>
-                  <th>Role</th>
-                  <th>Device ID</th>
-                  <th>Transaction</th>
-                  <th>Reference</th>
-                  <th>Old Value</th>
-                  <th>New Value</th>
-                </tr>
-              </thead>
-              <tbody id="admin-audit-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
 
-      <!-- Label & Print Settings -->
-      <section id="wms-view-adminLabelPrint" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Label & Print Settings</h3>
-              <p>Zebra ZPL Template Fields • Barcode Formats • Zone-to-Printer Routing</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddLabelTemplateModal()">
-                <span class="btn-icon-plus">+</span> Add Template
-              </button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Template ID</th>
-                  <th>Template Name</th>
-                  <th>Barcode Format</th>
-                  <th>Included Fields</th>
-                  <th>Target Zebra Printer</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="admin-label-settings-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- Notification Settings -->
-      <section id="wms-view-adminNotifications" class="wms-view">
-        <div class="wms-card">
-          <div class="card-header-bar">
-            <div class="card-title-group">
-              <h3>Notification Settings</h3>
-              <p>Trigger Configuration • Email Alert Routing • Escalation Rules</p>
-            </div>
-            <div class="card-action-group">
-              <button class="btn-wms-primary" onclick="openAddNotifRuleModal()">
-                <span class="btn-icon-plus">+</span> Add Rule
-              </button>
+            <div style="margin-top:24px;">
+              <h4 style="font-size:14px; font-weight:700; color:#dc2626; margin-bottom:10px;">⚠️ FIFO Exception &
+                Override Audit Log</h4>
+              <div class="table-responsive">
+                <table class="wms-table">
+                  <thead>
+                    <tr>
+                      <th>Exception ID</th>
+                      <th>Material</th>
+                      <th>Requested Oldest Lot</th>
+                      <th>Picked Lot</th>
+                      <th>Bin</th>
+                      <th>Picker</th>
+                      <th>Override Reason</th>
+                      <th>Authorized By</th>
+                      <th>Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fifo-exceptions-body"></tbody>
+                </table>
+              </div>
             </div>
           </div>
-          <div class="table-responsive">
-            <table class="wms-table">
-              <thead>
-                <tr>
-                  <th>Alert ID</th>
-                  <th>Alert Type</th>
-                  <th>Subscribed Email Recipients</th>
-                  <th>Active Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="admin-notif-settings-body"></tbody>
-            </table>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- REPORTS & ALERTS -->
+        <!-- ========================================================= -->
+        <section id="wms-view-reportsAlerts" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Warehouse Reports & Alerts</h3>
+                <p>Overstock • Stock Variation (WMS vs SAP) • Shortages • Supplier Quality</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="window.print()">
+                  <span>📄</span> Export PDF Report
+                </button>
+              </div>
+            </div>
+
+            <!-- Reports Sub-tabs -->
+            <div class="subtabs-bar">
+              <button class="subtab-btn active" onclick="switchReportTab('overstock')">Overstock Report</button>
+              <button class="subtab-btn" onclick="switchReportTab('variation')">Stock Variation (WMS vs SAP vs
+                Count)</button>
+              <button class="subtab-btn" onclick="switchReportTab('lowstock')">Low Stock & Reorder Points</button>
+              <button class="subtab-btn" onclick="switchReportTab('supplier')">Supplier Discrepancy & Quality</button>
+            </div>
+
+            <div class="report-tab-content" id="report-tab-content" style="margin-top:16px;"></div>
           </div>
-        </div>
-      </section>
+        </section>
 
-    </div>
-  </main>
-</div>
+        <!-- ========================================================= -->
+        <!-- MATERIAL REQUIREMENTS -->
+        <!-- ========================================================= -->
+        <section id="wms-view-requisition" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Material Requirements</h3>
+                <p>S/4HANA Production Reservations & Shift Schedules</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openCreateRequisitionModal()">
+                  <span class="btn-icon-plus">+</span> Create Requirement
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.materialRequirements, 'HMSIL_Material_Requirements.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
 
-<!-- ========================================================= -->
-<!-- UNIVERSAL MODALS & PRINT POPUPS -->
-<!-- ========================================================= -->
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Req No</th>
+                    <th>SAP Reference</th>
+                    <th>Plant & Line</th>
+                    <th>Shift</th>
+                    <th>Material Code & Description</th>
+                    <th>Required Qty</th>
+                    <th>Required-By Time</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Linked Issue List</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="requisition-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
 
-<!-- 1. Universal Label & Document Print Preview Modal -->
-<div class="wms-modal-backdrop" id="modal-label-print">
-  <div class="wms-modal-window">
-    <div class="modal-header">
-      <h3 id="print-modal-title">🖨️ Zebra Industrial Label Print</h3>
-      <button class="modal-close" onclick="closeModal('modal-label-print')">✕</button>
-    </div>
-    <div class="modal-body" id="print-modal-content"></div>
-    <div class="modal-footer">
-      <button class="btn-wms-secondary" onclick="closeModal('modal-label-print')">Cancel</button>
-      <button class="btn-wms-primary" onclick="executePhysicalPrint()">Print Document</button>
+        <!-- ========================================================= -->
+        <!-- ISSUE LIST (SHIFT N1 LIST) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-issueList" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Issue List (Shift N1 List)</h3>
+                <p>Automated Shift Requirements Assembly • FIFO Allocation • Picker Dispatch</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="autoBuildNextShiftIssueList()">
+                  <span>⚡</span> Auto-Build Next Shift Issue List (N1)
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.issueLists, 'HMSIL_Issue_Lists.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Issue List No</th>
+                    <th>Production Line</th>
+                    <th>Shift</th>
+                    <th>Items & Allocated Bins (FIFO)</th>
+                    <th>Total Qty</th>
+                    <th>Assigned Picker</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="issue-list-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- PICKING MONITOR -->
+        <!-- ========================================================= -->
+        <section id="wms-view-pickingMonitor" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Picking</h3>
+                <p>Live Forklift & Cart Picking Progress • Short Pick Handling • FIFO Adherence</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary" onclick="renderPickingMonitor()">
+                  <span>🔄</span> Refresh Progress
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Pick Task</th>
+                    <th>Issue List</th>
+                    <th>Picker & Handheld</th>
+                    <th>Material Code & Description</th>
+                    <th>Required Qty</th>
+                    <th>Picked Qty</th>
+                    <th>Source Bin</th>
+                    <th>FIFO Override</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="picking-monitor-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- ISSUE TO LINE (MVT 261) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-issueToLine" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Issue to Line</h3>
+                <p>Line Delivery Verification • Staging Buffers • SAP Goods Issue Document</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.lineIssues, 'HMSIL_Line_Issues.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Issue No</th>
+                    <th>Issue List</th>
+                    <th>Production Line</th>
+                    <th>Material Code & Description</th>
+                    <th>Qty Issued</th>
+                    <th>Delivered By</th>
+                    <th>Received-at-Line Time</th>
+                    <th>Staging Bin</th>
+                    <th>SAP Goods Issue Doc</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="line-issue-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- RETURNS FROM LINE (MVT 262) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-returnsFromLine" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Returns from Line</h3>
+                <p>Defect Returns & Surplus Stock • Quarantine Putaway • SAP Reversal</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openCreateReturnModal()">
+                  <span class="btn-icon-plus">+</span> Create Line Return
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.lineReturns, 'HMSIL_Line_Returns.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Return No</th>
+                    <th>Production Line</th>
+                    <th>Material Code & Description</th>
+                    <th>Returned Qty</th>
+                    <th>Return Reason</th>
+                    <th>Target Bin</th>
+                    <th>SAP Reversal Doc No</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="returns-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- MASTERS SCREENS (WITH COMPLETE CRUD) -->
+        <!-- ========================================================= -->
+        <!-- Material Master -->
+        <section id="wms-view-masterMaterial" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Material Master</h3>
+                <p>Part Catalog • Pack Sizes • A/B/C Velocity Class • Barcode Labels</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddMaterialModal()">
+                  <span class="btn-icon-plus">+</span> Add Material
+                </button>
+                <button class="btn-wms-secondary" onclick="openImportModal('Materials')">
+                  <span>📥</span> Bulk Excel Import
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.materials, 'HMSIL_Material_Master.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Material Code*</th>
+                    <th>Description*</th>
+                    <th>Unit*</th>
+                    <th>Group</th>
+                    <th>Plant</th>
+                    <th>A/B/C Class*</th>
+                    <th>Pack Qty*</th>
+                    <th>Default Zone</th>
+                    <th>FIFO</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-material-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Supplier Master -->
+        <section id="wms-view-masterSupplier" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Supplier Master</h3>
+                <p>Vendor Master • ASN Capability • Lead Times • Contact Information</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddSupplierModal()">
+                  <span class="btn-icon-plus">+</span> Add Supplier
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.suppliers, 'HMSIL_Suppliers.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Supplier Code*</th>
+                    <th>Supplier Name*</th>
+                    <th>Address</th>
+                    <th>Contact Person</th>
+                    <th>Phone & Email</th>
+                    <th>ASN Capable</th>
+                    <th>Lead Time (Days)</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-supplier-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Plant Master -->
+        <section id="wms-view-masterPlant" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Plant Master & Storage Locations</h3>
+                <p>HMSI Manufacturing Units • S/4HANA Storage Location Mappings</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddPlantModal()">
+                  <span class="btn-icon-plus">+</span> Add Plant
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Plant Code*</th>
+                    <th>Plant Name*</th>
+                    <th>Physical Address</th>
+                    <th>SAP Plant Code</th>
+                    <th>SAP SLoc Mapping</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-plant-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Zone & Bin Master -->
+        <section id="wms-view-masterZoneBin" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Zone & Storage Bin Master</h3>
+                <p>Warehouse Zones • High-Bay Racks • Bulk Bin Range Generator</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddBinModal()">
+                  <span class="btn-icon-plus">+</span> Add Bin
+                </button>
+                <button class="btn-wms-primary" onclick="openBulkBinModal()">
+                  <span>⚡</span> Bulk-Create Bins
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.binMaster, 'HMSIL_Bin_Master.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Bin Code*</th>
+                    <th>Zone Code*</th>
+                    <th>Zone Name</th>
+                    <th>Type</th>
+                    <th>Max Capacity</th>
+                    <th>Max Weight (kg)</th>
+                    <th>Current Qty</th>
+                    <th>Stored Material</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-bin-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dock Master -->
+        <section id="wms-view-masterDock" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Inbound Dock Master</h3>
+                <p>Receiving Bays • Working Shift Hours • Maintenance Lockouts</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddDockModal()">
+                  <span class="btn-icon-plus">+</span> Add Dock
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Dock Code*</th>
+                    <th>Plant*</th>
+                    <th>Dock Type</th>
+                    <th>Working Hours</th>
+                    <th>Current Status</th>
+                    <th>Current Truck</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-dock-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Production Line Master -->
+        <section id="wms-view-masterLine" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Production Assembly Line Master</h3>
+                <p>Assembly Lines L1–L4 • Line-Side Staging Bins • Shift Cycles</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddLineModal()">
+                  <span class="btn-icon-plus">+</span> Add Line
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Line Code*</th>
+                    <th>Line Name*</th>
+                    <th>Plant*</th>
+                    <th>Staging Bin*</th>
+                    <th>Shift Pattern</th>
+                    <th>Daily Target</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-line-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stock Level Master -->
+        <section id="wms-view-masterStockLevel" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Stock Level & Reorder Master</h3>
+                <p>Min / Max Inventory • Safety Stock • A/B/C Cycle Days • Alert Recipients</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddStockLevelModal()">
+                  <span class="btn-icon-plus">+</span> Add Threshold
+                </button>
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.stockLevelMaster, 'HMSIL_Stock_Levels.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Material Code*</th>
+                    <th>Plant*</th>
+                    <th>Min Stock</th>
+                    <th>Max Stock</th>
+                    <th>Reorder Point</th>
+                    <th>Safety Stock</th>
+                    <th>A/B/C Cycle Days</th>
+                    <th>Alert Email Recipients</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-stock-level-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reason Code Master -->
+        <section id="wms-view-masterReasonCode" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Reason Code Master</h3>
+                <p>Discrepancies, Adjustments, FIFO Overrides & Returns Mapping to SAP Movement Types</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddReasonCodeModal()">
+                  <span class="btn-icon-plus">+</span> Add Reason Code
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Reason Code*</th>
+                    <th>Description*</th>
+                    <th>Category / Type*</th>
+                    <th>Needs Approval</th>
+                    <th>SAP Movement Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-reason-code-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- User & Role Master -->
+        <section id="wms-view-userMaster" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Users & Security Roles</h3>
+                <p>Screen Permissions • Adjustment Approval Limits • Device Assignments</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddUserModal()">
+                  <span class="btn-icon-plus">+</span> Add User
+                </button>
+                <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.userMaster, 'HMSIL_Users.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>User ID*</th>
+                    <th>Name*</th>
+                    <th>Employee No</th>
+                    <th>Role*</th>
+                    <th>Plant*</th>
+                    <th>Shift</th>
+                    <th>Email & Mobile</th>
+                    <th>Handheld PIN</th>
+                    <th>Approval Limit (₹)</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-user-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Device Master -->
+        <section id="wms-view-masterDevice" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Device Master (Handhelds & Printers)</h3>
+                <p>Zebra TC57 Scanners • ZT411 Industrial Printers • IP Heartbeats</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddDeviceModal()">
+                  <span class="btn-icon-plus">+</span> Add Device
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Device ID*</th>
+                    <th>Type*</th>
+                    <th>Model</th>
+                    <th>Serial No</th>
+                    <th>Plant & Zone</th>
+                    <th>IP Address</th>
+                    <th>Assigned User / Location</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-device-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SYSTEM ADMINISTRATION SCREENS -->
+        <!-- ========================================================= -->
+        <!-- SAP Sync -->
+        <section id="wms-view-sapSync" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>SAP Sync</h3>
+                <p>RFC / IDoc / BAPI Messages • Retry Queue • Daily Stock Reconciliation</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="retryFailedSapMessages()">
+                  <span>🔄</span> Retry Failed Messages
+                </button>
+                <button class="btn-wms-secondary" onclick="runDailyStockReconciliation()">
+                  <span>⚖️</span> Run Daily WMS vs SAP Recon
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Sync ID</th>
+                    <th>Interface Type</th>
+                    <th>Direction</th>
+                    <th>WMS Reference</th>
+                    <th>SAP Doc No</th>
+                    <th>Payload Type</th>
+                    <th>Status</th>
+                    <th>Error Description</th>
+                    <th>Timestamp</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-sap-sync-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Audit Trail -->
+        <section id="wms-view-audit" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>WMS Audit Trail</h3>
+                <p>Full Traceability • User & Device Stamp • Old → New Value Diffs</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary"
+                  onclick="exportTableToCSV(window.wms.auditTrail, 'HMSIL_Audit_Trail.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Device ID</th>
+                    <th>Transaction</th>
+                    <th>Reference</th>
+                    <th>Old Value</th>
+                    <th>New Value</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-audit-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Label & Print Settings -->
+        <section id="wms-view-adminLabelPrint" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Label & Print Settings</h3>
+                <p>Zebra ZPL Template Fields • Barcode Formats • Zone-to-Printer Routing</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddLabelTemplateModal()">
+                  <span class="btn-icon-plus">+</span> Add Template
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Template ID</th>
+                    <th>Template Name</th>
+                    <th>Barcode Format</th>
+                    <th>Included Fields</th>
+                    <th>Target Zebra Printer</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-label-settings-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Notification Settings -->
+        <section id="wms-view-adminNotifications" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Notification Settings</h3>
+                <p>Trigger Configuration • Email Alert Routing • Escalation Rules</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddNotifRuleModal()">
+                  <span class="btn-icon-plus">+</span> Add Rule
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Alert ID</th>
+                    <th>Alert Type</th>
+                    <th>Subscribed Email Recipients</th>
+                    <th>Active Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-notif-settings-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- UNIVERSAL MODALS & PRINT POPUPS -->
+  <!-- ========================================================= -->
+
+  <!-- 1. Universal Label & Document Print Preview Modal -->
+  <div class="wms-modal-backdrop" id="modal-label-print">
+    <div class="wms-modal-window">
+      <div class="modal-header">
+        <h3 id="print-modal-title">🖨️ Zebra Industrial Label Print</h3>
+        <button class="modal-close" onclick="closeModal('modal-label-print')">✕</button>
+      </div>
+      <div class="modal-body" id="print-modal-content"></div>
+      <div class="modal-footer">
+        <button class="btn-wms-secondary" onclick="closeModal('modal-label-print')">Cancel</button>
+        <button class="btn-wms-primary" onclick="executePhysicalPrint()">Print Document</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- 2. Master Data Import / Excel Upload Modal -->
-<div class="wms-modal-backdrop" id="modal-import">
-  <div class="wms-modal-window">
-    <div class="modal-header">
-      <h3 id="import-modal-title">📥 Bulk Excel / CSV Data Import</h3>
-      <button class="modal-close" onclick="closeModal('modal-import')">✕</button>
-    </div>
-    <div class="modal-body">
-      <p style="font-size:13px; color:#475569; margin-bottom:12px;">Upload standardized master data file. System validates mandatory fields, duplicate codes, and SAP integrity.</p>
-      <div class="upload-dropzone" onclick="document.getElementById('import-file-input').click()">
-        <span style="font-size:32px;">📄</span>
-        <p><b>Click to select Excel (.xlsx) / CSV file</b> or drag & drop</p>
-        <span style="font-size:11px; color:#64748b;">Supported format: UTF-8 CSV / Excel Template</span>
-        <input type="file" id="import-file-input" style="display:none;" onchange="handleFileSelected(this)">
+  <!-- 2. Master Data Import / Excel Upload Modal -->
+  <div class="wms-modal-backdrop" id="modal-import">
+    <div class="wms-modal-window">
+      <div class="modal-header">
+        <h3 id="import-modal-title">📥 Bulk Excel / CSV Data Import</h3>
+        <button class="modal-close" onclick="closeModal('modal-import')">✕</button>
       </div>
-      <div id="import-preview-results" style="margin-top:14px;"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-wms-secondary" onclick="downloadTemplateSample()">Download Sample Template</button>
-      <button class="btn-wms-primary" onclick="simulateDataImport()">Validate & Import</button>
+      <div class="modal-body">
+        <p style="font-size:13px; color:#475569; margin-bottom:12px;">Upload standardized master data file. System
+          validates mandatory fields, duplicate codes, and SAP integrity.</p>
+        <div class="upload-dropzone" onclick="document.getElementById('import-file-input').click()">
+          <span style="font-size:32px;">📄</span>
+          <p><b>Click to select Excel (.xlsx) / CSV file</b> or drag & drop</p>
+          <span style="font-size:11px; color:#64748b;">Supported format: UTF-8 CSV / Excel Template</span>
+          <input type="file" id="import-file-input" style="display:none;" onchange="handleFileSelected(this)">
+        </div>
+        <div id="import-preview-results" style="margin-top:14px;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-wms-secondary" onclick="downloadTemplateSample()">Download Sample Template</button>
+        <button class="btn-wms-primary" onclick="simulateDataImport()">Validate & Import</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- 3. Dynamic Action Modal (Used for All Master CRUD Modals) -->
-<div class="wms-modal-backdrop" id="modal-dynamic-form">
-  <div class="wms-modal-window">
-    <div class="modal-header">
-      <h3 id="dynamic-form-title">Form Title</h3>
-      <button class="modal-close" onclick="closeModal('modal-dynamic-form')">✕</button>
-    </div>
-    <div class="modal-body" id="dynamic-form-content"></div>
-    <div class="modal-footer" id="dynamic-form-footer"></div>
-  </div>
-</div>
-
-<!-- 4. User Authentication / Login / Switch User Modal -->
-<div class="wms-modal-backdrop" id="modal-login">
-  <div class="wms-modal-window" style="max-width: 440px;">
-    <div class="modal-header">
-      <h3>🔐 HMSIL WMS — User Authentication</h3>
-      <button class="modal-close" onclick="closeModal('modal-login')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div style="text-align: center; margin-bottom: 16px;">
-        <div class="brand-icon" style="margin: 0 auto 10px auto; width: 44px; height: 44px; font-size: 22px;">H</div>
-        <h4 style="font-size: 15px; font-weight: 800; color: #0f172a;">Honda Motorcycle & Scooter India</h4>
-        <p style="font-size: 11.5px; color: #64748b; margin-top: 2px;">Narsapur Manufacturing Plant Control Tower</p>
+  <!-- 3. Dynamic Action Modal (Used for All Master CRUD Modals) -->
+  <div class="wms-modal-backdrop" id="modal-dynamic-form">
+    <div class="wms-modal-window">
+      <div class="modal-header">
+        <h3 id="dynamic-form-title">Form Title</h3>
+        <button class="modal-close" onclick="closeModal('modal-dynamic-form')">✕</button>
       </div>
-      <div class="wms-form-group">
-        <label>Select User / Role Profile</label>
-        <select id="login-user-select" class="select-filter" onchange="onLoginUserSelectChange(this.value)">
-          <option value="HND-USR-1001">Rajesh Sharma — Warehouse Manager (Plant 1 & 2)</option>
-          <option value="HND-USR-1002">Suresh Kumar — Receiving Supervisor (Plant 1)</option>
-          <option value="HND-USR-1003">Amit Patel — Line Feeding Lead (Line 1 & 2)</option>
-          <option value="HND-USR-1004">Priya Nair — Quality / QC Inspector (Plant 2)</option>
-          <option value="HND-USR-1005">K. S. Narayanan — Supplier Logistics Rep (Nissin Brakes)</option>
-        </select>
-      </div>
-      <div class="wms-form-group">
-        <label>Operator PIN / Password</label>
-        <input type="password" id="login-pin-input" class="search-input" value="••••" placeholder="Enter 4-digit PIN / SAP Password">
-      </div>
-      <div class="wms-form-group">
-        <label>Assigned Plant</label>
-        <input type="text" id="login-plant-preview" class="search-input" value="HMSI Narsapur Plant 1" disabled style="background:#f1f5f9;">
-      </div>
-    </div>
-    <div class="modal-footer" style="justify-content: space-between;">
-      <button class="btn-wms-secondary" onclick="closeModal('modal-login')">Cancel</button>
-      <button class="btn-wms-primary" onclick="performUserLogin()">Log In / Switch</button>
+      <div class="modal-body" id="dynamic-form-content"></div>
+      <div class="modal-footer" id="dynamic-form-footer"></div>
     </div>
   </div>
-</div>
 
-<script src="js/wmsData.js"></script>
-<script src="js/wmsApp.js"></script>
+  <!-- 4. User Authentication / Login / Switch User Modal -->
+  <div class="wms-modal-backdrop" id="modal-login">
+    <div class="wms-modal-window" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3>🔐 HMSIL WMS — User Authentication</h3>
+        <button class="modal-close" onclick="closeModal('modal-login')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; margin-bottom: 16px;">
+          <div class="brand-icon" style="margin: 0 auto 10px auto; width: 44px; height: 44px; font-size: 22px;">H</div>
+          <h4 style="font-size: 15px; font-weight: 800; color: #0f172a;">Honda Motorcycle & Scooter India</h4>
+          <p style="font-size: 11.5px; color: #64748b; margin-top: 2px;">Narsapur Manufacturing Plant Control Tower</p>
+        </div>
+        <div class="wms-form-group">
+          <label>Select User / Role Profile</label>
+          <select id="login-user-select" class="select-filter" onchange="onLoginUserSelectChange(this.value)">
+            <option value="HND-USR-1001">Rajesh Sharma — Warehouse Manager (Plant 1 & 2)</option>
+            <option value="HND-USR-1002">Suresh Kumar — Receiving Supervisor (Plant 1)</option>
+            <option value="HND-USR-1003">Amit Patel — Line Feeding Lead (Line 1 & 2)</option>
+            <option value="HND-USR-1004">Priya Nair — Quality / QC Inspector (Plant 2)</option>
+            <option value="HND-USR-1005">K. S. Narayanan — Supplier Logistics Rep (Nissin Brakes)</option>
+          </select>
+        </div>
+        <div class="wms-form-group">
+          <label>Operator PIN / Password</label>
+          <input type="password" id="login-pin-input" class="search-input" value="••••"
+            placeholder="Enter 4-digit PIN / SAP Password">
+        </div>
+        <div class="wms-form-group">
+          <label>Assigned Plant</label>
+          <input type="text" id="login-plant-preview" class="search-input" value="HMSI Narsapur Plant 1" disabled
+            style="background:#f1f5f9;">
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button class="btn-wms-secondary" onclick="closeModal('modal-login')">Cancel</button>
+        <button class="btn-wms-primary" onclick="performUserLogin()">Log In / Switch</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/wmsData.js"></script>
+  <script src="js/wmsApp.js"></script>
 </body>
+
 </html>
