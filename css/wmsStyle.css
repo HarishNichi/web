@@ -186,8 +186,12 @@ body {
 .nav-group-items {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   overflow: hidden;
+  padding-left: 8px;
+  padding-right: 4px;
+  margin-top: 2px;
+  margin-bottom: 6px;
   transition: max-height 0.25s ease-in-out, opacity 0.2s ease;
 }
 
@@ -198,8 +202,8 @@ body {
 .nav-link {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: 12px;
+  padding: 10px 16px;
   border-radius: var(--radius-md);
   color: var(--nav-text);
   text-decoration: none;
@@ -213,6 +217,7 @@ body {
 .nav-link:hover {
   background: var(--nav-hover);
   color: var(--nav-text-bright);
+  padding-left: 18px;
 }
 
 .nav-link.active {
@@ -220,6 +225,7 @@ body {
   color: var(--nav-active-text);
   font-weight: 700;
   border-left: 3px solid #2563eb;
+  padding-left: 15px;
 }
 
 .nav-link .badge-counter {
