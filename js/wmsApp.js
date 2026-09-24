@@ -3068,6 +3068,58 @@ function downloadTemplateSample() {
 }
 
 // -------------------------------------------------------------
+// USER AUTHENTICATION & PROFILE SWITCHING
+// -------------------------------------------------------------
+function openLoginModal() {
+  const modal = document.getElementById('modal-login');
+  if (modal) modal.classList.add('active');
+}
+
+function onLoginUserSelectChange(userId) {
+  const user = (window.wms.userMaster || []).find(u => u.userId === userId);
+  const pInput = document.getElementById('login-plant-preview');
+  if (pInput && user) {
+    pInput.value = user.assignedPlant || 'All Plants (P1 & P2)';
+  }
+}
+
+function performUserLogin() {
+  const select = document.getElementById('login-user-select');
+  const userId = select ? select.value : 'HND-USR-1001';
+  const foundUser = (window.wms.userMaster || []).find(u => u.userId === userId);
+
+  if (foundUser) {
+    window.wms.currentUser = {
+      userId: foundUser.userId,
+      name: foundUser.name,
+      role: foundUser.role,
+      roleTitle: foundUser.roleTitle || foundUser.role,
+      plant: foundUser.assignedPlant,
+      approvalLimit: foundUser.approvalLimit || 50000,
+      handheldPin: foundUser.handheldPin || '1234',
+      status: foundUser.status || 'ACTIVE'
+    };
+
+    const avatarEl = document.getElementById('sidebar-user-avatar');
+    const nameEl = document.getElementById('sidebar-user-name');
+    const roleEl = document.getElementById('sidebar-user-role');
+
+    if (avatarEl) {
+      const initials = foundUser.name.split(' ').map(n => n[0]).join('').substring(0, 2);
+      avatarEl.textContent = initials;
+    }
+    if (nameEl) nameEl.textContent = foundUser.name;
+    if (roleEl) roleEl.textContent = `${foundUser.roleTitle || foundUser.role} • Limit ₹${Number(foundUser.approvalLimit || 50000).toLocaleString('en-IN')}`;
+
+    saveWMSState(window.wms);
+    addAuditLog('USER_LOGIN', userId, '-', `Logged in as ${foundUser.name} (${foundUser.role})`);
+  }
+
+  closeModal('modal-login');
+  alert(`✅ Welcome back, ${window.wms.currentUser.name} (${window.wms.currentUser.roleTitle})`);
+}
+
+// -------------------------------------------------------------
 // HELPER UTILITIES & GLOBAL APPLICATION FILTERING
 // -------------------------------------------------------------
 function filterByPlant(list, plant) {

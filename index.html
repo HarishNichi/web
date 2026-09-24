@@ -184,12 +184,15 @@
 
     <div class="sidebar-user">
       <div class="user-details">
-        <div class="user-avatar">RS</div>
+        <div class="user-avatar" id="sidebar-user-avatar">RS</div>
         <div class="user-text">
-          <div class="u-name">Rajesh Sharma</div>
-          <div class="u-role">WMS Manager • Limit ₹1,00,000</div>
+          <div class="u-name" id="sidebar-user-name">Rajesh Sharma</div>
+          <div class="u-role" id="sidebar-user-role">WMS Manager • Limit ₹1,00,000</div>
         </div>
       </div>
+      <button class="btn-logout" onclick="window.location.href='login.html'" title="Sign Out / Logout" style="background:transparent; border:none; cursor:pointer; font-size:16px; padding:6px; border-radius:6px; color:#64748b; transition:all 0.15s ease;">
+        🚪
+      </button>
     </div>
   </aside>
 
@@ -228,9 +231,6 @@
         <span class="sap-status-indicator online" title="S/4HANA Active"><span class="dot"></span> SAP Synced</span>
         <button class="btn-top-action" onclick="resetWMSData()" title="Reset to Brake Pad Spec Demo Data">
           <span>🔄</span> Reset Demo
-        </button>
-        <button class="btn-top-action primary" onclick="openUniversalLabelPrintModal()" title="Fast Label Printer">
-          <span>🖨️</span> Print Label
         </button>
         <button class="btn-top-action" id="btn-auto-refresh" onclick="toggleAutoRefresh()" title="Auto Refresh every 60s">
           <span id="auto-refresh-spinner">⏱️</span> <b id="auto-refresh-countdown">60s</b>
@@ -1767,6 +1767,45 @@
     </div>
     <div class="modal-body" id="dynamic-form-content"></div>
     <div class="modal-footer" id="dynamic-form-footer"></div>
+  </div>
+</div>
+
+<!-- 4. User Authentication / Login / Switch User Modal -->
+<div class="wms-modal-backdrop" id="modal-login">
+  <div class="wms-modal-window" style="max-width: 440px;">
+    <div class="modal-header">
+      <h3>🔐 HMSIL WMS — User Authentication</h3>
+      <button class="modal-close" onclick="closeModal('modal-login')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div class="brand-icon" style="margin: 0 auto 10px auto; width: 44px; height: 44px; font-size: 22px;">H</div>
+        <h4 style="font-size: 15px; font-weight: 800; color: #0f172a;">Honda Motorcycle & Scooter India</h4>
+        <p style="font-size: 11.5px; color: #64748b; margin-top: 2px;">Narsapur Manufacturing Plant Control Tower</p>
+      </div>
+      <div class="wms-form-group">
+        <label>Select User / Role Profile</label>
+        <select id="login-user-select" class="select-filter" onchange="onLoginUserSelectChange(this.value)">
+          <option value="HND-USR-1001">Rajesh Sharma — Warehouse Manager (Plant 1 & 2)</option>
+          <option value="HND-USR-1002">Suresh Kumar — Receiving Supervisor (Plant 1)</option>
+          <option value="HND-USR-1003">Amit Patel — Line Feeding Lead (Line 1 & 2)</option>
+          <option value="HND-USR-1004">Priya Nair — Quality / QC Inspector (Plant 2)</option>
+          <option value="HND-USR-1005">K. S. Narayanan — Supplier Logistics Rep (Nissin Brakes)</option>
+        </select>
+      </div>
+      <div class="wms-form-group">
+        <label>Operator PIN / Password</label>
+        <input type="password" id="login-pin-input" class="search-input" value="••••" placeholder="Enter 4-digit PIN / SAP Password">
+      </div>
+      <div class="wms-form-group">
+        <label>Assigned Plant</label>
+        <input type="text" id="login-plant-preview" class="search-input" value="HMSI Narsapur Plant 1" disabled style="background:#f1f5f9;">
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button class="btn-wms-secondary" onclick="closeModal('modal-login')">Cancel</button>
+      <button class="btn-wms-primary" onclick="performUserLogin()">Log In / Switch</button>
+    </div>
   </div>
 </div>
 

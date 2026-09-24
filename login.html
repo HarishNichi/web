@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — HMSIL WMS Honda Motorcycle & Scooter India</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/wmsStyle.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-family: var(--font-sans);
+    }
+    .login-card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      width: 100%;
+      max-width: 440px;
+      padding: 36px 32px;
+      box-sizing: border-box;
+      border: 1px solid #334155;
+    }
+    .login-brand-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #2563eb 0%, #0284c7 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 26px;
+      font-weight: 800;
+      margin: 0 auto 16px auto;
+      box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+    }
+    .login-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .login-subtitle {
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .login-field {
+      margin-bottom: 16px;
+    }
+    .login-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .login-field input, .login-field select {
+      width: 100%;
+      height: 42px;
+      padding: 8px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: #0f172a;
+      background: #ffffff;
+      box-sizing: border-box;
+      outline: none;
+      transition: all 0.15s ease;
+    }
+    .login-field input:focus, .login-field select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .btn-login-submit {
+      width: 100%;
+      height: 44px;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 22px;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .btn-login-submit:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .login-footer-info {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <div class="login-brand-icon">H</div>
+    <div class="login-title">HMSIL Manufacturing WMS</div>
+    <div class="login-subtitle">Narsapur Plants 1 & 2 • Single Sign-On Portal</div>
+
+    <form onsubmit="handleLoginSubmit(event)">
+      <div class="login-field">
+        <label>Operator / User Profile</label>
+        <select id="login-user" onchange="onUserChange(this.value)">
+          <option value="HND-USR-1001">Rajesh Sharma — Warehouse Manager (Plant 1 & 2)</option>
+          <option value="HND-USR-1002">Suresh Kumar — Receiving Supervisor (Plant 1)</option>
+          <option value="HND-USR-1003">Amit Patel — Line Feeding Lead (Line 1 & 2)</option>
+          <option value="HND-USR-1004">Priya Nair — Quality / QC Inspector (Plant 2)</option>
+          <option value="HND-USR-1005">K. S. Narayanan — Supplier Logistics Rep</option>
+        </select>
+      </div>
+
+      <div class="login-field">
+        <label>Assigned Plant</label>
+        <input type="text" id="login-plant" value="HMSI Narsapur Plant 1 (Scooter Division)" disabled style="background:#f8fafc; color:#64748b;">
+      </div>
+
+      <div class="login-field">
+        <label>Password / PIN</label>
+        <input type="password" id="login-pin" value="4821" required placeholder="Enter 4-digit PIN or SAP password">
+      </div>
+
+      <button type="submit" class="btn-login-submit">
+        <span>🔐</span> Sign In to Control Tower
+      </button>
+    </form>
+
+    <div class="login-footer-info">
+      Honda Motorcycle & Scooter India Pvt. Ltd. (HMSIL)<br>
+      Connected to SAP S/4HANA Enterprise ERP • Version 5.2.0
+    </div>
+  </div>
+
+  <script src="js/wmsData.js"></script>
+  <script>
+    function onUserChange(val) {
+      const p = document.getElementById('login-plant');
+      if (val === 'HND-USR-1001') p.value = 'HMSI Narsapur Plant 1 & 2 (Manager)';
+      else if (val === 'HND-USR-1002') p.value = 'HMSI Narsapur Plant 1 (Scooter Division)';
+      else if (val === 'HND-USR-1003') p.value = 'HMSI Narsapur Plant 1 (Assembly Lines 1-3)';
+      else if (val === 'HND-USR-1004') p.value = 'HMSI Narsapur Plant 2 (Motorcycle Division)';
+      else if (val === 'HND-USR-1005') p.value = 'Vendor Logistics Hub (Nissin / Showa)';
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const userId = document.getElementById('login-user').value;
+      const state = typeof loadWMSState === 'function' ? loadWMSState() : null;
+      if (state && state.userMaster) {
+        const found = state.userMaster.find(u => u.userId === userId);
+        if (found) {
+          state.currentUser = {
+            userId: found.userId,
+            name: found.name,
+            role: found.role,
+            roleTitle: found.roleTitle || found.role,
+            plant: found.assignedPlant,
+            approvalLimit: found.approvalLimit || 100000,
+            handheldPin: found.handheldPin || '4821',
+            status: found.status || 'ACTIVE'
+          };
+          saveWMSState(state);
+        }
+      }
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
