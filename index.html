@@ -30,7 +30,7 @@
         </div>
         <div class="nav-group-items">
           <a class="nav-link active" data-view="dashboard" onclick="showWmsView('dashboard')">
-            <span class="nav-icon">📊</span> Overview KPI Board
+            <span class="nav-icon">📊</span> Overview
           </a>
         </div>
       </div>
@@ -74,10 +74,10 @@
         </div>
         <div class="nav-group-items">
           <a class="nav-link" data-view="putaway" onclick="showWmsView('putaway')">
-            <span class="nav-icon">📥</span> Putaway Tasks
+            <span class="nav-icon">📥</span> PutAway
           </a>
           <a class="nav-link" data-view="inventory" onclick="showWmsView('inventory')">
-            <span class="nav-icon">🏢</span> Stock by Bin (Inventory)
+            <span class="nav-icon">🏢</span> Bin Inventory
           </a>
           <a class="nav-link" data-view="cyclecount" onclick="showWmsView('cyclecount')">
             <span class="nav-icon">📋</span> Cycle Count & Adjustment
@@ -105,13 +105,13 @@
             <span class="nav-icon">📑</span> Issue List (Shift N1)
           </a>
           <a class="nav-link" data-view="pickingMonitor" onclick="showWmsView('pickingMonitor')">
-            <span class="nav-icon">🛒</span> Picking Monitor
+            <span class="nav-icon">🛒</span> Picking
           </a>
           <a class="nav-link" data-view="issueToLine" onclick="showWmsView('issueToLine')">
-            <span class="nav-icon">🏭</span> Issue to Line (Mvt 261)
+            <span class="nav-icon">🏭</span> Issue to Line
           </a>
           <a class="nav-link" data-view="returnsFromLine" onclick="showWmsView('returnsFromLine')">
-            <span class="nav-icon">🔄</span> Returns from Line (Mvt 262)
+            <span class="nav-icon">🔄</span> Returns from Line
           </a>
         </div>
       </div>
@@ -164,7 +164,7 @@
         </div>
         <div class="nav-group-items">
           <a class="nav-link" data-view="sapSync" onclick="showWmsView('sapSync')">
-            <span class="nav-icon">🔄</span> SAP Interface Monitor
+            <span class="nav-icon">🔄</span> SAP Sync
           </a>
           <a class="nav-link" data-view="audit" onclick="showWmsView('audit')">
             <span class="nav-icon">🛡️</span> Audit Trail
@@ -554,7 +554,7 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Receiving Progress Monitor</h3>
+              <h3>Receiving</h3>
               <p>Live Inbound Scans • Good / Damaged / Short Breakdown • MRN Trigger</p>
             </div>
             <div class="card-action-group">
@@ -569,6 +569,7 @@
               <thead>
                 <tr>
                   <th>Receiving Batch</th>
+                  <th>PO Number</th>
                   <th>ASN / Truck No</th>
                   <th>Material</th>
                   <th>Expected</th>
@@ -710,7 +711,7 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Putaway Tasks</h3>
+              <h3>PutAway</h3>
               <p>System-Recommended Bin Allocation • High-Density Racking Routing</p>
             </div>
             <div class="card-action-group">
@@ -747,13 +748,10 @@
       <!-- STOCK BY BIN (INVENTORY) -->
       <!-- ========================================================= -->
       <section id="wms-view-inventory" class="wms-view">
-        <!-- Top Material Stock Summary Cards -->
-        <div class="material-stock-summary-grid" id="material-stock-summary-grid"></div>
-
-        <div class="wms-card" style="margin-top:16px;">
+        <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Stock by Bin (Inventory)</h3>
+              <h3>Bin Inventory</h3>
               <p>Real-time Bin-level Stock • Batch Management • Status Allocation</p>
             </div>
             <div class="card-action-group">
@@ -912,9 +910,6 @@
               <button class="btn-wms-primary" onclick="window.print()">
                 <span>📄</span> Export PDF Report
               </button>
-              <button class="btn-wms-secondary" onclick="sendTestReportEmail()">
-                <span>✉️</span> Email Scheduled Report
-              </button>
             </div>
           </div>
 
@@ -1020,7 +1015,7 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Picking Monitor</h3>
+              <h3>Picking</h3>
               <p>Live Forklift & Cart Picking Progress • Short Pick Handling • FIFO Adherence</p>
             </div>
             <div class="card-action-group">
@@ -1059,7 +1054,7 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Issue to Line • SAP Movement 261</h3>
+              <h3>Issue to Line</h3>
               <p>Line Delivery Verification • Staging Buffers • SAP Goods Issue Document</p>
             </div>
             <div class="card-action-group">
@@ -1099,7 +1094,7 @@
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>Returns from Line • SAP Movement 262</h3>
+              <h3>Returns from Line</h3>
               <p>Defect Returns & Surplus Stock • Quarantine Putaway • SAP Reversal</p>
             </div>
             <div class="card-action-group">
@@ -1509,12 +1504,12 @@
       <!-- ========================================================= -->
       <!-- SYSTEM ADMINISTRATION SCREENS -->
       <!-- ========================================================= -->
-      <!-- SAP Interface Monitor -->
+      <!-- SAP Sync -->
       <section id="wms-view-sapSync" class="wms-view">
         <div class="wms-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h3>SAP Interface Monitor</h3>
+              <h3>SAP Sync</h3>
               <p>RFC / IDoc / BAPI Messages • Retry Queue • Daily Stock Reconciliation</p>
             </div>
             <div class="card-action-group">

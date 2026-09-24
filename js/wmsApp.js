@@ -362,6 +362,10 @@ function renderPOTable() {
     pos = pos.filter(p => p.poNumber.toLowerCase().includes(search) || p.supplier.toLowerCase().includes(search) || p.materialCode.toLowerCase().includes(search));
   }
 
+  // Sort POs: Status 'Open' comes first
+  const statusPriority = { 'Open': 1, 'Partially received': 2, 'Fully received': 3, 'Closed': 4 };
+  pos.sort((a, b) => (statusPriority[a.status] || 99) - (statusPriority[b.status] || 99));
+
   tbody.innerHTML = pos.map(p => `
     <tr>
       <td><b style="font-family:var(--font-mono); color:#2563eb;">${p.poNumber}</b> <span class="badge-sap">SAP</span></td>
@@ -731,6 +735,7 @@ function renderReceivingMonitor() {
     tbody.innerHTML = batches.map(b => `
       <tr>
         <td><b style="font-family:var(--font-mono); color:#2563eb;">${b.receivingId}</b></td>
+        <td><b style="font-family:var(--font-mono);">${b.poNumber || 'PO-HND-2026-00501'}</b></td>
         <td><b>${b.asnNumber}</b><br><span style="font-family:var(--font-mono); font-size:11px; color:#64748b;">${b.vehicleNo}</span></td>
         <td><b>${b.materialCode}</b></td>
         <td><b>${b.expectedQty}</b></td>
@@ -1122,7 +1127,7 @@ function renderCycleCountScreen() {
           </thead>
           <tbody>
             ${p.lines.map(l => `
-              <tr style="background:${l.isOutsideTolerance ? '#fff5f5' : '#ffffff'};">
+              <tr style="background:${l.isOutsideTolerance ? '#fff5f5' : '#ffffff'}; cursor:pointer;" onclick="openCycleCountLineDetails('${p.countNo}', ${l.lineId})">
                 <td><b style="font-family:var(--font-mono); color:#0f172a;">${l.bin}</b></td>
                 <td><b>${l.materialCode}</b><br><span style="font-size:11px; color:#64748b;">${l.materialDescription}</span></td>
                 <td><span style="font-family:var(--font-mono); font-size:11px;">${l.huLot}</span></td>
@@ -1138,13 +1143,16 @@ function renderCycleCountScreen() {
                 <td>${l.approvedBy}</td>
                 <td><b style="font-family:var(--font-mono); color:#2563eb;">${l.sapDocNo}</b></td>
                 <td><span class="wms-badge ${getStatusBadgeClass(l.lineStatus)}">${l.lineStatus}</span></td>
-                <td>
-                  ${l.lineStatus === 'Variance flagged' ? `
-                    <button class="btn-wms-secondary small" onclick="requestRecount('${p.countNo}', ${l.lineId})">Request Recount</button>
-                    <button class="btn-wms-primary small" onclick="acceptVariance('${p.countNo}', ${l.lineId})">Accept Variance</button>
-                  ` : l.lineStatus === 'Adjustment pending approval' ? `
-                    <button class="btn-wms-primary small" onclick="approveStockAdjustment('${p.countNo}', ${l.lineId})">Approve Adjustment</button>
-                  ` : ''}
+                <td onclick="event.stopPropagation()">
+                  <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                    <button class="btn-wms-secondary small" onclick="openEditCountModal('${p.countNo}', ${l.lineId})">✏️ Edit Count</button>
+                    ${l.lineStatus === 'Variance flagged' ? `
+                      <button class="btn-wms-secondary small" onclick="requestRecount('${p.countNo}', ${l.lineId})">Recount</button>
+                      <button class="btn-wms-primary small" onclick="acceptVariance('${p.countNo}', ${l.lineId})">Accept</button>
+                    ` : l.lineStatus === 'Adjustment pending approval' ? `
+                      <button class="btn-wms-primary small" onclick="approveStockAdjustment('${p.countNo}', ${l.lineId})">Approve</button>
+                    ` : ''}
+                  </div>
                 </td>
               </tr>
             `).join('')}
@@ -1239,6 +1247,122 @@ function submitCreateCycleCount() {
   closeModal('modal-dynamic-form');
   renderCycleCountScreen();
   alert(`Cycle Count Plan ${countNo} released to Handheld Scanners!`);
+}
+
+function openCycleCountLineDetails(countNo, lineId) {
+  const plan = window.wms.cycleCountPlans.find(p => p.countNo === countNo);
+  if (!plan) return;
+  const line = plan.lines.find(l => l.lineId === lineId);
+  if (!line) return;
+
+  const content = `
+    <div style="display:flex; flex-direction:column; gap:12px; font-size:13px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
+        <div><b>Count Plan:</b> <span style="font-family:var(--font-mono); color:#2563eb;">${plan.countNo}</span></div>
+        <div><b>Plan Status:</b> <span class="wms-badge ${getStatusBadgeClass(plan.status)}">${plan.status}</span></div>
+        <div><b>Warehouse Zone:</b> ${plan.zone}</div>
+        <div><b>Assigned Counter:</b> ${plan.counter}</div>
+        <div><b>ABC Velocity:</b> Class ${plan.abcClass}</div>
+        <div><b>Blind Count:</b> ${plan.blindCount ? 'Yes (Scanner Blind)' : 'No'}</div>
+      </div>
+
+      <div style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <h4 style="margin:0 0 8px 0; font-size:13px; color:#0f172a;">📦 Material & Count Line Breakdown</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div><b>Bin Location:</b> <span style="font-family:var(--font-mono); color:#2563eb;">${line.bin}</span></div>
+          <div><b>Material Code:</b> <b>${line.materialCode}</b></div>
+          <div style="grid-column: span 2;"><b>Description:</b> ${line.materialDescription}</div>
+          <div style="grid-column: span 2;"><b>HU / Lot Reference:</b> <span style="font-family:var(--font-mono);">${line.huLot}</span></div>
+          <div><b>System Quantity:</b> <span style="font-weight:700;">${line.systemQty}</span></div>
+          <div><b>Physically Counted:</b> <span style="font-weight:700; color:#0f172a;">${line.countedQty}</span></div>
+          <div><b>Variance Quantity:</b> <span class="tolerance-badge ${line.isOutsideTolerance ? 'tolerance-red' : 'tolerance-green'}">${line.varianceQty > 0 ? '+' : ''}${line.varianceQty} (${line.variancePct}%)</span></div>
+          <div><b>Line Status:</b> <span class="wms-badge ${getStatusBadgeClass(line.lineStatus)}">${line.lineStatus}</span></div>
+          <div><b>Reason Code:</b> ${line.reasonCode || '—'}</div>
+          <div><b>SAP Doc No:</b> <span style="font-family:var(--font-mono); font-weight:700;">${line.sapDocNo || '—'}</span></div>
+          <div><b>Approved By:</b> ${line.approvedBy || '—'}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  openDynamicModal(`Cycle Count Details • ${line.materialCode} (${line.bin})`, content, `
+    <button class="btn-wms-secondary" onclick="closeModal('modal-dynamic-form')">Close</button>
+    <button class="btn-wms-primary" onclick="closeModal('modal-dynamic-form'); openEditCountModal('${countNo}', ${lineId});">✏️ Update Count</button>
+  `);
+}
+
+function openEditCountModal(countNo, lineId) {
+  const plan = window.wms.cycleCountPlans.find(p => p.countNo === countNo);
+  if (!plan) return;
+  const line = plan.lines.find(l => l.lineId === lineId);
+  if (!line) return;
+
+  const content = `
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="background:#f8fafc; padding:10px; border-radius:6px; border:1px solid #e2e8f0; font-size:12.5px;">
+        <div><b>Material:</b> ${line.materialCode} - ${line.materialDescription}</div>
+        <div><b>Location:</b> <span style="font-family:var(--font-mono); color:#2563eb;">${line.bin}</span> | <b>System Qty:</b> ${line.systemQty}</div>
+      </div>
+
+      <div class="wms-form-group">
+        <label>Physical Counted Quantity*</label>
+        <input type="number" id="edit-counted-qty" class="search-input" value="${line.countedQty}" style="width:100%;">
+      </div>
+
+      <div class="wms-form-group">
+        <label>Variance Reason Code (if different from System)</label>
+        <select class="select-filter" id="edit-reason-code" style="width:100%;">
+          <option value="COUNT-VAR-GAIN" ${line.reasonCode === 'COUNT-VAR-GAIN' ? 'selected' : ''}>COUNT-VAR-GAIN (Physical Surplus / Found Stock)</option>
+          <option value="COUNT-VAR-SHRINK" ${line.reasonCode === 'COUNT-VAR-SHRINK' ? 'selected' : ''}>COUNT-VAR-SHRINK (Physical Shrinkage / Missing)</option>
+          <option value="DAMAGE-TRANSIT" ${line.reasonCode === 'DAMAGE-TRANSIT' ? 'selected' : ''}>DAMAGE-TRANSIT (Damaged Packaging)</option>
+          <option value="—" ${line.reasonCode === '—' ? 'selected' : ''}>— (No Discrepancy)</option>
+        </select>
+      </div>
+
+      <div class="wms-form-group">
+        <label>Operator / Supervisor Notes</label>
+        <input type="text" id="edit-count-notes" class="search-input" placeholder="e.g., Recount verified by supervisor" style="width:100%;">
+      </div>
+    </div>
+  `;
+
+  openDynamicModal(`Edit Physical Count • ${plan.countNo} (Line #${lineId})`, content, `
+    <button class="btn-wms-secondary" onclick="closeModal('modal-dynamic-form')">Cancel</button>
+    <button class="btn-wms-primary" onclick="saveCountUpdate('${countNo}', ${lineId})">Save & Recalculate</button>
+  `);
+}
+
+function saveCountUpdate(countNo, lineId) {
+  const plan = window.wms.cycleCountPlans.find(p => p.countNo === countNo);
+  if (!plan) return;
+  const line = plan.lines.find(l => l.lineId === lineId);
+  if (!line) return;
+
+  const newQty = parseInt(document.getElementById('edit-counted-qty').value, 10);
+  if (isNaN(newQty) || newQty < 0) {
+    alert('Please enter a valid count quantity.');
+    return;
+  }
+
+  const reasonCode = document.getElementById('edit-reason-code').value;
+  const varianceQty = newQty - line.systemQty;
+  const variancePct = line.systemQty > 0 ? ((varianceQty / line.systemQty) * 100).toFixed(1) : 0;
+  const isOutsideTolerance = Math.abs(varianceQty) > 0;
+
+  line.countedQty = newQty;
+  line.varianceQty = varianceQty;
+  line.variancePct = variancePct;
+  line.isOutsideTolerance = isOutsideTolerance;
+  line.reasonCode = reasonCode;
+  line.adjustmentQty = varianceQty;
+  line.lineStatus = isOutsideTolerance ? 'Variance flagged' : 'Counted';
+
+  addAuditLog('Cycle Count Updated', `${countNo}-L${lineId}`, `${line.systemQty}`, `Manual count edit to ${newQty}. Variance: ${varianceQty}`);
+  saveWMSState(window.wms);
+
+  closeModal('modal-dynamic-form');
+  renderCycleCountScreen();
+  alert(`Count updated to ${newQty} for ${line.materialCode}. Variance recalculated.`);
 }
 
 function renderFifoAgingView() {
