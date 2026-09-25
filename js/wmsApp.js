@@ -3173,23 +3173,62 @@ function openPrintPreview(type, refId) {
   if (!modal || !content) return;
 
   if (type === 'HU' || type === 'MAT') {
-    title.textContent = `🖨️ Zebra Industrial Pallet / HU Label (100 x 150 mm)`;
+    let asn = (window.wms.asns || []).find(a => a.asnNumber === refId);
+    let mat = (window.wms.materials || []).find(m => m.code === (asn ? asn.materialCode : refId));
+    
+    // Default fallback values if opened directly or via test preview
+    const matCode = asn ? asn.materialCode : (mat ? mat.code : 'HND-BRK-PAD-01');
+    const matDesc = asn ? asn.materialDescription : (mat ? mat.description : 'Nissin Front Disc Brake Pad Set');
+    const supplierName = asn ? asn.supplier : 'Nissin Brakes India Pvt Ltd';
+    const poNumber = asn ? asn.poNumber : 'PO-HND-2026-00501';
+    const totalQty = asn ? asn.shippedQty : 600;
+    const boxCount = asn ? (asn.noOfPallets || 6) : 6;
+    const plantName = asn && asn.plant ? asn.plant.toUpperCase() : 'NARSAPUR PLANT 1';
+    const uom = mat ? mat.unit : 'EA';
+    
+    // Calculate per-box quantity evenly
+    const qtyPerBox = Math.round(totalQty / boxCount);
+    const shortPrefix = matCode.replace(/[^A-Z0-9]/g, '').substring(3, 7) || 'HU';
+
+    title.textContent = `🖨️ Zebra Industrial Pallet / HU Labels (${boxCount} Boxes • ${totalQty} ${uom} Total)`;
+    
+    let labelsHtml = '';
+    for (let i = 1; i <= boxCount; i++) {
+      const boxQty = (i === boxCount) ? (totalQty - qtyPerBox * (boxCount - 1)) : qtyPerBox;
+      const huNumber = `HU-${shortPrefix}-2026-${String(100 + i).padStart(5, '0')}`;
+      const batchNumber = `BAT-${shortPrefix}-09-24`;
+
+      labelsHtml += `
+        <div class="label-preview-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0f172a; padding-bottom:6px; margin-bottom:8px;">
+            <h2 style="font-size:17px; font-weight:800; color:#0f172a; margin:0;">HONDA HMSI</h2>
+            <div style="text-align:right;">
+              <span style="font-size:10px; font-weight:700; color:#475569; display:block;">${plantName}</span>
+              <span style="font-size:11px; font-weight:800; color:#2563eb;">BOX ${i} OF ${boxCount}</span>
+            </div>
+          </div>
+          <div style="font-size:11px; margin-bottom:3px; color:#64748b;">MATERIAL CODE:</div>
+          <div style="font-size:14px; font-weight:800; color:#0f172a; font-family:var(--font-mono); margin-bottom:2px;">${matCode}</div>
+          <div style="font-size:12px; font-weight:600; color:#334155; margin-bottom:10px; line-height:1.3;">${matDesc}</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:11.5px; border-top:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0; padding:8px 0; margin-bottom:8px;">
+            <div>BOX QTY: <b style="font-size:16px; color:#0f172a;">${boxQty} ${uom}</b></div>
+            <div>BATCH: <b style="font-family:var(--font-mono);">${batchNumber}</b></div>
+            <div>PO NO: <b style="font-family:var(--font-mono);">${poNumber}</b></div>
+            <div>SUPPLIER: <b>${supplierName.split(' ')[0]} ${supplierName.split(' ')[1] || ''}</b></div>
+          </div>
+          <div class="barcode-strip">||| | ||||| || ||||| |||</div>
+          <div style="text-align:center; font-size:12px; font-weight:700; font-family:var(--font-mono); color:#0f172a;">${huNumber}</div>
+        </div>
+      `;
+    }
+
     content.innerHTML = `
-      <div class="label-preview-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0f172a; padding-bottom:6px; margin-bottom:8px;">
-          <h2 style="font-size:18px; font-weight:800; color:#0f172a;">HONDA HMSI</h2>
-          <span style="font-size:11px; font-weight:700;">NARSAPUR PLANT 1</span>
-        </div>
-        <div style="font-size:11px; margin-bottom:4px;">MATERIAL: <b style="font-size:13px;">HND-BRK-PAD-01</b></div>
-        <div style="font-size:12px; font-weight:600; color:#334155; margin-bottom:8px;">Nissin Front Disc Brake Pad Set</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:11px; border-top:1px solid #e2e8f0; padding-top:6px;">
-          <div>QTY: <b style="font-size:16px;">100 EA</b></div>
-          <div>BATCH: <b>BAT-NIS-09-24</b></div>
-          <div>PO: <b>PO-2026-00501</b></div>
-          <div>SUPPLIER: <b>Nissin Brakes</b></div>
-        </div>
-        <div class="barcode-strip">||| | ||||| || ||||| |||</div>
-        <div style="text-align:center; font-size:12px; font-weight:700; font-family:var(--font-mono);">HU-BRK-2026-00101</div>
+      <div style="margin-bottom:12px; padding:8px 12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:6px; font-size:12px; color:#1e40af; display:flex; justify-content:space-between; align-items:center;">
+        <span>📦 Manifest contains <b>${boxCount} Handling Unit (HU) Boxes</b> (Total <b>${totalQty.toLocaleString()} ${uom}</b>)</span>
+        <span style="font-weight:700;">Print Ready • 100 × 150 mm Thermal</span>
+      </div>
+      <div class="labels-grid-container">
+        ${labelsHtml}
       </div>
     `;
   } else if (type === 'BIN') {

@@ -2162,14 +2162,27 @@ table.wms-table td {
 }
 
 /* Printable Document Templates */
+.labels-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 4px 0;
+}
+
 .label-preview-card {
   border: 2px solid #0f172a;
   padding: 16px;
   font-family: var(--font-sans);
   background: #ffffff;
   border-radius: 4px;
-  max-width: 400px;
+  max-width: 440px;
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  page-break-after: always;
+  break-after: page;
 }
 
 .barcode-strip {
@@ -2182,3 +2195,46 @@ table.wms-table td {
   background: #0f172a;
   color: #ffffff;
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #modal-label-print,
+  #modal-label-print .wms-modal-window,
+  #modal-label-print .modal-body,
+  #print-modal-content,
+  #print-modal-content * {
+    visibility: visible;
+  }
+  #modal-label-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+  }
+  .wms-modal-window {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    max-height: none !important;
+  }
+  .modal-header,
+  .modal-footer {
+    display: none !important;
+  }
+  .labels-grid-container {
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+  .label-preview-card {
+    page-break-after: always !important;
+    break-after: page !important;
+    margin-bottom: 20px !important;
+  }
+}
+
