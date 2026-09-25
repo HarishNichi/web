@@ -368,7 +368,10 @@ function renderPOTable() {
 
   tbody.innerHTML = pos.map(p => `
     <tr>
-      <td><b style="font-family:var(--font-mono); color:#2563eb;">${p.poNumber}</b> <span class="badge-sap">SAP</span></td>
+      <td>
+        <b style="font-family:var(--font-mono); color:#2563eb;">${p.poNumber}</b>
+        <span class="badge-sap">SAP</span>
+      </td>
       <td><b>${p.supplier}</b></td>
       <td>${p.plant}</td>
       <td><b>${p.materialCode}</b><br><span style="font-size:11px; color:#64748b;">${p.materialDescription}</span></td>
@@ -387,15 +390,16 @@ function renderPOTable() {
 
 function refreshPoFromSap() {
   window.wms.lastSapSyncTime = new Date().toLocaleTimeString();
-  addAuditLog('SAP PO Synchronization', 'PO-HND-2026-00501', 'Sync Check', 'Successfully refreshed PO schedule lines from SAP S/4HANA (200 OK)');
+  addAuditLog('SAP PO Synchronization', 'PO-HND-2026-00600', 'Sync Check', 'Successfully refreshed PO schedule lines from SAP S/4HANA (200 OK)');
   saveWMSState(window.wms);
   renderPOTable();
   alert('Purchase Orders refreshed from SAP S/4HANA. All schedule lines up to date.');
 }
 
 function openPoDrillDownModal(poNo) {
-  const po = window.wms.purchaseOrders.find(p => p.poNumber === poNo);
-  if (!po) return;
+  const poLines = window.wms.purchaseOrders.filter(p => p.poNumber === poNo);
+  if (!poLines.length) return;
+  const mainPo = poLines[0];
 
   const linkedAsns = window.wms.asns.filter(a => a.poNumber === poNo);
   const linkedMrns = window.wms.mrns.filter(m => m.poNumber === poNo);
@@ -403,19 +407,33 @@ function openPoDrillDownModal(poNo) {
 
   const content = `
     <div style="font-size:13px; color:#0f172a; margin-bottom:16px;">
-      <h4>PO Summary: ${po.poNumber}</h4>
-      <p style="color:#64748b;">Supplier: <b>${po.supplier}</b> • Material: <b>${po.materialCode} (${po.materialDescription})</b></p>
-      <p>Ordered: <b>${po.orderedQty} ${po.uom}</b> | ASN Shipped: <b>${po.asnQty}</b> | Received: <b>${po.receivedQty}</b> | Open: <b>${po.openQty}</b></p>
+      <h4>PO Summary: ${mainPo.poNumber}</h4>
+      <p style="color:#64748b;">Supplier: <b>${mainPo.supplier}</b> • Plant: <b>${mainPo.plant}</b></p>
+    </div>
+
+    <h5 style="font-size:12.5px; margin:12px 0 6px 0; color:#475569;">Ordered Parts (${poLines.length} Part${poLines.length > 1 ? 's' : ''})</h5>
+    <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:16px;">
+      ${poLines.map(line => `
+        <div style="padding:8px 12px; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <b>${line.materialCode} - ${line.materialDescription}</b>
+            <span class="wms-badge ${getStatusBadgeClass(line.status)}" style="font-size:10px;">${line.status}</span>
+          </div>
+          <div style="color:#475569; font-size:11.5px;">
+            Ordered: <b>${line.orderedQty} ${line.uom}</b> | ASN Shipped: <b>${line.asnQty}</b> | Received: <b>${line.receivedQty}</b> | Open: <b style="color:${line.openQty > 0 ? '#ea580c' : '#059669'};">${line.openQty}</b>
+          </div>
+        </div>
+      `).join('')}
     </div>
 
     <h5 style="font-size:12.5px; margin:12px 0 6px 0; color:#2563eb;">Linked ASNs (${linkedAsns.length})</h5>
-    ${linkedAsns.map(a => `<div style="padding:6px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; margin-bottom:4px; font-size:12px;"><b>${a.asnNumber}</b> • Qty: ${a.shippedQty} • Vehicle: ${a.vehicleNo} • Status: <b>${a.status}</b></div>`).join('') || '<div style="color:#94a3b8; font-size:11px;">No ASNs found</div>'}
+    ${linkedAsns.map(a => `<div style="padding:6px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; margin-bottom:4px; font-size:12px;"><b>${a.asnNumber}</b> • Material: <b>${a.materialCode}</b> • Qty: ${a.shippedQty} • Vehicle: ${a.vehicleNo} • Status: <b>${a.status}</b></div>`).join('') || '<div style="color:#94a3b8; font-size:11px;">No ASNs found</div>'}
 
     <h5 style="font-size:12.5px; margin:12px 0 6px 0; color:#ea580c;">Linked MRNs (${linkedMrns.length})</h5>
-    ${linkedMrns.map(m => `<div style="padding:6px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; margin-bottom:4px; font-size:12px;"><b>${m.mrnNumber}</b> • Good: ${m.goodQty} | Damaged: ${m.damagedQty} | Short: ${m.shortQty} • Status: <b>${m.status}</b></div>`).join('') || '<div style="color:#94a3b8; font-size:11px;">No MRNs found</div>'}
+    ${linkedMrns.map(m => `<div style="padding:6px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; margin-bottom:4px; font-size:12px;"><b>${m.mrnNumber}</b> • Material: <b>${m.materialCode}</b> • Good: ${m.goodQty} | Damaged: ${m.damagedQty} | Short: ${m.shortQty} • Status: <b>${m.status}</b></div>`).join('') || '<div style="color:#94a3b8; font-size:11px;">No MRNs found</div>'}
 
     <h5 style="font-size:12.5px; margin:12px 0 6px 0; color:#059669;">Linked Goods Receipts (GRN) (${linkedGrns.length})</h5>
-    ${linkedGrns.map(g => `<div style="padding:6px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; margin-bottom:4px; font-size:12px;"><b>${g.grnNumber}</b> • Accepted: ${g.acceptedQuantity} • SAP Doc: <b>${g.sapMaterialDocNo}</b> (${g.sapStatus})</div>`).join('') || '<div style="color:#94a3b8; font-size:11px;">No GRNs posted yet</div>'}
+    ${linkedGrns.map(g => `<div style="padding:6px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; margin-bottom:4px; font-size:12px;"><b>${g.grnNumber}</b> • Material: <b>${g.materialCode}</b> • Accepted: ${g.acceptedQuantity} • SAP Doc: <b>${g.sapMaterialDocNo}</b> (${g.sapStatus})</div>`).join('') || '<div style="color:#94a3b8; font-size:11px;">No GRNs posted yet</div>'}
   `;
 
   openDynamicModal(`Linked Documents for ${poNo}`, content, `<button class="btn-wms-primary" onclick="closeModal('modal-dynamic-form')">Close</button>`);
@@ -463,9 +481,9 @@ function openCreateAsnModal() {
   const content = `
     <div style="display:flex; flex-direction:column; gap:12px;">
       <div class="wms-form-group">
-        <label>Select Open Purchase Order*</label>
+        <label>Select Open Purchase Order & Part*</label>
         <select class="select-filter" id="asn-po-select" style="width:100%;" onchange="onAsnPoSelected(this.value)">
-          ${openPos.map(p => `<option value="${p.poNumber}">${p.poNumber} - ${p.materialCode} (Open: ${p.openQty})</option>`).join('')}
+          ${openPos.map(p => `<option value="${p.poNumber}::${p.materialCode}">${p.poNumber} - ${p.materialCode} (${p.materialDescription}) [Open: ${p.openQty} ${p.uom}]</option>`).join('')}
         </select>
       </div>
       <div class="wms-form-group">
@@ -493,9 +511,24 @@ function openCreateAsnModal() {
   `);
 }
 
+function onAsnPoSelected(val) {
+  const [poNo, matCode] = val.split('::');
+  const po = window.wms.purchaseOrders.find(p => p.poNumber === poNo && (!matCode || p.materialCode === matCode));
+  if (po) {
+    const qtyInput = document.getElementById('asn-shipped-qty');
+    if (qtyInput) {
+      qtyInput.value = po.openQty;
+      qtyInput.max = po.openQty;
+    }
+  }
+}
+
 function submitCreateAsn() {
-  const poNo = document.getElementById('asn-po-select').value;
-  const po = window.wms.purchaseOrders.find(p => p.poNumber === poNo);
+  const val = document.getElementById('asn-po-select').value;
+  const [poNo, matCode] = val.split('::');
+  const po = window.wms.purchaseOrders.find(p => p.poNumber === poNo && (!matCode || p.materialCode === matCode));
+  if (!po) return;
+
   const qty = parseInt(document.getElementById('asn-shipped-qty').value) || 0;
   const boxes = parseInt(document.getElementById('asn-pallet-count').value) || 1;
   const vehicle = document.getElementById('asn-vehicle-no').value;
@@ -509,7 +542,7 @@ function submitCreateAsn() {
   const asnNo = `ASN-HND-2026-${String(window.wms.asns.length + 450).padStart(5, '0')}`;
   const newAsn = {
     asnNumber: asnNo,
-    poNumber: poNo,
+    poNumber: po.poNumber,
     supplier: po.supplier,
     materialCode: po.materialCode,
     materialDescription: po.materialDescription,
@@ -526,7 +559,7 @@ function submitCreateAsn() {
 
   po.asnQty += qty;
   window.wms.asns.unshift(newAsn);
-  addAuditLog('ASN Created from PO', asnNo, 'Expected', `Created ASN for ${qty} EA of ${po.materialCode} (PO: ${poNo})`);
+  addAuditLog('ASN Created from PO', asnNo, 'Expected', `Created ASN for ${qty} ${po.uom} of ${po.materialCode} (PO: ${po.poNumber})`);
   saveWMSState(window.wms);
 
   closeModal('modal-dynamic-form');

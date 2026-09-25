@@ -2,7 +2,7 @@
 // Enterprise Data Model, Master State & Demo Flow Engine
 // Aligned to HMSIL WMS Screen & Functional Specification
 
-const WMS_STORAGE_KEY = 'HONDA_HMSI_WMS_STATE_V7_OVERSTOCK';
+const WMS_STORAGE_KEY = 'HONDA_HMSI_WMS_STATE_V8_MULTIPART_PO';
 
 const WMS_DEFAULT_STATE = {
   activePlant: 'All',
@@ -265,6 +265,54 @@ const WMS_DEFAULT_STATE = {
   // 3. INBOUND MODULE STATE & DEMO WALKTHROUGH (B1 - B8)
   // -------------------------------------------------------------
   purchaseOrders: [
+    {
+      poNumber: 'PO-HND-2026-00600',
+      supplier: 'Keihin India Electronics Pvt Ltd',
+      plant: 'HMSI Narsapur Plant 1',
+      materialCode: 'HND-THROT-KEIHIN',
+      materialDescription: 'Keihin PGM-FI 26mm Throttle Body Assembly',
+      orderedQty: 600,
+      asnQty: 300,
+      receivedQty: 300,
+      openQty: 300,
+      uom: 'EA',
+      deliveryDate: '25-Sep-2026',
+      status: 'Partially received',
+      isSapOwned: true,
+      lastSync: '24-Sep-2026 08:00'
+    },
+    {
+      poNumber: 'PO-HND-2026-00600',
+      supplier: 'Keihin India Electronics Pvt Ltd',
+      plant: 'HMSI Narsapur Plant 1',
+      materialCode: 'HND-ECU-KEIHIN-01',
+      materialDescription: 'Keihin Master Engine Control Unit (ECU) OBD2',
+      orderedQty: 400,
+      asnQty: 0,
+      receivedQty: 0,
+      openQty: 400,
+      uom: 'EA',
+      deliveryDate: '25-Sep-2026',
+      status: 'Open',
+      isSapOwned: true,
+      lastSync: '24-Sep-2026 08:00'
+    },
+    {
+      poNumber: 'PO-HND-2026-00600',
+      supplier: 'Keihin India Electronics Pvt Ltd',
+      plant: 'HMSI Narsapur Plant 1',
+      materialCode: 'HND-CVT-BELT-BND',
+      materialDescription: 'Bando Double-Cog Reinforced V-Belt Drive',
+      orderedQty: 500,
+      asnQty: 0,
+      receivedQty: 0,
+      openQty: 500,
+      uom: 'EA',
+      deliveryDate: '26-Sep-2026',
+      status: 'Open',
+      isSapOwned: true,
+      lastSync: '24-Sep-2026 08:00'
+    },
     {
       poNumber: 'PO-HND-2026-00501',
       supplier: 'Nissin Brakes India Pvt Ltd',
