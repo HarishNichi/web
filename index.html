@@ -61,6 +61,12 @@
             <a class="nav-link" data-view="receivingMonitor" onclick="showWmsView('receivingMonitor')">
               <span class="nav-icon">📥</span> Receiving
             </a>
+            <a class="nav-link" data-view="qualityInspection" onclick="showWmsView('qualityInspection')">
+              <span class="nav-icon">🔬</span> Quality Acceptance
+            </a>
+            <a class="nav-link" data-view="rejections" onclick="showWmsView('rejections')">
+              <span class="nav-icon">🚫</span> Rejections & Quarantine <span class="badge" style="background:#fee2e2; color:#b91c1c; font-size:10px; font-weight:800; padding:1px 5px; border-radius:4px;" id="nav-rej-badge">2 BLOCKED</span>
+            </a>
             <a class="nav-link" data-view="mrn" onclick="showWmsView('mrn')">
               <span class="nav-icon">📝</span> Material Receipt (MRN)
             </a>
@@ -79,6 +85,9 @@
           <div class="nav-group-items">
             <a class="nav-link" data-view="putaway" onclick="showWmsView('putaway')">
               <span class="nav-icon">📥</span> PutAway
+            </a>
+            <a class="nav-link" data-view="partParking" onclick="showWmsView('partParking')">
+              <span class="nav-icon">🅿️</span> Part Parking Buffer
             </a>
             <a class="nav-link" data-view="inventory" onclick="showWmsView('inventory')">
               <span class="nav-icon">🏢</span> Bin Inventory
@@ -112,10 +121,16 @@
               <span class="nav-icon">🛒</span> Picking
             </a>
             <a class="nav-link" data-view="issueToLine" onclick="showWmsView('issueToLine')">
-              <span class="nav-icon">🏭</span> Issue to Line
+              <span class="nav-icon">🏭</span> Issue to Production Area
+            </a>
+            <a class="nav-link" data-view="issuanceHistory" onclick="showWmsView('issuanceHistory')">
+              <span class="nav-icon">📜</span> Part Issuance History
             </a>
             <a class="nav-link" data-view="returnsFromLine" onclick="showWmsView('returnsFromLine')">
               <span class="nav-icon">🔄</span> Returns from Line
+            </a>
+            <a class="nav-link" data-view="dispatch" onclick="showWmsView('dispatch')">
+              <span class="nav-icon">📦</span> Packing & Dispatch <span class="badge" style="background:#fef3c7; color:#92400e; font-size:9.5px; font-weight:800; padding:1px 5px; border-radius:4px;" id="nav-dispatch-badge">SCOPE TBC</span>
             </a>
           </div>
         </div>
@@ -139,6 +154,9 @@
             </a>
             <a class="nav-link" data-view="masterPlant" onclick="showWmsView('masterPlant')">
               <span class="nav-icon">🏭</span> Plant Master
+            </a>
+            <a class="nav-link" data-view="masterShop" onclick="showWmsView('masterShop')">
+              <span class="nav-icon">🏭</span> Production Area / Shop Master
             </a>
             <a class="nav-link" data-view="masterLine" onclick="showWmsView('masterLine')">
               <span class="nav-icon">⚙️</span> Production Line Master
@@ -169,7 +187,7 @@
           </div>
           <div class="nav-group-items">
             <a class="nav-link" data-view="sapSync" onclick="showWmsView('sapSync')">
-              <span class="nav-icon">🔄</span> SAP Sync
+              <span class="nav-icon">🔄</span> ERP & SAP Hub
             </a>
             <a class="nav-link" data-view="audit" onclick="showWmsView('audit')">
               <span class="nav-icon">🛡️</span> Audit Trail
@@ -230,8 +248,8 @@
         </div>
 
         <div class="topbar-right">
-          <span class="header-date-badge">📅 24-Sep-2026</span>
-          <span class="sap-status-indicator online" title="S/4HANA Active"><span class="dot"></span> SAP Synced</span>
+          <span class="header-date-badge" id="header-live-date">📅 Live</span>
+          <span class="sap-status-indicator online" id="top-erp-status-indicator" title="ERP Gateway Active" onclick="showWmsView('sapIntegration')"><span class="dot"></span> ERP Synced</span>
         </div>
       </header>
 
@@ -367,7 +385,7 @@
             <div class="card-header-bar">
               <div class="card-title-group">
                 <h3>Purchase Orders</h3>
-                <p>Direct S/4HANA PO Schedule Lines • Read-Only Synchronization</p>
+                <p>Direct ERP PO Schedule Lines • Read-Only Synchronization</p>
               </div>
               <div class="card-action-group">
                 <button class="btn-wms-secondary" onclick="refreshPoFromSap()">
@@ -581,6 +599,8 @@
                 <thead>
                   <tr>
                     <th>Receiving Batch</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
                     <th>PO Number</th>
                     <th>ASN / Truck No</th>
                     <th>Material</th>
@@ -590,6 +610,8 @@
                     <th>Short</th>
                     <th>Excess</th>
                     <th>Scan Progress</th>
+                    <th>Acceptance Status</th>
+                    <th>Accepted By</th>
                     <th>Operator & Handheld</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -660,12 +682,16 @@
                 <thead>
                   <tr>
                     <th>MRN Number</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
                     <th>PO / ASN</th>
                     <th>Supplier</th>
                     <th>Material Code & Description</th>
                     <th>ASN Qty</th>
                     <th>Good Qty</th>
                     <th>Damaged / Short</th>
+                    <th>Acceptance Status</th>
+                    <th>Accepted By</th>
                     <th>Reason Codes</th>
                     <th>Created By</th>
                     <th>Status</th>
@@ -686,7 +712,7 @@
             <div class="card-header-bar">
               <div class="card-title-group">
                 <h3>Goods Receipt (GRN) • SAP Movement 101</h3>
-                <p>Official Goods Inward Records • S/4HANA Material Document Postings</p>
+                <p>Official Goods Inward Records • ERP Material Document Postings</p>
               </div>
               <div class="card-action-group">
                 <button class="btn-wms-secondary"
@@ -701,6 +727,8 @@
                 <thead>
                   <tr>
                     <th>GRN Number</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
                     <th>Linked MRN</th>
                     <th>PO Number</th>
                     <th>Supplier</th>
@@ -713,6 +741,175 @@
                   </tr>
                 </thead>
                 <tbody id="grn-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- QUALITY ACCEPTANCE & SAP PQ CLEARANCE -->
+        <!-- ========================================================= -->
+        <section id="wms-view-qualityInspection" class="wms-view">
+          <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 16px;">
+            <div class="kpi-card">
+              <div class="kpi-title">Total Inspected Today</div>
+              <div class="kpi-value" id="kpi-qc-total">3 Lots</div>
+              <div class="kpi-subtext">Dock & High-Bay Intake</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">SAP PQ Cleared (Passed)</div>
+              <div class="kpi-value" style="color:#059669;" id="kpi-qc-passed">1 Lot</div>
+              <div class="kpi-subtext">Released for Racking Putaway</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Quarantine / On Hold</div>
+              <div class="kpi-value" style="color:#d97706;" id="kpi-qc-hold">1 Lot</div>
+              <div class="kpi-subtext">Pending Lab Test / Tolerance Review</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Rejected / RTV Action</div>
+              <div class="kpi-value" style="color:#dc2626;" id="kpi-qc-rejected">1 Lot</div>
+              <div class="kpi-subtext">Moved to Reject Bay (Movement 122)</div>
+            </div>
+          </div>
+
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>Quality Acceptance & Inspector Traceability (SAP PQ)</h3>
+                <p>Mandatory Acceptance Sign-Off • Strict Putaway Gating • Inspector Audit Trail</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.qualityInspections, 'HMSI_Quality_Inspections.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+                <button class="btn-wms-primary" onclick="openNewInspectionModal()">
+                  <span>➕</span> Log QC Inspection
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>QC Inspection No</th>
+                    <th>Receipt / MRN Ref</th>
+                    <th>Material Code & Description</th>
+                    <th>Inspected Qty</th>
+                    <th>Inspector & ID</th>
+                    <th>Timestamp</th>
+                    <th>Inspection Result</th>
+                    <th>SAP PQ Status</th>
+                    <th>Remarks & Tolerances</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="quality-inspection-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- REJECTION & QUARANTINE MANAGEMENT (MODULE F) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-rejections" class="wms-view">
+          <!-- 4 KPI Metrics Cards -->
+          <div class="kpi-grid" style="margin-bottom: 20px;">
+            <div class="kpi-card" style="border-left: 4px solid #dc2626;">
+              <div class="kpi-label">Total Rejected Stock</div>
+              <div class="kpi-value" id="kpi-rej-total-qty" style="color: #dc2626;">61 EA</div>
+              <div class="kpi-sub" id="kpi-rej-total-cases">5 Non-Conformance Cases</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #ea580c;">
+              <div class="kpi-label">Stage of Origin Breakdown</div>
+              <div class="kpi-value" id="kpi-rej-stages" style="color: #c2410c; font-size:15px;">Rec: 12 | QC: 35 | Stg: 8 | Prod: 6</div>
+              <div class="kpi-sub">Receiving • Inspection • Storage • Production</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #eab308;">
+              <div class="kpi-label">Pending Commercial Disposition</div>
+              <div class="kpi-value" id="kpi-rej-pending-count" style="color: #ca8a04;">2 Cases (31 EA)</div>
+              <div class="kpi-sub" style="color:#b91c1c; font-weight:700;">Locked in Quarantine Cages</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #8b5cf6;">
+              <div class="kpi-label">Quarantine Bay Utilization</div>
+              <div class="kpi-value" id="kpi-rej-quarantine-occ" style="color: #7c3aed;">5 / 60 Units (8.3%)</div>
+              <div class="kpi-sub">Cages A, B, C, D Active</div>
+            </div>
+          </div>
+
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>🚫 Quality Non-Conformance & Rejection Ledger</h3>
+                <p>Cross-Stage Defect Identification (Receiving, Inspection, Storage, Production) • Quarantine Physical Isolation • Commercial Actions (RTV / Scrap / Rework)</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openLogRejectionModal()">
+                  <span class="btn-icon-plus">+</span> Log New Rejection
+                </button>
+                <button class="btn-wms-secondary" onclick="exportRejectionsCSV()">
+                  <span>📊</span> Export CSV
+                </button>
+                <button class="btn-wms-secondary" onclick="renderRejectionsView()">
+                  <span>🔄</span> Refresh
+                </button>
+              </div>
+            </div>
+
+            <!-- Multi-Filter Bar -->
+            <div class="filter-bar" style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+              <div style="flex:1.2; min-width:220px;">
+                <input type="text" id="rej-search-input" class="wms-input" placeholder="Search Rejection ID, HU, Part Code, Supplier, Batch..." oninput="filterRejections()" style="width:100%;">
+              </div>
+              <div style="min-width:160px;">
+                <select id="rej-stage-filter" class="wms-select" onchange="filterRejections()" style="width:100%;">
+                  <option value="All">All Detection Stages</option>
+                  <option value="Receiving">📥 Receiving (Dock)</option>
+                  <option value="Inspection">🔬 Inspection (QC)</option>
+                  <option value="Storage">📦 Storage (Warehouse)</option>
+                  <option value="Production">🏭 Production (Shopfloor)</option>
+                </select>
+              </div>
+              <div style="min-width:180px;">
+                <select id="rej-disposition-filter" class="wms-select" onchange="filterRejections()" style="width:100%;">
+                  <option value="All">All Commercial Actions</option>
+                  <option value="Pending Disposition">⏳ Pending Disposition</option>
+                  <option value="Return to Vendor (RTV)">🚚 Return to Vendor (RTV)</option>
+                  <option value="Scrap (Write-off)">🗑️ Scrap (Write-off)</option>
+                  <option value="Rework (In-house)">🛠️ Rework (In-house)</option>
+                </select>
+              </div>
+              <div style="min-width:140px;">
+                <select id="rej-status-filter" class="wms-select" onchange="filterRejections()" style="width:100%;">
+                  <option value="All">All Statuses</option>
+                  <option value="BLOCKED">BLOCKED</option>
+                  <option value="RTV_PROCESSED">RTV_PROCESSED</option>
+                  <option value="SCRAPPED">SCRAPPED</option>
+                  <option value="REWORKED">REWORKED</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Rejection ID</th>
+                    <th>Detection Stage</th>
+                    <th>HU & Component Material</th>
+                    <th>Batch & Supplier</th>
+                    <th>Qty / UOM</th>
+                    <th>Defect Reason Code & Description</th>
+                    <th>Quarantine Bin</th>
+                    <th>Commercial Action (Disposition)</th>
+                    <th>Inspector / Operator</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="rejections-table-body"></tbody>
               </table>
             </div>
           </div>
@@ -748,12 +945,110 @@
                     <th>Suggested Bin</th>
                     <th>Actual Bin</th>
                     <th>Override Reason</th>
+                    <th>SAP PQ Clearance</th>
                     <th>Assigned Operator</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody id="putaway-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- PART PARKING & STAGING BUFFER (MODULE D) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-partParking" class="wms-view">
+          <!-- KPI Summary Cards -->
+          <div class="kpi-grid" style="margin-bottom: 20px;">
+            <div class="kpi-card" style="border-left: 4px solid #f59e0b;">
+              <div class="kpi-label">Total Parked HUs</div>
+              <div class="kpi-value" id="kpi-parked-hus" style="color: #d97706;">0</div>
+              <div class="kpi-sub" id="kpi-parked-hus-sub">Active buffer stock</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #3b82f6;">
+              <div class="kpi-label">Parked Parts Quantity</div>
+              <div class="kpi-value" id="kpi-parked-qty" style="color: #2563eb;">0 EA</div>
+              <div class="kpi-sub">Across all buffer bays</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #10b981;">
+              <div class="kpi-label">Parking Bay Occupancy</div>
+              <div class="kpi-value" id="kpi-parked-bays" style="color: #059669;">0 / 5</div>
+              <div class="kpi-sub" id="kpi-parked-bays-sub">0% Bay Utilization</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #ef4444;">
+              <div class="kpi-label">Overdue In Buffer (&gt; 2 Hours)</div>
+              <div class="kpi-value" id="kpi-parked-overdue" style="color: #dc2626;">0</div>
+              <div class="kpi-sub" style="color: #ef4444; font-weight: 700;">Action Required</div>
+            </div>
+          </div>
+
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>🅿️ Part Parking Buffer Ledger</h3>
+                <p>Temporary staging buffer for unputaway handling units awaiting rack clearance, line confirmation, or inspection hold</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openParkHuModal()">
+                  <span>🅿️</span> Park Handling Unit
+                </button>
+                <button class="btn-wms-secondary" onclick="exportParkedStockCSV()">
+                  <span>📊</span> Export Ledger (CSV)
+                </button>
+                <button class="btn-wms-secondary" onclick="renderPartParking()">
+                  <span>🔄</span> Refresh
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="filter-bar" style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+              <div style="flex:1; min-width:220px;">
+                <input type="text" id="parked-search-input" class="wms-input" placeholder="Search HU, Part, Batch, Parking Bay..." oninput="filterParkedTable()" style="width:100%;">
+              </div>
+              <div style="min-width:180px;">
+                <select id="parked-bay-filter" class="wms-select" onchange="filterParkedTable()" style="width:100%;">
+                  <option value="All">All Parking Bays</option>
+                  <option value="PARK-BAY-01">PARK-BAY-01 (Inbound Dock 04)</option>
+                  <option value="PARK-BAY-02">PARK-BAY-02 (Central Staging)</option>
+                  <option value="PARK-BAY-03">PARK-BAY-03 (QC Hold Staging)</option>
+                  <option value="PARK-BAY-04">PARK-BAY-04 (Frame Shop Staging)</option>
+                  <option value="PARK-BAY-05">PARK-BAY-05 (Powertrain Overflow)</option>
+                </select>
+              </div>
+              <div style="min-width:160px;">
+                <select id="parked-status-filter" class="wms-select" onchange="filterParkedTable()" style="width:100%;">
+                  <option value="All">All Statuses</option>
+                  <option value="PARKED" selected>Active Parked Only</option>
+                  <option value="RELEASED">Released Ledger</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Parked Ledger Table -->
+            <div class="table-responsive">
+              <table class="wms-table" id="parked-stock-table">
+                <thead>
+                  <tr>
+                    <th>Parking ID</th>
+                    <th>Handling Unit (HU)</th>
+                    <th>Part Code & Description</th>
+                    <th>Batch No.</th>
+                    <th>Qty / UOM</th>
+                    <th>Parking Bay</th>
+                    <th>Hold Reason & Remarks</th>
+                    <th>Parked By & Time</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="parked-stock-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
               </table>
             </div>
           </div>
@@ -774,6 +1069,68 @@
                   onclick="exportTableToCSV(window.wms.handlingUnits, 'HMSIL_Inventory_Stock.csv')">
                   <span>📊</span> Export Excel / CSV
                 </button>
+              </div>
+            </div>
+
+            <!-- 3-Tier Storage Hierarchy Drill-Down (Area -> Location -> Rack) -->
+            <div class="storage-hierarchy-panel" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="font-size:16px;">🏗️</span>
+                  <div>
+                    <h4 style="font-size:13px; font-weight:800; color:#0f172a; margin:0;">3-Tier Storage Hierarchy Drill-Down</h4>
+                    <p style="font-size:11px; color:#64748b; margin:2px 0 0 0;">Area &rarr; Location &rarr; Rack Uniform Structure (<span style="font-family:var(--font-mono); font-weight:700; color:#2563eb;">[AREA]-[LOCATION]-[RACK]</span>)</p>
+                  </div>
+                </div>
+                <button class="btn-wms-secondary small" onclick="clearInventoryHierarchyFilter()">
+                  <span>🔄</span> Reset Hierarchy Filter
+                </button>
+              </div>
+
+              <!-- Cascade Selectors Grid -->
+              <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; margin-bottom:12px;">
+                <div>
+                  <label style="font-size:11px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">1. Select Area (Tier 1)</label>
+                  <select id="filter-inv-area" class="select-filter" style="width:100%;" onchange="onInventoryAreaChange()">
+                    <option value="All">All Warehouse Areas</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size:11px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">2. Select Location (Tier 2)</label>
+                  <select id="filter-inv-location" class="select-filter" style="width:100%;" onchange="onInventoryLocationChange()" disabled>
+                    <option value="All">All Locations in Area</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size:11px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">3. Select Rack / Bin (Tier 3)</label>
+                  <select id="filter-inv-rack" class="select-filter" style="width:100%;" onchange="onInventoryRackChange()" disabled>
+                    <option value="All">All Racks in Location</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Aggregated Location Occupancy & Capacity Summary Card -->
+              <div id="inv-hierarchy-stats-card" style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:12px; background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px; align-items:center;">
+                <div>
+                  <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase;">Selected Hierarchy Scope</div>
+                  <div id="inv-scope-breadcrumb" style="font-size:12px; font-weight:800; color:#0f172a; margin-top:2px;">Entire Warehouse Inventory</div>
+                  <div id="inv-scope-type" style="font-size:11px; color:#2563eb; font-weight:600;">All Functional Areas</div>
+                </div>
+                <div>
+                  <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase;">Occupancy / Capacity</div>
+                  <div id="inv-scope-capacity-txt" style="font-size:13px; font-weight:800; color:#0f172a; margin-top:2px;">3,918 / 9,000 EA</div>
+                  <div style="width:100%; background:#f1f5f9; height:5px; border-radius:3px; margin-top:4px; overflow:hidden;">
+                    <div id="inv-scope-progress" style="width:43.5%; height:100%; background:#059669; border-radius:3px;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase;">Stored HUs</div>
+                  <div id="inv-scope-hu-count" style="font-size:14px; font-weight:900; color:#2563eb; margin-top:2px;">5 HUs</div>
+                </div>
+                <div>
+                  <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase;">Active Materials</div>
+                  <div id="inv-scope-skus" style="font-size:14px; font-weight:900; color:#059669; margin-top:2px;">5 Parts</div>
+                </div>
               </div>
             </div>
 
@@ -814,38 +1171,71 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- CYCLE COUNT & STOCK ADJUSTMENT (SINGLE SCREEN) -->
+        <!-- CYCLE COUNT & PHYSICAL INVENTORY VERIFICATION (MODULE I) -->
         <!-- ========================================================= -->
         <section id="wms-view-cyclecount" class="wms-view">
+          <!-- Warehouse Stock Freeze High-Visibility Banner -->
+          <div id="stock-freeze-banner" class="stock-freeze-banner" style="display:none;">
+            <div class="freeze-banner-content">
+              <div class="freeze-icon-pulse">🔒</div>
+              <div class="freeze-text-group">
+                <div class="freeze-title">WAREHOUSE STOCK FREEZE ACTIVE • ANNUAL PHYSICAL INVENTORY IN PROGRESS</div>
+                <div class="freeze-subtitle">All outbound picking, line-side staging, and bin relocations are strictly suspended pending physical count completion and supervisor sign-off.</div>
+              </div>
+            </div>
+            <div class="freeze-action-group">
+              <button class="btn-freeze-unfreeze" onclick="toggleGlobalStockFreeze(false)">
+                🔓 Lift Freeze (Supervisor Sign-off)
+              </button>
+            </div>
+          </div>
+
           <div class="wms-card">
             <div class="card-header-bar">
               <div class="card-title-group">
-                <h3>Cycle Count & Stock Adjustment</h3>
-                <p>Plan Count → Blind Handheld Count → Review Variance → Approve Adjustment → Post to SAP</p>
+                <h3>Inventory Verification & Physical Audit Suite</h3>
+                <p>Selectable Count Types (Daily ABC / Half-Yearly / Annual PI) • Wall-to-Wall Physical Count • Stock Freeze • Purchasing Verification</p>
               </div>
               <div class="card-action-group">
                 <button class="btn-wms-primary" onclick="openCreateCycleCountModal()">
                   <span class="btn-icon-plus">+</span> Generate Count Plan
                 </button>
-                <button class="btn-wms-secondary"
-                  onclick="exportTableToCSV(window.wms.cycleCountPlans, 'HMSIL_Cycle_Counts.csv')">
+                <button class="btn-wms-secondary" id="btn-toggle-stock-freeze" onclick="toggleGlobalStockFreeze()">
+                  <span id="btn-freeze-icon">🔒</span> <span id="btn-freeze-label">Activate Stock Freeze</span>
+                </button>
+                <button class="btn-wms-secondary" onclick="exportCycleCountsCSV()">
                   <span>📊</span> Export CSV
                 </button>
               </div>
             </div>
 
-            <!-- Top Summary Tiles for Count Lifecycle -->
+            <!-- Top Summary Tiles for Count Lifecycle & Freeze State -->
             <div class="count-summary-kpi-bar">
               <div class="count-kpi-chip">Planned: <b id="count-kpi-planned">0</b></div>
-              <div class="count-kpi-chip">Counting: <b id="count-kpi-counting">1</b></div>
-              <div class="count-kpi-chip warning">Variances to Review: <b id="count-kpi-variance">0</b></div>
-              <div class="count-kpi-chip warning">Adjustments Pending Approval: <b id="count-kpi-pending-adj">0</b>
-              </div>
-              <div class="count-kpi-chip success">Posted to SAP (Mvt 711/712): <b id="count-kpi-posted">1</b></div>
+              <div class="count-kpi-chip">Counting: <b id="count-kpi-counting">2</b></div>
+              <div class="count-kpi-chip warning">Variances to Review: <b id="count-kpi-variance">2</b></div>
+              <div class="count-kpi-chip warning">Pending Supervisor Approval: <b id="count-kpi-pending-adj">1</b></div>
+              <div class="count-kpi-chip success">Posted to SAP (Mvt 711/712): <b id="count-kpi-posted">2</b></div>
+              <div class="count-kpi-chip" id="chip-stock-freeze" style="background:#f1f5f9; color:#0f172a; border-color:#cbd5e1;">Stock Status: <b id="count-kpi-freeze-status" style="color:#059669;">UNFROZEN</b></div>
             </div>
 
-            <!-- Count Plans Container -->
-            <div id="cycle-count-plans-container" style="margin-top:16px;"></div>
+            <!-- Module I Subtabs Bar -->
+            <div class="subtabs-bar" style="margin-top:16px;">
+              <button class="subtab-btn active" id="btn-subtab-cc-plans" onclick="switchCycleCountSubtab('plans')">
+                📋 Cycle Count Plans (I.1)
+              </button>
+              <button class="subtab-btn" id="btn-subtab-cc-physical" onclick="switchCycleCountSubtab('physical')">
+                🏛️ Annual Physical Inventory & Stock Freeze (I.2)
+              </button>
+              <button class="subtab-btn" id="btn-subtab-cc-purchasing" onclick="switchCycleCountSubtab('purchasing')">
+                💼 Purchasing Dept Stock Verification (I.3)
+              </button>
+            </div>
+
+            <!-- Dynamic Subtab Content Area -->
+            <div id="cycle-count-subtab-content" style="margin-top:16px;">
+              <div id="cycle-count-plans-container"></div>
+            </div>
           </div>
         </section>
 
@@ -919,29 +1309,73 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- REPORTS & ALERTS -->
+        <!-- REPORTS & ANALYTICS SUITE (MODULE H) -->
         <!-- ========================================================= -->
         <section id="wms-view-reportsAlerts" class="wms-view">
+          <!-- Executive KPI Cards Bar -->
+          <div class="kpi-grid" style="margin-bottom:16px;">
+            <div class="kpi-card">
+              <div class="kpi-icon-box" style="background:#eff6ff; color:#2563eb;">💰</div>
+              <div class="kpi-content">
+                <span class="kpi-label">Active Stock Valuation</span>
+                <div class="kpi-val" id="kpi-report-valuation">₹ -- Lakhs</div>
+                <div class="kpi-meta" id="kpi-report-skus">-- Total Material SKUs</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon-box" style="background:#fef2f2; color:#dc2626;">⚠️</div>
+              <div class="kpi-content">
+                <span class="kpi-label">Critical Shortage Items</span>
+                <div class="kpi-val" id="kpi-report-shortages" style="color:#dc2626;">-- SKUs</div>
+                <div class="kpi-meta" id="kpi-report-shortages-meta">Below Safety / Reorder Point</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon-box" style="background:#fffbeb; color:#d97706;">⏱️</div>
+              <div class="kpi-content">
+                <span class="kpi-label">Slow-Moving & Dead Stock</span>
+                <div class="kpi-val" id="kpi-report-slowmoving" style="color:#d97706;">-- SKUs</div>
+                <div class="kpi-meta" id="kpi-report-slowmoving-meta">Inactive >30 Days / >90 Days</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon-box" style="background:#f0fdf4; color:#16a34a;">📧</div>
+              <div class="kpi-content">
+                <span class="kpi-label">Daily Auto-Email & Vendor Alerts</span>
+                <div class="kpi-val" id="kpi-report-email-status" style="color:#16a34a; font-size:16px;">07:00 Daily • Active</div>
+                <div class="kpi-meta" id="kpi-report-email-meta">Auto-Digest & Expedite Online</div>
+              </div>
+            </div>
+          </div>
+
           <div class="wms-card">
             <div class="card-header-bar">
               <div class="card-title-group">
-                <h3>Warehouse Reports & Alerts</h3>
-                <p>Overstock • Stock Variation (WMS vs SAP) • Shortages • Supplier Quality</p>
+                <h3>Comprehensive Warehouse Reporting Suite & Analytics</h3>
+                <p>End-to-End Traceability • Stock Summary • Location Drill-Down • Slow-Moving & Shortage Reports • Scheduled Email</p>
               </div>
               <div class="card-action-group">
-                <button class="btn-wms-primary" onclick="window.print()">
-                  <span>📄</span> Export PDF Report
+                <button class="btn-wms-secondary" onclick="exportActiveReportCSV()">
+                  <span>📊</span> Export CSV
+                </button>
+                <button class="btn-wms-primary" onclick="printActiveReport()">
+                  <span>📄</span> Print / PDF Report
                 </button>
               </div>
             </div>
 
             <!-- Reports Sub-tabs -->
-            <div class="subtabs-bar">
-              <button class="subtab-btn active" onclick="switchReportTab('overstock')">Overstock Report</button>
-              <button class="subtab-btn" onclick="switchReportTab('variation')">Stock Variation (WMS vs SAP vs
-                Count)</button>
-              <button class="subtab-btn" onclick="switchReportTab('lowstock')">Low Stock & Reorder Points</button>
-              <button class="subtab-btn" onclick="switchReportTab('supplier')">Supplier Discrepancy & Quality</button>
+            <div class="subtabs-bar" id="reports-subtabs-bar">
+              <button class="subtab-btn active" onclick="switchReportTab('traceability')">🔍 Part Traceability (H.1)</button>
+              <button class="subtab-btn" onclick="switchReportTab('stockSummary')">📊 Stock Summary (H.2)</button>
+              <button class="subtab-btn" onclick="switchReportTab('locationStock')">📍 Location-Wise Stock (H.3)</button>
+              <button class="subtab-btn" onclick="switchReportTab('slowMoving')">⏱️ Slow-Moving Stock (H.4)</button>
+              <button class="subtab-btn" onclick="switchReportTab('shortage')">⚠️ Shortage & Replenishment (H.5)</button>
+              <button class="subtab-btn" onclick="switchReportTab('autoEmail')">📧 Auto-Email & Vendor Alerts (H.6/H.7)</button>
+              <button class="subtab-btn" onclick="switchReportTab('issuanceHistory')">📜 Part Issuance Analytics (H.8)</button>
+              <button class="subtab-btn" onclick="switchReportTab('overstock')">📦 Overstock Limits</button>
+              <button class="subtab-btn" onclick="switchReportTab('variation')">⚖️ Stock Variation (SAP vs WMS)</button>
+              <button class="subtab-btn" onclick="switchReportTab('supplier')">⭐ Supplier Quality</button>
             </div>
 
             <div class="report-tab-content" id="report-tab-content" style="margin-top:16px;"></div>
@@ -956,7 +1390,7 @@
             <div class="card-header-bar">
               <div class="card-title-group">
                 <h3>Material Requirements</h3>
-                <p>S/4HANA Production Reservations & Shift Schedules</p>
+                <p>ERP Production Reservations & Shift Schedules</p>
               </div>
               <div class="card-action-group">
                 <button class="btn-wms-primary" onclick="openCreateRequisitionModal()">
@@ -1073,20 +1507,40 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- ISSUE TO LINE (MVT 261) -->
+        <!-- ISSUE TO PRODUCTION AREA / LINE (MVT 261) -->
         <!-- ========================================================= -->
         <section id="wms-view-issueToLine" class="wms-view">
           <div class="wms-card">
             <div class="card-header-bar">
               <div class="card-title-group">
-                <h3>Issue to Line</h3>
-                <p>Line Delivery Verification • Staging Buffers • SAP Goods Issue Document</p>
+                <h3>🏭 Issue to Production Area / Shop</h3>
+                <p>Manufacturing Division Feeding (Machine, Paint, Weld, Assembly Engine, Assembly Frame) • Staging Verification • SAP Goods Issue (261)</p>
               </div>
               <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openDirectShopIssueModal()">
+                  <span class="btn-icon-plus">+</span> Direct Issue to Shop / Line
+                </button>
                 <button class="btn-wms-secondary"
                   onclick="exportTableToCSV(window.wms.lineIssues, 'HMSIL_Line_Issues.csv')">
                   <span>📊</span> Export CSV
                 </button>
+              </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar" style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+              <div style="flex:1; min-width:200px;">
+                <input type="text" id="line-issue-search" class="wms-input" placeholder="Search Issue No, Part, Order, Staging Bin..." oninput="renderLineIssueTable()" style="width:100%;">
+              </div>
+              <div style="min-width:180px;">
+                <select id="line-issue-shop-filter" class="wms-select" onchange="renderLineIssueTable()" style="width:100%;">
+                  <option value="All">All Manufacturing Shops</option>
+                  <option value="SHOP-MCH">Machine Shop (MCH)</option>
+                  <option value="SHOP-PNT">Paint Shop (PNT)</option>
+                  <option value="SHOP-WLD">Weld Shop (WLD)</option>
+                  <option value="SHOP-AE">Assembly Engine (AE)</option>
+                  <option value="SHOP-AF">Assembly Frame / Final (AF)</option>
+                </select>
               </div>
             </div>
 
@@ -1095,12 +1549,12 @@
                 <thead>
                   <tr>
                     <th>Issue No</th>
-                    <th>Issue List</th>
-                    <th>Production Line</th>
+                    <th>Issue List / Order</th>
+                    <th>Target Shop & Sub-Area</th>
                     <th>Material Code & Description</th>
                     <th>Qty Issued</th>
                     <th>Delivered By</th>
-                    <th>Received-at-Line Time</th>
+                    <th>Received Time</th>
                     <th>Staging Bin</th>
                     <th>SAP Goods Issue Doc</th>
                     <th>Status</th>
@@ -1108,6 +1562,98 @@
                   </tr>
                 </thead>
                 <tbody id="line-issue-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- PART ISSUANCE HISTORY (MODULE E.3) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-issuanceHistory" class="wms-view">
+          <!-- 4 KPI Metrics Cards -->
+          <div class="kpi-grid" style="margin-bottom: 20px;">
+            <div class="kpi-card" style="border-left: 4px solid #3b82f6;">
+              <div class="kpi-label">Total Qty Issued (Today)</div>
+              <div class="kpi-value" id="kpi-issue-total-qty" style="color: #2563eb;">460 EA</div>
+              <div class="kpi-sub" id="kpi-issue-total-count">5 Orders Dispatched</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #10b981;">
+              <div class="kpi-label">Active Shifts Breakdown</div>
+              <div class="kpi-value" id="kpi-issue-shifts" style="color: #059669; font-size:16px;">N1: 340 EA | N2: 120 EA</div>
+              <div class="kpi-sub">Shift N1 Morning • Shift N2 Evening</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #8b5cf6;">
+              <div class="kpi-label">SAP 261 GI Material Docs</div>
+              <div class="kpi-value" id="kpi-issue-sap-docs" style="color: #7c3aed;">5 Docs</div>
+              <div class="kpi-sub" style="color:#15803d; font-weight:700;">100% Posted & Synced</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #f59e0b;">
+              <div class="kpi-label">Production Shops Fed</div>
+              <div class="kpi-value" id="kpi-issue-shops-count" style="color: #d97706;">4 / 5 Shops</div>
+              <div class="kpi-sub">MCH, PNT, WLD, AF Active</div>
+            </div>
+          </div>
+
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>📜 Part Issuance History & Audit Ledger</h3>
+                <p>Complete historical trace of all component disbursements across Machine Shop, Paint Shop, Weld Shop, Engine Assembly & Frame Assembly</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-secondary" onclick="exportIssuanceHistoryCSV()">
+                  <span>📊</span> Export Excel / CSV
+                </button>
+                <button class="btn-wms-secondary" onclick="renderIssuanceHistory()">
+                  <span>🔄</span> Refresh
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="filter-bar" style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+              <div style="flex:1; min-width:220px;">
+                <input type="text" id="issue-history-search" class="wms-input" placeholder="Search Issue No, Part Code, Order No, SAP Doc..." oninput="filterIssuanceHistory()" style="width:100%;">
+              </div>
+              <div style="min-width:180px;">
+                <select id="issue-history-shop-filter" class="wms-select" onchange="filterIssuanceHistory()" style="width:100%;">
+                  <option value="All">All Manufacturing Shops</option>
+                  <option value="SHOP-MCH">Machine Shop (MCH)</option>
+                  <option value="SHOP-PNT">Paint Shop (PNT)</option>
+                  <option value="SHOP-WLD">Weld Shop (WLD)</option>
+                  <option value="SHOP-AE">Assembly Engine (AE)</option>
+                  <option value="SHOP-AF">Assembly Frame / Final (AF)</option>
+                </select>
+              </div>
+              <div style="min-width:150px;">
+                <select id="issue-history-shift-filter" class="wms-select" onchange="filterIssuanceHistory()" style="width:100%;">
+                  <option value="All">All Shifts</option>
+                  <option value="Shift N1">Shift N1 (Morning)</option>
+                  <option value="Shift N2">Shift N2 (Evening)</option>
+                  <option value="Shift N3">Shift N3 (Night)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Issue Ref</th>
+                    <th>Prod Order / List</th>
+                    <th>Target Shop & Sub-Area</th>
+                    <th>Material Code & Description</th>
+                    <th>Qty Issued</th>
+                    <th>Staging Bin</th>
+                    <th>SAP GI Doc (261)</th>
+                    <th>Delivered By</th>
+                    <th>Time & Shift</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="issuance-history-table-body"></tbody>
               </table>
             </div>
           </div>
@@ -1150,6 +1696,126 @@
                   </tr>
                 </thead>
                 <tbody id="returns-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- PACKING & DISPATCH (MODULE G - CONFIGURABLE SCOPE) -->
+        <!-- ========================================================= -->
+        <section id="wms-view-dispatch" class="wms-view">
+          <!-- Client Scope Notice Banner -->
+          <div class="scope-notice-banner" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border: 1.5px solid #fcd34d; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(217,119,6,0.08);">
+            <div style="display: flex; gap: 14px; align-items: center;">
+              <div style="font-size: 28px; background: #fef08a; padding: 8px 12px; border-radius: 8px; border: 1px solid #fde047;">📋</div>
+              <div>
+                <div style="font-weight: 800; font-size: 13.5px; color: #92400e; display: flex; align-items: center; gap: 8px;">
+                  <span>MODULE G: FINISHED GOODS PACKING & DISPATCH — CONFIGURABLE SCOPE</span>
+                  <span style="background: #f59e0b; color: #ffffff; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.5px;" id="dispatch-scope-status-pill">AWAITING CLIENT CONFIRMATION</span>
+                </div>
+                <div style="font-size: 11.5px; color: #b45309; margin-top: 3px; max-width: 820px; line-height: 1.4;">
+                  Finished two-wheeler packing and customer dealership vehicle dispatch is staged as a configurable phase. The screen below simulates complete staging bay allocation, transport carrier manifest verification, and SAP Movement 601 (Post Goods Issue) ready for activation.
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.7); padding: 8px 14px; border-radius: 8px; border: 1px solid #fde68a;">
+              <span style="font-size: 11.5px; font-weight: 800; color: #92400e;">Module Active:</span>
+              <label class="switch-toggle" style="position: relative; display: inline-block; width: 44px; height: 22px; margin: 0;">
+                <input type="checkbox" id="dispatch-module-toggle" onchange="toggleDispatchModule(this.checked)" style="opacity: 0; width: 0; height: 0;">
+                <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 22px;"></span>
+              </label>
+              <span id="dispatch-toggle-status-label" style="font-size: 11px; font-weight: 800; color: #64748b;">OFF (Preview)</span>
+            </div>
+          </div>
+
+          <!-- 4 KPI Metrics Cards -->
+          <div class="kpi-grid" style="margin-bottom: 20px;">
+            <div class="kpi-card" style="border-left: 4px solid #3b82f6;">
+              <div class="kpi-label">Scheduled Shipments (Today)</div>
+              <div class="kpi-value" id="kpi-dispatch-total-orders" style="color: #2563eb;">3 Orders</div>
+              <div class="kpi-sub" id="kpi-dispatch-total-units">120 Finished Units</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #10b981;">
+              <div class="kpi-label">Dispatch Staging Bay Allocation</div>
+              <div class="kpi-value" id="kpi-dispatch-bays-active" style="color: #059669;">3 / 4 Bays Active</div>
+              <div class="kpi-sub">Bays DSP-BAY-01 to 04</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #f59e0b;">
+              <div class="kpi-label">Carrier Fleet & Dock Status</div>
+              <div class="kpi-value" id="kpi-dispatch-trucks-docked" style="color: #d97706;">3 Vehicles Loading</div>
+              <div class="kpi-sub">VRL, TCI & Gati Express</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #8b5cf6;">
+              <div class="kpi-label">SAP Movement 601 (PGI) Status</div>
+              <div class="kpi-value" id="kpi-dispatch-sap-docs" style="color: #7c3aed;">1 Posted / 2 Pending</div>
+              <div class="kpi-sub">Post Goods Issue Direct Sync</div>
+            </div>
+          </div>
+
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>📦 Finished Goods Packing & Customer Dispatch Ledger</h3>
+                <p>Regional Depots & Dealership Dispatches • Vehicle Staging Bays • Carrier Truck Loading Manifest • SAP Movement 601 (PGI)</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openCreateDispatchOrderModal()">
+                  <span class="btn-icon-plus">+</span> New Dispatch Order
+                </button>
+                <button class="btn-wms-secondary" onclick="openDispatchBayAllocationModal()">
+                  <span>🅿️</span> Staging Bays
+                </button>
+                <button class="btn-wms-secondary" onclick="exportDispatchCSV()">
+                  <span>📊</span> Export CSV
+                </button>
+                <button class="btn-wms-secondary" onclick="renderDispatchView()">
+                  <span>🔄</span> Refresh
+                </button>
+              </div>
+            </div>
+
+            <!-- Multi-Filter Bar -->
+            <div class="filter-bar" style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+              <div style="flex:1.2; min-width:240px;">
+                <input type="text" id="dispatch-search-input" class="wms-input" placeholder="Search Order No, Model, Dealer/Depot, Truck No, Driver..." oninput="filterDispatchOrders()" style="width:100%;">
+              </div>
+              <div style="min-width:180px;">
+                <select id="dispatch-bay-filter" class="wms-select" onchange="filterDispatchOrders()" style="width:100%;">
+                  <option value="All">All Staging Bays</option>
+                  <option value="DSP-BAY-01">DSP-BAY-01 (South Yard)</option>
+                  <option value="DSP-BAY-02">DSP-BAY-02 (South Yard)</option>
+                  <option value="DSP-BAY-03">DSP-BAY-03 (North Yard)</option>
+                  <option value="DSP-BAY-04">DSP-BAY-04 (Express Buffer)</option>
+                </select>
+              </div>
+              <div style="min-width:160px;">
+                <select id="dispatch-status-filter" class="wms-select" onchange="filterDispatchOrders()" style="width:100%;">
+                  <option value="All">All Statuses</option>
+                  <option value="STAGED">STAGED</option>
+                  <option value="LOADING">LOADING</option>
+                  <option value="DISPATCHED">DISPATCHED</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Dispatch Order No</th>
+                    <th>Destination Dealer / Depot</th>
+                    <th>Finished Model Code & Description</th>
+                    <th>Qty / UOM</th>
+                    <th>Transport Carrier & Truck No</th>
+                    <th>Staging Bay</th>
+                    <th>Packing Slip & SAP 601 PGI Doc</th>
+                    <th>Scheduled Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="dispatch-table-body"></tbody>
               </table>
             </div>
           </div>
@@ -1247,7 +1913,7 @@
             <div class="card-header-bar">
               <div class="card-title-group">
                 <h3>Plant Master & Storage Locations</h3>
-                <p>HMSI Manufacturing Units • S/4HANA Storage Location Mappings</p>
+                <p>HMSI Manufacturing Units • ERP Storage Location Mappings</p>
               </div>
               <div class="card-action-group">
                 <button class="btn-wms-primary" onclick="openAddPlantModal()">
@@ -1299,12 +1965,13 @@
               <table class="wms-table">
                 <thead>
                   <tr>
-                    <th>Bin Code*</th>
-                    <th>Zone Code*</th>
-                    <th>Zone Name</th>
-                    <th>Type</th>
+                    <th>Uniform Code (AREA-LOC-RCK)</th>
+                    <th>Area (Tier 1)</th>
+                    <th>Location (Tier 2)</th>
+                    <th>Rack Code (Tier 3)</th>
+                    <th>Rack Type</th>
                     <th>Max Capacity</th>
-                    <th>Max Weight (kg)</th>
+                    <th>Max Weight</th>
                     <th>Current Qty</th>
                     <th>Stored Material</th>
                     <th>Status</th>
@@ -1345,6 +2012,43 @@
                   </tr>
                 </thead>
                 <tbody id="master-dock-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Production Area / Shop Master (Module E) -->
+        <section id="wms-view-masterShop" class="wms-view">
+          <div class="wms-card">
+            <div class="card-header-bar">
+              <div class="card-title-group">
+                <h3>🏭 Production Area / Shop Master</h3>
+                <p>Manufacturing Divisions (Machine, Paint, Weld, Assembly Engine, Assembly Frame) • Linked Sub-Lines & Work Cells</p>
+              </div>
+              <div class="card-action-group">
+                <button class="btn-wms-primary" onclick="openAddShopModal()">
+                  <span class="btn-icon-plus">+</span> Add Production Shop
+                </button>
+                <button class="btn-wms-secondary" onclick="exportTableToCSV(window.wms.shopMaster, 'HMSIL_Shop_Master.csv')">
+                  <span>📊</span> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="wms-table">
+                <thead>
+                  <tr>
+                    <th>Shop Code*</th>
+                    <th>Shop / Division Name*</th>
+                    <th>Plant*</th>
+                    <th>Default Staging Bin*</th>
+                    <th>Operational Sub-Areas / Work Cells</th>
+                    <th>Shop Manager</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="master-shop-body"></tbody>
               </table>
             </div>
           </div>
@@ -1503,7 +2207,7 @@
             <div class="card-header-bar">
               <div class="card-title-group">
                 <h3>Device Master (Handhelds & Printers)</h3>
-                <p>Zebra TC57 Scanners • ZT411 Industrial Printers • IP Heartbeats</p>
+                <p>Zebra TC57 Scanners (TBC) • ZT411 Industrial Printers (TBC) • IP Heartbeats</p>
               </div>
               <div class="card-action-group">
                 <button class="btn-wms-primary" onclick="openAddDeviceModal()">
@@ -1535,41 +2239,379 @@
         <!-- ========================================================= -->
         <!-- SYSTEM ADMINISTRATION SCREENS -->
         <!-- ========================================================= -->
-        <!-- SAP Sync -->
+        <!-- SAP Sync & Enterprise ERP Hub (Module J / 2.10) -->
         <section id="wms-view-sapSync" class="wms-view">
-          <div class="wms-card">
-            <div class="card-header-bar">
-              <div class="card-title-group">
-                <h3>SAP Sync</h3>
-                <p>RFC / IDoc / BAPI Messages • Retry Queue • Daily Stock Reconciliation</p>
+          <!-- Executive Header Bar -->
+          <div class="card-header-bar" style="margin-bottom:16px;">
+            <div class="card-title-group">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <h3 style="margin:0; font-size:22px; font-weight:900; color:#0f172a;">Enterprise ERP & SAP Integration Hub</h3>
+                <span class="wms-badge badge-available" id="badge-erp-status-live" style="font-size:11px; font-weight:800; background:#ecfdf5; color:#059669; border:1px solid #a7f3d0;">
+                  ● GATEWAY ONLINE
+                </span>
               </div>
-              <div class="card-action-group">
-                <button class="btn-wms-primary" onclick="retryFailedSapMessages()">
-                  <span>🔄</span> Retry Failed Messages
-                </button>
-                <button class="btn-wms-secondary" onclick="runDailyStockReconciliation()">
-                  <span>⚖️</span> Run Daily WMS vs SAP Recon
-                </button>
+              <p style="margin-top:4px; font-size:12.5px; color:#475569;">
+                Configurable Real-Time / Batch Pipelines • 6-Point Switchboard • Dynamic Movement Types • Automated Daily Reconciliation
+              </p>
+            </div>
+            <div class="card-action-group">
+              <button class="btn-wms-secondary" onclick="testErpHandshake()">
+                <span>⚡</span> Test ERP Handshake
+              </button>
+              <button class="btn-wms-secondary" onclick="triggerAllBatchSync()">
+                <span>🔄</span> Trigger Batch Pipelines
+              </button>
+              <button class="btn-wms-primary" onclick="runDailyStockReconciliation()">
+                <span>⚖️</span> Run Daily Reconciliation
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Executive KPI Cards -->
+          <div class="sap-hub-kpi-grid">
+            <div class="sap-kpi-card kpi-health">
+              <div class="sap-kpi-label">ERP Connectivity Status</div>
+              <div class="sap-kpi-val" id="sap-kpi-health-status" style="color:#059669;">ONLINE (200 OK)</div>
+              <div class="sap-kpi-sub">
+                <span id="sap-kpi-erp-system-name">SAP ERP Production (PRD-100)</span>
               </div>
             </div>
-            <div class="table-responsive">
-              <table class="wms-table">
-                <thead>
-                  <tr>
-                    <th>Sync ID</th>
-                    <th>Interface Type</th>
-                    <th>Direction</th>
-                    <th>WMS Reference</th>
-                    <th>SAP Doc No</th>
-                    <th>Payload Type</th>
-                    <th>Status</th>
-                    <th>Error Description</th>
-                    <th>Timestamp</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-sap-sync-body"></tbody>
-              </table>
+            <div class="sap-kpi-card kpi-points">
+              <div class="sap-kpi-label">Integration Switchboard</div>
+              <div class="sap-kpi-val" id="sap-kpi-active-points">6 / 6 Active</div>
+              <div class="sap-kpi-sub">
+                <span>100% Core Endpoints Operational</span>
+              </div>
+            </div>
+            <div class="sap-kpi-card kpi-modes">
+              <div class="sap-kpi-label">Pipeline Architecture</div>
+              <div class="sap-kpi-val" id="sap-kpi-pipeline-ratio">5 Real-Time • 2 Batch</div>
+              <div class="sap-kpi-sub">
+                <span>Instant BAPI + Scheduled IDoc</span>
+              </div>
+            </div>
+            <div class="sap-kpi-card kpi-volume">
+              <div class="sap-kpi-label">24h Message Volume & Health</div>
+              <div class="sap-kpi-val" id="sap-kpi-message-volume">5,236 Messages</div>
+              <div class="sap-kpi-sub">
+                <span style="color:#059669; font-weight:700;">99.98% Success</span> • 1 In Error Queue
+              </div>
+            </div>
+          </div>
+
+          <!-- Subtab Navigation Bar -->
+          <div class="sap-nav-tabs" id="sap-sync-tabs">
+            <button class="sap-tab-btn active" id="tab-btn-switchboard" onclick="switchSapSubtab('switchboard')">
+              <span>🔌</span> Integration Switchboard (6-Point)
+            </button>
+            <button class="sap-tab-btn" id="tab-btn-pipeline" onclick="switchSapSubtab('pipeline')">
+              <span>⏱️</span> Real-Time vs. Batch Pipelines
+            </button>
+            <button class="sap-tab-btn" id="tab-btn-erpconfig" onclick="switchSapSubtab('erpconfig')">
+              <span>⚙️</span> ERP Config & Movement Types
+            </button>
+            <button class="sap-tab-btn" id="tab-btn-logs" onclick="switchSapSubtab('logs')">
+              <span>📜</span> RFC Messages & Audit Log
+            </button>
+            <button class="sap-tab-btn" id="tab-btn-recon" onclick="switchSapSubtab('recon')">
+              <span>⚖️</span> Daily Stock Reconciliation Tool
+            </button>
+          </div>
+
+          <!-- SUBTAB 1: INTEGRATION SWITCHBOARD -->
+          <div id="sap-subtab-switchboard" class="sap-subtab-pane">
+            <div class="wms-card" style="margin-bottom:16px; background:#f8fafc; border-left:4px solid #2563eb;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <h4 style="margin:0 0 4px 0; font-size:14px; font-weight:800; color:#0f172a;">
+                    Enterprise Integration Points Switchboard (Operational Gating)
+                  </h4>
+                  <p style="margin:0; font-size:12px; color:#475569;">
+                    Independently toggle and monitor the 6 core ERP integration interfaces. Disabling a point halts automated ERP communication while keeping local warehouse operations buffered.
+                  </p>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <button class="btn-wms-secondary small" onclick="enableAllSwitchboardPoints()">Enable All (6)</button>
+                  <button class="btn-wms-secondary small" onclick="renderSapSwitchboard()">Refresh Status</button>
+                </div>
+              </div>
+            </div>
+            <!-- Dynamic 6-Point Switchboard Cards Grid -->
+            <div class="switchboard-grid" id="sap-switchboard-grid"></div>
+          </div>
+
+          <!-- SUBTAB 2: REAL-TIME VS BATCH PIPELINES -->
+          <div id="sap-subtab-pipeline" class="sap-subtab-pane" style="display:none;">
+            <div class="wms-card">
+              <div class="card-header-bar">
+                <div class="card-title-group">
+                  <h3>Configurable Interface Pipelines: Real-Time vs. Scheduled Batch</h3>
+                  <p>Configure each BAPI / IDoc interface mode. Real-Time executes immediately during transaction; Batch queues messages for scheduled bulk execution.</p>
+                </div>
+                <div class="card-action-group">
+                  <button class="btn-wms-primary small" onclick="triggerAllBatchSync()">
+                    <span>⚡</span> Execute All Pending Batches Now
+                  </button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="wms-table">
+                  <thead>
+                    <tr>
+                      <th>Interface ID</th>
+                      <th>BAPI / IDoc Endpoint</th>
+                      <th>Business Function</th>
+                      <th>Direction</th>
+                      <th>Current Mode</th>
+                      <th>Batch Schedule Interval</th>
+                      <th>Pending Queue</th>
+                      <th>Last Batch Run</th>
+                      <th>Next Batch Run</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sap-pipeline-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBTAB 3: ERP CONFIG & MOVEMENT TYPES -->
+          <div id="sap-subtab-erpconfig" class="sap-subtab-pane" style="display:none;">
+            <div class="erp-config-grid">
+              <!-- Left: Generic ERP Configuration -->
+              <div class="erp-card-box">
+                <h4><span>🏢</span> Generic ERP Connection Settings</h4>
+                <p style="font-size:12px; color:#64748b; margin-bottom:16px;">
+                  Configure the target ERP backend. Decoupled architecture supports standard SAP ECC, S/4HANA, or generic enterprise systems.
+                </p>
+                <div class="erp-form-group">
+                  <label>ERP System Display Name</label>
+                  <input type="text" id="erp-cfg-system-name" value="SAP ERP Production (PRD-100)">
+                </div>
+                <div class="erp-form-group">
+                  <label>ERP System Type / Architecture</label>
+                  <select id="erp-cfg-system-type">
+                    <option value="SAP_ERP">SAP ERP (ECC 6.0 / NetWeaver)</option>
+                    <option value="SAP_S4HANA">SAP S/4HANA Enterprise Cloud / On-Premise</option>
+                    <option value="ORACLE_NETSUITE">Oracle NetSuite / Enterprise ERP</option>
+                    <option value="CUSTOM_ERP">Custom Enterprise ERP / REST Middleware</option>
+                  </select>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                  <div class="erp-form-group">
+                    <label>SAP Client / Instance</label>
+                    <input type="text" id="erp-cfg-client-no" value="100">
+                  </div>
+                  <div class="erp-form-group">
+                    <label>System ID (SID)</label>
+                    <input type="text" id="erp-cfg-system-id" value="PRD">
+                  </div>
+                </div>
+                <div class="erp-form-group">
+                  <label>SAP Gateway Host / Connection String</label>
+                  <input type="text" id="erp-cfg-gateway" value="sapgw01.hmsi.co.in:3300">
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                  <div class="erp-form-group">
+                    <label>RFC Destination Name</label>
+                    <input type="text" id="erp-cfg-rfc-dest" value="SAP_HMSIL_RFC_01">
+                  </div>
+                  <div class="erp-form-group">
+                    <label>Default Pipeline Mode</label>
+                    <select id="erp-cfg-default-mode">
+                      <option value="REAL_TIME">Real-Time (BAPI Synchronous)</option>
+                      <option value="BATCH">Batch (IDoc Asynchronous)</option>
+                    </select>
+                  </div>
+                </div>
+                <div style="margin-top:20px; display:flex; gap:10px;">
+                  <button class="btn-wms-primary" onclick="saveErpConfig()">
+                    <span>💾</span> Save ERP Configuration
+                  </button>
+                  <button class="btn-wms-secondary" onclick="testErpHandshake()">
+                    <span>⚡</span> Test Handshake
+                  </button>
+                </div>
+              </div>
+
+              <!-- Right: Dynamic Movement Type Master -->
+              <div class="erp-card-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <div>
+                    <h4><span>🔄</span> Movement Type Master (Reason Code Master)</h4>
+                    <p style="font-size:12px; color:#64748b; margin:0;">
+                      Dynamic inventory movement types and document prefixes. Manage standard SAP codes (101, 261, 711, 712) or custom facility movements.
+                    </p>
+                  </div>
+                  <button class="btn-wms-primary small" onclick="openAddMovementTypeModal()">
+                    <span>+</span> Add Movement
+                  </button>
+                </div>
+                <div class="table-responsive" style="max-height:460px; overflow-y:auto;">
+                  <table class="wms-table">
+                    <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Movement Name & Description</th>
+                        <th>Category</th>
+                        <th>Doc Prefix</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="sap-movement-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBTAB 4: RFC MESSAGES & AUDIT LOG -->
+          <div id="sap-subtab-logs" class="sap-subtab-pane" style="display:none;">
+            <div class="wms-card">
+              <div class="card-header-bar">
+                <div class="card-title-group">
+                  <h3>RFC / IDoc / BAPI Transmission Log & Retry Engine</h3>
+                  <p>Real-time audit log of all inbound and outbound transactions transmitted between WMS and ERP.</p>
+                </div>
+                <div class="card-action-group">
+                  <button class="btn-wms-primary" onclick="retryFailedSapMessages()">
+                    <span>🔄</span> Retry Failed Messages
+                  </button>
+                  <button class="btn-wms-secondary" onclick="exportSapLogsCSV()">
+                    <span>📊</span> Export Log CSV
+                  </button>
+                </div>
+              </div>
+
+              <!-- Multi-Filter Bar -->
+              <div class="table-filter-bar" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
+                <input type="text" id="sap-log-search" placeholder="Search Sync ID, WMS Ref, SAP Doc No, Payload..." 
+                  oninput="renderAdminSapSync()" style="flex:1; min-width:240px; padding:7px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+                
+                <select id="sap-log-filter-status" onchange="renderAdminSapSync()" style="padding:7px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+                  <option value="">All Statuses</option>
+                  <option value="success">Success Only</option>
+                  <option value="failed">Failed / Error Only</option>
+                </select>
+
+                <select id="sap-log-filter-direction" onchange="renderAdminSapSync()" style="padding:7px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+                  <option value="">All Directions</option>
+                  <option value="WMS → SAP">WMS → SAP (Outbound)</option>
+                  <option value="SAP → WMS">SAP → WMS (Inbound)</option>
+                </select>
+
+                <select id="sap-log-filter-interface" onchange="renderAdminSapSync()" style="padding:7px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+                  <option value="">All Interfaces</option>
+                  <option value="BAPI_GOODSMVT_CREATE">BAPI_GOODSMVT_CREATE</option>
+                  <option value="BAPI_PO_GETDETAIL1">BAPI_PO_GETDETAIL1</option>
+                  <option value="BAPI_INV_ADJUSTMENT">BAPI_INV_ADJUSTMENT</option>
+                  <option value="BAPI_INSPCHAR_GETRESULT">BAPI_INSPCHAR_GETRESULT</option>
+                </select>
+              </div>
+
+              <div class="table-responsive">
+                <table class="wms-table">
+                  <thead>
+                    <tr>
+                      <th>Sync ID</th>
+                      <th>Interface Type</th>
+                      <th>Direction</th>
+                      <th>WMS Reference</th>
+                      <th>SAP Doc No</th>
+                      <th>Payload Type</th>
+                      <th>Status</th>
+                      <th>Error Description</th>
+                      <th>Timestamp</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-sap-sync-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBTAB 5: DAILY STOCK RECONCILIATION TOOL -->
+          <div id="sap-subtab-recon" class="sap-subtab-pane" style="display:none;">
+            <div class="wms-card">
+              <div class="card-header-bar">
+                <div class="card-title-group">
+                  <h3>Daily WMS Storage Bin Physical Stock vs. ERP SLoc Ledger Reconciliation</h3>
+                  <p>Automated daily reconciliation engine comparing physical warehouse bin balances with ERP SLoc inventory.</p>
+                </div>
+                <div class="card-action-group">
+                  <button class="btn-wms-primary" onclick="runDailyStockReconciliation()">
+                    <span>⚖️</span> Run Reconciliation Now
+                  </button>
+                  <button class="btn-wms-secondary" onclick="printStockReconCertificate()">
+                    <span>🖨️</span> Print Reconciliation Certificate
+                  </button>
+                  <button class="btn-wms-secondary" onclick="exportStockReconCSV()">
+                    <span>📊</span> Export CSV
+                  </button>
+                </div>
+              </div>
+
+              <!-- Reconciliation Summary Mini Cards -->
+              <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin-bottom:16px;">
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                  <div style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase;">Materials Reconciled</div>
+                  <div style="font-size:18px; font-weight:900; color:#0f172a;" id="recon-stat-total">10 SKUs</div>
+                </div>
+                <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:12px;">
+                  <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase;">Matched (0 Variance)</div>
+                  <div style="font-size:18px; font-weight:900; color:#15803d;" id="recon-stat-matched">10 (100%)</div>
+                </div>
+                <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:12px;">
+                  <div style="font-size:11px; font-weight:700; color:#991b1b; text-transform:uppercase;">Variances Detected</div>
+                  <div style="font-size:18px; font-weight:900; color:#b91c1c;" id="recon-stat-variances">0 EA (₹ 0.00)</div>
+                </div>
+                <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:6px; padding:12px;">
+                  <div style="font-size:11px; font-weight:700; color:#1e40af; text-transform:uppercase;">Reconciled Valuation</div>
+                  <div style="font-size:18px; font-weight:900; color:#1d4ed8;" id="recon-stat-value">₹ 58.42 Lakhs</div>
+                </div>
+              </div>
+
+              <!-- Filter Bar -->
+              <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
+                <input type="text" id="sap-recon-search" placeholder="Search Material Code or Description..."
+                  oninput="renderStockReconciliationView()" style="flex:1; min-width:240px; padding:7px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+                
+                <select id="sap-recon-filter-plant" onchange="renderStockReconciliationView()" style="padding:7px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+                  <option value="">All Plants</option>
+                  <option value="HMSI Narsapur Plant 1">HMSI Narsapur Plant 1</option>
+                  <option value="HMSI Narsapur Plant 2">HMSI Narsapur Plant 2</option>
+                </select>
+
+                <select id="sap-recon-filter-status" onchange="renderStockReconciliationView()" style="padding:7px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+                  <option value="">All Statuses</option>
+                  <option value="MATCHED">Matched (0 Variance)</option>
+                  <option value="VARIANCE">Variances Only</option>
+                </select>
+              </div>
+
+              <div class="table-responsive">
+                <table class="wms-table">
+                  <thead>
+                    <tr>
+                      <th>Reconciliation ID</th>
+                      <th>Material Code & Description</th>
+                      <th>Plant & Storage Location</th>
+                      <th>WMS Physical Stock</th>
+                      <th>ERP Book Stock</th>
+                      <th>Variance Qty</th>
+                      <th>Unit Price</th>
+                      <th>Variance Value</th>
+                      <th>Recon Status</th>
+                      <th>Last Verified</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sap-recon-table-body"></tbody>
+                </table>
+              </div>
             </div>
           </div>
         </section>
@@ -1716,6 +2758,56 @@
       <div class="modal-footer">
         <button class="btn-wms-secondary" onclick="downloadTemplateSample()">Download Sample Template</button>
         <button class="btn-wms-primary" onclick="simulateDataImport()">Validate & Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part Parking Relocation Modal (Module D) -->
+  <div class="wms-modal-backdrop" id="modal-park-hu">
+    <div class="wms-modal-window" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3>🅿️ Relocate Handling Unit to Parking Buffer</h3>
+        <button class="modal-close" onclick="closeModal('modal-park-hu')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="wms-form-group" style="margin-bottom:12px;">
+          <label style="font-weight:700; font-size:12px;">Select Handling Unit (HU)</label>
+          <select id="modal-park-hu-select" class="select-filter" onchange="onSelectParkHuCandidate(this.value)" style="width:100%;">
+            <!-- Options dynamically populated by JS -->
+          </select>
+        </div>
+        <div id="modal-park-hu-details" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; font-size:12px; margin-bottom:12px;">
+          <!-- Filled on HU selection -->
+        </div>
+        <div class="wms-form-group" style="margin-bottom:12px;">
+          <label style="font-weight:700; font-size:12px;">Target Parking Bay</label>
+          <select id="modal-park-bay-select" class="select-filter" style="width:100%;">
+            <option value="PARK-BAY-01">PARK-BAY-01 — Inbound Dock 04 Buffer (Cap: 10)</option>
+            <option value="PARK-BAY-02">PARK-BAY-02 — Shopfloor Central Staging Buffer (Cap: 12)</option>
+            <option value="PARK-BAY-03">PARK-BAY-03 — QC Hold Staging Area (Cap: 8)</option>
+            <option value="PARK-BAY-04">PARK-BAY-04 — Frame Sub-Assembly Staging (Cap: 10)</option>
+            <option value="PARK-BAY-05">PARK-BAY-05 — Powertrain Overflow Buffer (Cap: 15)</option>
+          </select>
+        </div>
+        <div class="wms-form-group" style="margin-bottom:12px;">
+          <label style="font-weight:700; font-size:12px;">Parking Hold Reason</label>
+          <select id="modal-park-reason-select" class="select-filter" style="width:100%;">
+            <option value="Buffer Overflow / High-Bay Congestion">Buffer Overflow / High-Bay Congestion</option>
+            <option value="Awaiting Production Line-Side Confirmation">Awaiting Production Line-Side Confirmation</option>
+            <option value="Physical Packaging Inspection Required">Physical Packaging Inspection Required</option>
+            <option value="Dock Staging Congestion">Dock Staging Congestion</option>
+            <option value="Awaiting Engineering Change / Deviation Note">Awaiting Engineering Change / Deviation Note</option>
+            <option value="Supervisor Manual Hold">Supervisor Manual Hold</option>
+          </select>
+        </div>
+        <div class="wms-form-group">
+          <label style="font-weight:700; font-size:12px;">Operator Remarks / Notes</label>
+          <input type="text" id="modal-park-notes" class="search-input" placeholder="e.g. Line 1 staging requested hold till shift handover" style="width:100%;">
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content:flex-end; gap:8px;">
+        <button class="btn-wms-secondary" onclick="closeModal('modal-park-hu')">Cancel</button>
+        <button class="btn-wms-primary" onclick="submitParkHu()">🅿️ Confirm Move to Parking</button>
       </div>
     </div>
   </div>

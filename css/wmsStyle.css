@@ -2238,3 +2238,872 @@ table.wms-table td {
   }
 }
 
+/* -------------------------------------------------------------
+   REPORTING SUITE & PART TRACEABILITY TIMELINE (MODULE H)
+   ------------------------------------------------------------- */
+.subtabs-bar {
+  flex-wrap: wrap;
+}
+
+.trace-timeline-container {
+  position: relative;
+  padding: 20px 0 20px 36px;
+}
+
+.trace-timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 36px;
+  bottom: 36px;
+  left: 17px;
+  width: 3px;
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.trace-milestone-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.trace-milestone-item:last-child {
+  margin-bottom: 0;
+}
+
+.trace-milestone-node {
+  position: absolute;
+  left: -36px;
+  top: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #2563eb;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(37,99,235,0.2);
+  z-index: 2;
+}
+
+.trace-milestone-node.completed {
+  border-color: #059669;
+  color: #059669;
+  background: #f0fdf4;
+}
+
+.trace-milestone-node.alert {
+  border-color: #dc2626;
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.trace-milestone-node.warning {
+  border-color: #d97706;
+  color: #d97706;
+  background: #fffbeb;
+}
+
+.trace-milestone-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.trace-milestone-card:hover {
+  border-color: #94a3b8;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.trace-milestone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.trace-milestone-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trace-milestone-meta {
+  font-size: 11.5px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.trace-grid-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  background: #f8fafc;
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.trace-detail-item label {
+  display: block;
+  font-size: 10.5px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.trace-detail-item span {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.capacity-progress-bar {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.capacity-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.capacity-progress-fill.green {
+  background: #10b981;
+}
+
+.capacity-progress-fill.amber {
+  background: #f59e0b;
+}
+
+.capacity-progress-fill.red {
+  background: #ef4444;
+}
+
+/* ==========================================================================
+   MODULE I: INVENTORY VERIFICATION & PHYSICAL AUDIT STYLES
+   ========================================================================== */
+
+/* Stock Freeze High-Visibility Banner */
+.stock-freeze-banner {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #450a0a 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border: 2px solid #ef4444;
+  box-shadow: 0 4px 20px rgba(185, 28, 28, 0.35);
+  animation: pulse-freeze 3s infinite ease-in-out;
+}
+
+@keyframes pulse-freeze {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.freeze-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.freeze-icon-pulse {
+  font-size: 28px;
+  background: rgba(255, 255, 255, 0.15);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.freeze-title {
+  font-size: 14.5px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #fef2f2;
+}
+
+.freeze-subtitle {
+  font-size: 12px;
+  color: #fecaca;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.btn-freeze-unfreeze {
+  background: #ffffff;
+  color: #991b1b;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-freeze-unfreeze:hover {
+  background: #fef2f2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Count Type Badges */
+.badge-count-daily {
+  background: #dbeafe;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  font-weight: 800;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.badge-count-halfyearly {
+  background: #ffedd5;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+  font-weight: 800;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.badge-count-annual {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  font-weight: 800;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* Purchasing Verification Action Badges */
+.purch-action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.purch-action-urgent {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #f87171;
+}
+
+.purch-action-expedite {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fcd34d;
+}
+
+.purch-action-healthy {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.purch-action-overstock {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #93c5fd;
+}
+
+/* Printable Count Sheet Styles */
+.printable-count-sheet {
+  background: #ffffff;
+  color: #0f172a;
+  padding: 24px;
+  font-family: var(--font-sans);
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+.sheet-header {
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.sheet-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #8b3e00;
+  text-transform: uppercase;
+}
+
+.sheet-subtitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.sheet-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.sheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+  margin-bottom: 20px;
+}
+
+.sheet-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  padding: 8px 6px;
+  text-align: left;
+  font-weight: 800;
+}
+
+.sheet-table td {
+  border: 1px solid #cbd5e1;
+  padding: 8px 6px;
+  vertical-align: middle;
+}
+
+.blind-tally-box {
+  border: 1.5px dashed #64748b;
+  height: 28px;
+  background: #fafafa;
+  border-radius: 4px;
+}
+
+.sheet-signoff-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #cbd5e1;
+}
+
+.signoff-box {
+  border-top: 1px dashed #94a3b8;
+  padding-top: 6px;
+  font-size: 11px;
+  color: #475569;
+  text-align: center;
+}
+
+/* ========================================================= */
+/* MODULE J: SAP & ENTERPRISE ERP INTEGRATION HUB STYLES     */
+/* ========================================================= */
+
+.sap-hub-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.sap-kpi-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 4px solid #2563eb;
+}
+
+.sap-kpi-card.kpi-health {
+  border-left-color: #10b981;
+}
+
+.sap-kpi-card.kpi-points {
+  border-left-color: #3b82f6;
+}
+
+.sap-kpi-card.kpi-modes {
+  border-left-color: #f59e0b;
+}
+
+.sap-kpi-card.kpi-volume {
+  border-left-color: #8b5cf6;
+}
+
+.sap-kpi-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.sap-kpi-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.sap-kpi-sub {
+  font-size: 11.5px;
+  color: #475569;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* SAP Hub Subtabs */
+.sap-nav-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 20px;
+  padding-bottom: 2px;
+  overflow-x: auto;
+}
+
+.sap-tab-btn {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  padding: 10px 18px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sap-tab-btn:hover {
+  color: #1e293b;
+  background: #f1f5f9;
+}
+
+.sap-tab-btn.active {
+  color: #2563eb;
+  background: #eff6ff;
+  border-bottom: 3px solid #2563eb;
+}
+
+/* 6-Point Switchboard Grid */
+.switchboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.switchboard-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.switchboard-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-color: #cbd5e1;
+}
+
+.switchboard-card.disabled {
+  opacity: 0.65;
+  background: #f8fafc;
+}
+
+.sw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.sw-title-block h4 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.sw-code-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: #f1f5f9;
+  color: #334155;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Animated Switchboard Toggle */
+.sw-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sw-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.sw-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sw-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: .3s;
+  border-radius: 24px;
+}
+
+.sw-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.sw-switch input:checked + .sw-slider {
+  background-color: #10b981;
+}
+
+.sw-switch input:checked + .sw-slider:before {
+  transform: translateX(20px);
+}
+
+.sw-desc {
+  font-size: 12px;
+  color: #475569;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.sw-meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  border: 1px solid #f1f5f9;
+  margin-bottom: 14px;
+}
+
+.sw-meta-item span:first-child {
+  color: #64748b;
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.sw-meta-item span:last-child {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.sw-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 12px;
+}
+
+/* Pipeline Mode Badges */
+.badge-mode-realtime {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-mode-batch {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fcd34d;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-status-healthy {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.badge-status-paused {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+/* Dual Column ERP Configuration View */
+.erp-config-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 20px;
+}
+
+.erp-card-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.erp-card-box h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.erp-form-group {
+  margin-bottom: 16px;
+}
+
+.erp-form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 5px;
+}
+
+.erp-form-group input,
+.erp-form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.erp-form-group input:focus,
+.erp-form-group select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+/* Movement Type Chips & Table */
+.movement-code-badge {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  background: #1e293b;
+  color: #38bdf8;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.mvt-status-toggle {
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Reconciliation Matrix Styles */
+.recon-match-pill {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.recon-variance-pill {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Header Date & ERP Status Indicator (Module K) */
+.header-date-badge {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: var(--shadow-sm);
+}
+
+.sap-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.sap-status-indicator:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.sap-status-indicator .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sap-status-indicator.online {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+.sap-status-indicator.online .dot {
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+.sap-status-indicator.degraded {
+  background: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fde047;
+}
+.sap-status-indicator.degraded .dot {
+  background: #eab308;
+  box-shadow: 0 0 8px #eab308;
+}
+
+.sap-status-indicator.offline {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+.sap-status-indicator.offline .dot {
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+}
+
+
+
+
